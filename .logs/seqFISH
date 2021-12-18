@@ -1,0 +1,119 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-26-02>
+Subject: Job 6145560: <python code/test2.py> in cluster <codon> Exited
+
+Job <python code/test2.py> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Mon Dec 13 14:15:56 2021
+Job was executed on host(s) <hl-codon-26-02>, in queue <production>, as user <elyas> in cluster <codon> at Mon Dec 13 14:15:57 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Mon Dec 13 14:15:57 2021
+Terminated at Mon Dec 13 14:16:25 2021
+Results reported at Mon Dec 13 14:16:25 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python code/test2.py
+------------------------------------------------------------
+
+Exited with exit code 120.
+
+Resource usage summary:
+
+    CPU time :                                   15.03 sec.
+    Max Memory :                                 241 MB
+    Average Memory :                             185.00 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               7759.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                75
+    Run time :                                   28 sec.
+    Turnaround time :                            29 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_core/anndata.py:120: ImplicitModificationWarning: Transforming to str index.
+  warnings.warn("Transforming to str index.", ImplicitModificationWarning)
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_core/anndata.py:1220: FutureWarning: The `inplace` parameter in pandas.Categorical.reorder_categories is deprecated and will be removed in a future version. Removing unused categories will always return a new Categorical object.
+  c.reorder_categories(natsorted(c.categories), inplace=True)
+... storing 'cell_type' as categorical
+cpu
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-21-01>
+Subject: Job 6145955: <python code/test2.py> in cluster <codon> Done
+
+Job <python code/test2.py> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Mon Dec 13 14:43:16 2021
+Job was executed on host(s) <hl-codon-21-01>, in queue <production>, as user <elyas> in cluster <codon> at Mon Dec 13 14:43:16 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Mon Dec 13 14:43:16 2021
+Terminated at Mon Dec 13 14:43:44 2021
+Results reported at Mon Dec 13 14:43:44 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python code/test2.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   16.59 sec.
+    Max Memory :                                 334 MB
+    Average Memory :                             250.50 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               7666.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                75
+    Run time :                                   27 sec.
+    Turnaround time :                            28 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-001>
+Subject: Job 6123594: <python code/test.py> in cluster <codon> Done
+
+Job <python code/test.py> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Mon Dec 13 12:01:27 2021
+Job was executed on host(s) <2*codon-gpu-001>, in queue <gpu>, as user <elyas> in cluster <codon> at Mon Dec 13 12:01:27 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Mon Dec 13 12:01:27 2021
+Terminated at Wed Dec 15 14:06:38 2021
+Results reported at Wed Dec 15 14:06:38 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python code/test.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   5572645.00 sec.
+    Max Memory :                                 1366 MB
+    Average Memory :                             995.78 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               6634.00 MB
+    Max Swap :                                   27 MB
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   180313 sec.
+    Turnaround time :                            180311 sec.
+
+The output (if any) is above this job summary.
+
