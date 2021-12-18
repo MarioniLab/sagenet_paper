@@ -1,6 +1,6 @@
 for tag_ref in embryo1_2; do
     for tag_query in embryo1_2 embryo1_5 embryo2_2 embryo2_5 embryo3_5 atlas_8.5; do
-        bsub -o ../../logs/novosparc/seqfish_mouse_embryo -q production -M 8000 -R rusage[mem=8000] \
+        bsub -o .logs/novosparc/seqfish_mouse_embryo -q production -M 8000 -R rusage[mem=8000] \
         -P gpu -gpu - "python3 run_novo.py \
         -i ../../data_tidy --tag seqfish_mouse_embryo \
         --tag_ref $tag_ref \
