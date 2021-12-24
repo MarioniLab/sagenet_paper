@@ -659,3 +659,127 @@ Resource usage summary:
 
 The output (if any) is above this job summary.
 
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_data', tag_ref='embryo1_2')
+data_tidy/seqfish_mouse_embryo/query_data.h5ad
+Setting up for reconstruction ... Terminated
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-23-03>
+Subject: Job 7214230: <python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Thu Dec 23 15:41:58 2021
+Job was executed on host(s) <hl-codon-23-03>, in queue <production>, as user <elyas> in cluster <codon> at Thu Dec 23 15:42:00 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Dec 23 15:42:00 2021
+Terminated at Thu Dec 23 16:11:15 2021
+Results reported at Thu Dec 23 16:11:15 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 143.
+
+Resource usage summary:
+
+    CPU time :                                   4628.00 sec.
+    Max Memory :                                 18333 MB
+    Average Memory :                             9840.28 MB
+    Total Requested Memory :                     18000.00 MB
+    Delta Memory :                               -333.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                138
+    Run time :                                   1755 sec.
+    Turnaround time :                            1757 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_data', tag_ref='embryo1_2')
+data_tidy/seqfish_mouse_embryo/query_data.h5ad
+Setting up for reconstruction ... Terminated
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-01-04>
+Subject: Job 7214574: <python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Thu Dec 23 16:17:45 2021
+Job was executed on host(s) <hl-codon-01-04>, in queue <production>, as user <elyas> in cluster <codon> at Thu Dec 23 16:17:45 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Dec 23 16:17:45 2021
+Terminated at Thu Dec 23 16:33:25 2021
+Results reported at Thu Dec 23 16:33:25 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 143.
+
+Resource usage summary:
+
+    CPU time :                                   2244.90 sec.
+    Max Memory :                                 18423 MB
+    Average Memory :                             10699.30 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               1577.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                138
+    Run time :                                   939 sec.
+    Turnaround time :                            940 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_data', tag_ref='embryo1_2')
+data_tidy/seqfish_mouse_embryo/query_data.h5ad
+Setting up for reconstruction ... done ( 236.69 seconds )
+Reconstructing spatial information with 0 markers: 14397 cells and 10045 locations ... 
+Trying with epsilon: 5.00e-03
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-39-03>
+Subject: Job 7214747: <python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Thu Dec 23 16:33:36 2021
+Job was executed on host(s) <hl-codon-39-03>, in queue <production>, as user <elyas> in cluster <codon> at Thu Dec 23 16:33:36 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Dec 23 16:33:36 2021
+Terminated at Thu Dec 23 17:32:50 2021
+Results reported at Thu Dec 23 17:32:50 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_novo.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_data         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   29156.34 sec.
+    Max Memory :                                 12059 MB
+    Average Memory :                             9440.12 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               7941.00 MB
+    Max Swap :                                   2 MB
+    Max Processes :                              3
+    Max Threads :                                138
+    Run time :                                   3553 sec.
+    Turnaround time :                            3554 sec.
+
+The output (if any) is above this job summary.
+

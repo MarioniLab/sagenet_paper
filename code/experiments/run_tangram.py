@@ -43,12 +43,15 @@ if torch.cuda.is_available():
 else:  
   dev = "cpu"  
 device = torch.device(dev)
+print(device)
 
 path_sp = os.path.join(args.i, args.tag, args.tag_ref) + '.h5ad'
 path_sc = os.path.join(args.i, args.tag, args.tag_query) + '.h5ad'
 ad_sp = sc.read_h5ad(path_sp)
 ad_sc = sc.read_h5ad(path_sc)
 tg.pp_adatas(ad_sc, ad_sp, genes=None)
+print(ad_sp)
+print(ad_sc)
 
 preds_f = "_".join(['preds', args.tag_ref, args.tag_query]) + ".h5ad"
 preds_f = os.path.join(args.oo, preds_f)

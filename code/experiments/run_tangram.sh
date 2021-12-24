@@ -1,6 +1,6 @@
 for tag_ref in embryo1_2; do
-    for tag_query in embryo1_2 embryo1_5 embryo2_2 embryo2_5 embryo3_2 embryo3_5 atlas_8.5; do
-        bsub -o .logs/tangram/seqfish_mouse_embryo -q gpu -M 8000 -R rusage[mem=8000] \
+    for tag_query in query_data; do
+        bsub -o .logs/tangram/seqfish_mouse_embryo -q gpu -gpu "num=1:gmem=20000" -M 20000 -R rusage[mem=20000] \
         -P gpu "python3 code/experiments/run_tangram.py \
         -i data_tidy --tag seqfish_mouse_embryo \
         --tag_ref $tag_ref \

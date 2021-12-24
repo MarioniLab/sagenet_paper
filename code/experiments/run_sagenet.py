@@ -49,6 +49,10 @@ if torch.cuda.is_available():
 else:  
   dev = "cpu"  
 device = torch.device(dev)
+print(device)
+
+
+# device = torch.device('cpu')
 
 print('1')
 models_path = os.path.join(os.path.join('models', args.tag), args.tag_ref)
