@@ -94,7 +94,7 @@ celltype_colours = c("Epiblast" = "#635547",
     "#8600bf", "#ba5ce3", "#808000", "#aeae5c", 
     "#1e90ff", "#00bfff", "#56ff0d", "#ffff00")
 
-method_ord  = c('true', 'scPotter', 'tangram_cells', 'novosparc', 'scPotter_markers', 'exprs')
+method_ord  = c('true', 'sagenet', 'tangram_cells', 'novosparc', 'sagenet_markers', 'exprs')
 method_cols = c("#E1C239", '#33A02C', '#FF7F00', '#882E72', '#B2DF8A', '#666666')
 names(method_cols) = method_ord
 
@@ -196,7 +196,7 @@ graph_col_comm <- function(graph, lay, grp, sz, title=NULL, labels){
     p
 }
 
-plot_spatial <- function(dim_df, labels, label_cols=.palette1, title='', label_title='label', hide_legend=TRUE, sz=0.5){
+plot_spatial <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3), title='', label_title='label', hide_legend=TRUE, sz=0.5){
     dim_dt = data.table(label=labels,
                          dim1=unlist(dim_df[,1]), dim2=unlist(dim_df[,2])) 
     dim_plot = dim_dt %>%
@@ -217,7 +217,7 @@ plot_spatial <- function(dim_df, labels, label_cols=.palette1, title='', label_t
     dim_plot
 }
 
-plot_2d <- function(dim_df, labels, label_cols=.palette1, title='', label_title='label', hide_legend=TRUE, sz=1, alpha=1){
+plot_2d <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3), title='', label_title='label', hide_legend=TRUE, sz=1, alpha=1){
     dim_dt = data.table(label=labels,
                          dim1=unlist(dim_df[,1]), dim2=unlist(dim_df[,2]), alpha=alpha) 
     dim_plot = dim_dt %>%

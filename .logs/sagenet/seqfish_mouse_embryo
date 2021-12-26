@@ -3764,3 +3764,85 @@ Resource usage summary:
 
 The output (if any) is above this job summary.
 
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_data', tag_ref='embryo2_2')
+cuda:0
+1
+2
+3
+4
+5
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 7295112: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_data         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_data         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Dec 25 12:41:36 2021
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Dec 25 12:41:36 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Dec 25 12:41:36 2021
+Terminated at Sat Dec 25 12:58:00 2021
+Results reported at Sat Dec 25 12:58:00 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_data         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   31900.43 sec.
+    Max Memory :                                 9224 MB
+    Average Memory :                             3359.69 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               10776.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   991 sec.
+    Turnaround time :                            984 sec.
+
+The output (if any) is above this job summary.
+
+/ebi/lsf/codon-spool/job-spool/1640515745.7332266: line 8: Is: command not found
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 7332266: <Is bash> in cluster <codon> Exited
+
+Job <Is bash> was submitted from host <hl-codon-34-01> by user <elyas> in cluster <codon> at Sun Dec 26 10:49:05 2021
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sun Dec 26 10:49:07 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sun Dec 26 10:49:07 2021
+Terminated at Sun Dec 26 10:49:08 2021
+Results reported at Sun Dec 26 10:49:08 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+Is bash
+------------------------------------------------------------
+
+Exited with exit code 127.
+
+Resource usage summary:
+
+    CPU time :                                   0.04 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   1 sec.
+    Turnaround time :                            3 sec.
+
+The output (if any) is above this job summary.
+

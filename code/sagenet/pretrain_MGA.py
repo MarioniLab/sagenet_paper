@@ -24,6 +24,8 @@ sc.tl.leiden(adata_r1, resolution=.05, random_state=0, key_added='leiden_0.05', 
 sc.tl.leiden(adata_r1, resolution=.1, random_state=0, key_added='leiden_0.1', adjacency=adata_r1.obsp["spatial_connectivities"])
 sc.tl.leiden(adata_r1, resolution=.5, random_state=0, key_added='leiden_0.5', adjacency=adata_r1.obsp["spatial_connectivities"])
 sc.tl.leiden(adata_r1, resolution=1, random_state=0, key_added='leiden_1', adjacency=adata_r1.obsp["spatial_connectivities"])
+adata_r1.obs.to_csv('int_data/seqfish_mouse_embryo/col_dt_embryo1_2.txt', sep='\t')
+
 glasso(adata_r2, [0.25, 0.5])
 adata_r2.obsm['spatial'] = np.array(adata_r2.obs[['x','y']])
 sq.gr.spatial_neighbors(adata_r2, coord_type="generic")
@@ -32,6 +34,8 @@ sc.tl.leiden(adata_r2, resolution=.05, random_state=0, key_added='leiden_0.05', 
 sc.tl.leiden(adata_r2, resolution=.1, random_state=0, key_added='leiden_0.1', adjacency=adata_r2.obsp["spatial_connectivities"])
 sc.tl.leiden(adata_r2, resolution=.5, random_state=0, key_added='leiden_0.5', adjacency=adata_r2.obsp["spatial_connectivities"])
 sc.tl.leiden(adata_r2, resolution=1, random_state=0, key_added='leiden_1', adjacency=adata_r2.obsp["spatial_connectivities"])
+adata_r2.obs.to_csv('int_data/seqfish_mouse_embryo/col_dt_embryo2_2.txt', sep='\t')
+
 glasso(adata_r3, [0.25, 0.5])
 adata_r3.obsm['spatial'] = np.array(adata_r3.obs[['x','y']])
 sq.gr.spatial_neighbors(adata_r3, coord_type="generic")
@@ -40,7 +44,7 @@ sc.tl.leiden(adata_r3, resolution=.05, random_state=0, key_added='leiden_0.05', 
 sc.tl.leiden(adata_r3, resolution=.1, random_state=0, key_added='leiden_0.1', adjacency=adata_r3.obsp["spatial_connectivities"])
 sc.tl.leiden(adata_r3, resolution=.5, random_state=0, key_added='leiden_0.5', adjacency=adata_r3.obsp["spatial_connectivities"])
 sc.tl.leiden(adata_r3, resolution=1, random_state=0, key_added='leiden_1', adjacency=adata_r3.obsp["spatial_connectivities"])
-
+adata_r3.obs.to_csv('int_data/seqfish_mouse_embryo/col_dt_embryo3_2.txt', sep='\t')
 
 if torch.cuda.is_available():  
   dev = "cuda:0" 
