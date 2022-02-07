@@ -1,7 +1,7 @@
-name: "sagenet_paper"
+name: "SMA2021"
 output_dir: ../docs
 navbar:
-  title: "sagenet_paper"
+  title: "SMA2021"
   left:
   - text: Home
     href: index.html

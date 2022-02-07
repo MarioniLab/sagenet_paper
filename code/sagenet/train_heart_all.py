@@ -34,9 +34,7 @@ def grid_adata(adata, n=[2, 3, 4]):
 
 adata_r = sg.datasets.DHH_visium_()
 grid_adata(adata_r, [2, 3, 4])
-print('1')
 sg.utils.glasso(adata_r, [0.5, 0.75, 1])
-print('2')
 import torch
 if torch.cuda.is_available():  
 	dev = "cuda:0" 
@@ -47,7 +45,6 @@ print(device)
 
 sg_obj = sg.sage.sage(device=device)
 sg_obj.add_ref(adata_r, comm_columns=['grid_2', 'grid_3', 'grid_4'], tag='visium_ref', epochs=20, verbose = False)
-print('3')
-sg_obj.save_model_as_folder('models/visium')
-print('4')
+adata_r1.var.to_csv('int_data/ST_human_heart/gene_dt.txt', sep='\t')
+sg_obj.save_model_as_folder('models/ST_human_heart')
 # bsub -o .logs/visium  -q production -n 2 -M 8000 -R rusage[mem=8000] "python3 scPotter/train_heart_all.py"

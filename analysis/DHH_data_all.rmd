@@ -1,0 +1,237 @@
+---
+title: "Figure 4: Developing Human Heart - scRNAseq schema"
+author:
+- name: Elyas Heidari
+  affiliation: 
+  - &IMLS Institute for Molecular Life Sciences, University of Zurich, Switzerland
+  - Swiss Institute of Bioinformatics (SIB), University of Zurich, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+# Setup / definitions
+
+
+```{r setup_knitr, include=FALSE}
+library('BiocStyle')
+set.seed(1996)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(autodep=TRUE, cache=FALSE, dev='pdf', cache.lazy = FALSE)
+# knitr::opts_chunk$set( autodep=TRUE, cache=TRUE, cache.lazy=FALSE, dev='png' )
+knitr::opts_knit$set( root.dir='..' )
+# wflow_build(files='analysis/DHH_data_all.rmd', view=F, verbose=T, delete_cache=T)
+```
+
+```{r setup_libs, collapse=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+```
+
+## Libraries
+
+```{r libs, message=FALSE, warning=FALSE, cache=FALSE}
+# library('pika')
+library('tidyverse')
+library('igraph')
+library('data.table')
+library('SingleCellExperiment')
+library('magrittr')
+library('BiocParallel')
+library('patchwork')
+library('limma')
+library('cccd')
+library('philentropy')
+library('cowplot')
+library('zellkonverter')
+library('stringr')
+library('lisi')
+library('ggpubr')
+library('Rtsne')
+# library('anndata')
+```
+
+
+## Helper functions
+```{r setup_helpers, message=FALSE, cache=FALSE}
+source('code/utils/utils.R')
+source('code/utils/SMA_functions.R')
+```
+
+## Directories
+```{r setup_input, message=FALSE, cache=FALSE}
+tag       = 'ST_human_heart' 
+ref_tag   = 'ST_all'
+data_dir  = file.path('data_tidy', tag)
+out_dir   = file.path('output', tag)
+obj_dir   = 'int_data/ST_human_heart/scRNAseq'
+dir.create(obj_dir)
+obj_list  = list()
+fig_dir   = 'figures/ST_human_heart/scRNAseq'
+dir.create(fig_dir)
+fig_list = list()
+data_f    = list.files(data_dir)
+exp_names = 'scRNAseq'
+names(exp_names) = exp_names
+sce_f     = exp_names %>% 
+  map(~file.path(data_dir, paste0(.x, '.h5ad')))
+methods     = 'sagenet'
+names(methods) = methods
+preds_f   = methods %>% 
+  map(function(y) exp_names %>% 
+    map(~file.path(out_dir, y, paste0(paste('preds', 'ST_all', .x, sep='_'), '.h5ad')))
+  )
+
+col_dt_f = file.path('int_data/ST_human_heart', 'col_dt_ST.txt')
+```
+
+
+
+
+
+## Params
+```{r setup_outputs, message=FALSE, cache=FALSE}
+overwrite = TRUE
+```
+
+# Load inputs
+```{r load_inputs, message=FALSE, cache=FALSE}
+sce_list = 'output/ST_human_heart/sagenet/preds_ST_all_scRNAseq.h5ad' %>% map(readH5AD) 
+s_sce = sce_list %>% purrr::reduce(cbind)
+meta_dt = colData(s_sce) %>% as.data.table
+rm(sce_list)
+meta_dt$ent = get_confidence(s_sce)
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  # Gene importanc
+
+  preds_list = list()
+  preds_list[['sagenet']] = anndata::read_h5ad('output/ST_human_heart/sagenet/preds_ST_all_scRNAseq.h5ad')$obsm$dist_map 
+
+
+gc()
+}
+
+col_dt  = col_dt_f %>%  fread 
+type_cols = .palette2[1:length(unique(meta_dt$celltype))]
+names(type_cols) = as.factor(as.character(unique(meta_dt$celltype)))
+```
+
+# Processing / calculations
+## Distance matrices and embeddings
+```{r calc_dists, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  d      = list()
+  d_mtx  = list()
+  map_2d = list()
+
+
+  # sagenet distances
+  # d[['sagenet']] = preds_list[['sagenet']] %>% map(as.dist)
+  d_mtx[['sagenet']] = preds_list[['sagenet']]
+
+  for(i in exp_names){
+    rownames(d_mtx[['sagenet']]) = colnames(d_mtx[['sagenet']]) = colnames(s_sce)
+    map_2d[['sagenet']] = Rtsne(d_mtx[['sagenet']], is_distance=T)$Y
+    rownames(map_2d[['sagenet']]) = colnames(s_sce)
+    meta_dt[, `:=`(sagenet_all_1 = ..map_2d[['sagenet']][cell_id, 1], 
+              sagenet_all_2 = ..map_2d[['sagenet']][cell_id, 2])]   
+
+
+    # d[['exprs']] = dist(t(assays(s_sce)[[1]])) %>% as.dist
+    # d_mtx[['exprs']] = d[['exprs']] %>% as.matrix 
+    # rownames(d_mtx[['exprs']]) = colnames(d_mtx[['exprs']]) = colnames(s_sce)
+    # map_2d[['exprs']] = Rtsne(d_mtx[['exprs']], is_distance=T)$Y
+    # rownames(map_2d[['exprs']]) = colnames(s_sce)
+
+  }
+
+  # obj_list[['d_mtx']] = append(d_mtx, d_mtx_true)
+  obj_list[['map_2d']] = map_2d
+  obj_list[['meta_dt']] = meta_dt
+  gc()
+}else{
+  map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
+  meta_query = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
+}
+```
+
+
+
+## Cell2Cell afinity scores
+```{r calc_c2c, fig.height=10, fig.width=10, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_map.Rds'))
+){
+
+  g_out    = map_2d[['sagenet']] %>%
+    get_delaunay(plot=FALSE) %>%
+    .$graph
+
+  ccc_map = cellCellContact(
+            sce    = s_sce,
+            group  = 'celltype',
+            graph  = g_out,
+            nperm  = 1000,
+            plot   = FALSE,
+            cellID ='cell_id')
+
+  obj_list[['ccc_map']] = map_2d
+}else{
+  ccc_map = readRDS(file.path(obj_dir, 'ccc_map.Rds'))
+}
+ccc_map = cellCellContactHeatmapTriangle(ccc_map, type_cols, title='')
+
+ccc_map
+
+
+```
+
+
+
+## B: UMAP plosts of expression space and the reconstructed space
+```{r B, fig.height=6, fig.width=9, message=FALSE, cache=FALSE, eval=TRUE}
+meta_dt %<>% .[, .SD[sample(.N)]]
+meta_dt$ent = 1 - meta_dt$ent/(max(meta_dt$ent))
+
+sagenet_p = plot_2d( 
+    dim_df = meta_dt[, .(sagenet_all_1, sagenet_all_2)],
+    labels = meta_dt$celltype,
+    label_cols = type_cols,
+    hide_legend = FALSE,
+    title = '',
+    sz = 1,
+    alpha = meta_dt$ent,
+    label_title = 'cell type'
+) + labs(x = '', y = '')
+
+
+fig_list[['B']] = sagenet_p
+fig_list[['B']]
+
+meta_dt %>%
+  ggplot +
+  aes(x = factor(celltype, ordered=TRUE, levels= names(type_cols)), y = ent, fill=celltype) +
+  geom_violin() +
+  # + geom_jitter(height = 0, width = 0.1) +
+  theme_bw() +
+  scale_fill_manual(values=type_cols, na.value='gray') +
+  labs(y='confidence score', x= '') +
+  theme(legend.position='none') + 
+  theme(axis.text.x=element_text(angle = 45, hjust = 1))
+
+```
+
+
+# Save objects & plots
+```{r save, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+names(obj_list) %>% map(~saveRDS(obj_list[[.x]], file.path(obj_dir, paste0(.x, '.Rds'))))
+names(fig_list) %>% map(~saveRDS(fig_list[[.x]], file.path(fig_dir, paste0(.x, '.Rds'))))
+```

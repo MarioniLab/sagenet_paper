@@ -1,0 +1,468 @@
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN73_D2', tag_ref='CN73_D2_lo')
+cuda:0
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN73_E1', tag_ref='CN73_E1_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN73_D2_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN73_E1_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN73_C2', tag_ref='CN73_C2_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN73_C2_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499912: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:13 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:13 2022
+Terminated at Tue Jan 18 14:04:18 2022
+Results reported at Tue Jan 18 14:04:18 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   5.73 sec.
+    Max Memory :                                 133 MB
+    Average Memory :                             133.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                90
+    Run time :                                   5 sec.
+    Turnaround time :                            6 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499914: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:13 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:13 2022
+Terminated at Tue Jan 18 14:04:19 2022
+Results reported at Tue Jan 18 14:04:19 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   3.71 sec.
+    Max Memory :                                 126 MB
+    Average Memory :                             121.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   5 sec.
+    Turnaround time :                            7 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499911: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:13 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:13 2022
+Terminated at Tue Jan 18 14:04:19 2022
+Results reported at Tue Jan 18 14:04:19 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   6.80 sec.
+    Max Memory :                                 211 MB
+    Average Memory :                             184.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   5 sec.
+    Turnaround time :                            7 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN74_C1', tag_ref='CN74_C1_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN74_C1_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN74_D1', tag_ref='CN74_D1_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN74_D1_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN73_E2', tag_ref='CN73_E2_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN73_E2_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499919: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:19 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:19 2022
+Terminated at Tue Jan 18 14:04:25 2022
+Results reported at Tue Jan 18 14:04:25 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   3.44 sec.
+    Max Memory :                                 130 MB
+    Average Memory :                             87.67 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   7 sec.
+    Turnaround time :                            13 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499917: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:19 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:19 2022
+Terminated at Tue Jan 18 14:04:26 2022
+Results reported at Tue Jan 18 14:04:26 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   7.01 sec.
+    Max Memory :                                 211 MB
+    Average Memory :                             142.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   7 sec.
+    Turnaround time :                            14 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499915: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:18 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:18 2022
+Terminated at Tue Jan 18 14:04:27 2022
+Results reported at Tue Jan 18 14:04:27 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   6.02 sec.
+    Max Memory :                                 211 MB
+    Average Memory :                             141.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   7 sec.
+    Turnaround time :                            15 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN74_E1', tag_ref='CN74_E1_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN74_E1_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN74_D2', tag_ref='CN74_D2_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN74_D2_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='visium_human_heart', tag_query='CN74_E2', tag_ref='CN74_E2_lo')
+cuda:0
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 50, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/CN74_E2_lo.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499922: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:13 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:27 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:27 2022
+Terminated at Tue Jan 18 14:04:33 2022
+Results reported at Tue Jan 18 14:04:33 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   6.54 sec.
+    Max Memory :                                 213 MB
+    Average Memory :                             140.67 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   6 sec.
+    Turnaround time :                            20 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499921: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:26 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:26 2022
+Terminated at Tue Jan 18 14:04:33 2022
+Results reported at Tue Jan 18 14:04:33 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   5.71 sec.
+    Max Memory :                                 210 MB
+    Average Memory :                             141.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   7 sec.
+    Turnaround time :                            21 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499924: <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:04:13 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:04:27 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:04:27 2022
+Terminated at Tue Jan 18 14:04:34 2022
+Results reported at Tue Jan 18 14:04:34 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag visium_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   4.03 sec.
+    Max Memory :                                 210 MB
+    Average Memory :                             140.67 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   7 sec.
+    Turnaround time :                            21 sec.
+
+The output (if any) is above this job summary.
+

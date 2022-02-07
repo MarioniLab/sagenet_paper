@@ -1,5 +1,5 @@
 ---
-title: "Figure 2: Spatial Mouse Atlas - Seqfish - Mouse Embryo"
+title: "Figure S1: Spatial Mouse Atlas - Seqfish - Mouse Embryo"
 author:
 - name: Elyas Heidari
   affiliation: 
@@ -164,7 +164,7 @@ fig_list[['A']]
 ```
 
 ## B: UMAP plosts of expression space and the reconstructed space
-```{r B, fig.height=5, fig.width=10, message=FALSE, cache=FALSE, eval=TRUE}
+```{r B, fig.height=5, fig.width=11, message=FALSE, cache=FALSE, eval=TRUE}
 meta_dt[, ent :=  5 - (ent_embryo2_2_leiden_1 + ent_embryo2_2_leiden_0.1 + ent_embryo2_2_leiden_0.01 + ent_embryo2_2_leiden_0.5 + ent_embryo2_2_leiden_0.05) ]
 meta_dt$ent = meta_dt$ent/(max(meta_dt$ent))
 
@@ -180,13 +180,13 @@ sagenet_p = plot_2d(
 
 sagenet_cont_p = plot_2d_cont( 
     dim_df = meta_dt[, .(sagenet_1, sagenet_2)],
-    labels = 1 - meta_dt$ent,
+    labels = meta_dt$ent,
     # label_cols = celltype_colours,
-    # hide_legend = TRUE,
-    title = 'Undecidedness',
+    hide_legend = FALSE,
+    title = 'confidence',
     sz = 1,
     # alpha = meta_dt$ent,
-) + labs(x = '', y = '')
+) + labs(x = '', y = '', color='')
 
 
 
@@ -219,7 +219,7 @@ p2 = meta_dt %>%
   # + geom_jitter(height = 0, width = 0.1) +
   theme_bw() +
   scale_fill_manual(values=celltype_colours, na.value='gray') +
-  labs(y='decidedness score', x= '') +
+  labs(y='confidence score', x= '') +
   theme(legend.position='none') + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 

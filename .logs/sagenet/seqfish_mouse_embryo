@@ -3846,3 +3846,1069 @@ Resource usage summary:
 
 The output (if any) is above this job summary.
 
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_data', tag_ref='embryo3_2')
+cuda:0
+1
+2
+3
+4
+5
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 7364012: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_data         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_data         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Mon Dec 27 16:07:58 2021
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Mon Dec 27 16:08:38 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Mon Dec 27 16:08:38 2021
+Terminated at Mon Dec 27 17:55:42 2021
+Results reported at Mon Dec 27 17:55:42 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_data         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   219567.75 sec.
+    Max Memory :                                 11340 MB
+    Average Memory :                             5872.55 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               8660.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   6423 sec.
+    Turnaround time :                            6464 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_data', tag_ref='embryo3_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 122, in map_query
+    data_loader = get_dataloader(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 130, in get_dataloader
+    list_graphs.append(data.coalesce())
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/data.py", line 170, in coalesce
+    store.coalesce()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/storage.py", line 397, in coalesce
+    self.edge_index, self.edge_attr = coalesce(edge_index, edge_attr,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/coalesce.py", line 22, in coalesce
+    storage = SparseStorage(row=index[0], col=index[1], value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 65, in __init__
+    assert int(row.max()) < M
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 7405060: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_data         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_data         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Dec 28 13:37:26 2021
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Dec 28 13:37:27 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Dec 28 13:37:27 2021
+Terminated at Tue Dec 28 13:50:21 2021
+Results reported at Tue Dec 28 13:50:21 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_data         --oo output
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   28074.74 sec.
+    Max Memory :                                 2869 MB
+    Average Memory :                             2672.20 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               17131.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   777 sec.
+    Turnaround time :                            775 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='../../data_tidy', oo='../../output', tag='Syn', tag_query='test', tag_ref='train')
+cuda:0
+1
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 61, in <module>
+    sg_obj.load_model_as_folder(models_path)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 203, in load_model_as_folder
+    model_files = [f for f in listdir(dir) if re.search(r".pickle$", f)]
+FileNotFoundError: [Errno 2] No such file or directory: 'models/Syn/train'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-001>
+Subject: Job 7405174: <python3 code/experiments/run_sagenet.py> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Dec 28 13:50:05 2021
+Job was executed on host(s) <codon-gpu-001>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Dec 28 13:50:07 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Dec 28 13:50:07 2021
+Terminated at Tue Dec 28 13:50:28 2021
+Results reported at Tue Dec 28 13:50:28 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   15.97 sec.
+    Max Memory :                                 260 MB
+    Average Memory :                             205.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   28 sec.
+    Turnaround time :                            23 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+[1] loss: 0.851
+[3] loss: 0.386
+[5] loss: 0.317
+[7] loss: 0.293
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_MGA.py", line 57, in <module>
+    sg_obj.add_ref(adata_r1, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo1_2', epochs=20, verbose = True)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 91, in add_ref
+    clf.fit(data_loader, epochs = epochs, test_dataloader=None,verbose=verbose)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/classifier.py", line 146, in fit
+    for batch in data_loader:
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 521, in __next__
+    data = self._next_data()
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/utils/data/dataloader.py", line 561, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    return self.collate_fn(data)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/loader/dataloader.py", line 19, in __call__
+    return Batch.from_data_list(batch, self.follow_batch,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/batch.py", line 69, in from_data_list
+    batch, slice_dict, inc_dict = collate(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/collate.py", line 85, in collate
+    value, slices, incs = _collate(attr, values, data_list, stores,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/collate.py", line 135, in _collate
+    values = [value + inc for value, inc in zip(values, incs)]
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 7405218: <python3 code/sagenet/pretrain_MGA.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_MGA.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Dec 28 13:54:29 2021
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Dec 28 13:54:31 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Dec 28 13:54:31 2021
+Terminated at Tue Dec 28 14:13:38 2021
+Results reported at Tue Dec 28 14:13:38 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_MGA.py
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   42501.04 sec.
+    Max Memory :                                 2968 MB
+    Average Memory :                             616.62 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   1155 sec.
+    Turnaround time :                            1149 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+[1] loss: 0.772
+[3] loss: 0.398
+[5] loss: 0.337
+[7] loss: 0.303
+[9] loss: 0.291
+[11] loss: 0.276
+[13] loss: 0.266
+[15] loss: 0.261
+[17] loss: 0.258
+[19] loss: 0.254
+[1] loss: 1.271
+[3] loss: 0.547
+[5] loss: 0.434
+[7] loss: 0.384
+[9] loss: 0.347
+[11] loss: 0.326
+[13] loss: 0.311
+[15] loss: 0.299
+[17] loss: 0.293
+[19] loss: 0.291
+[1] loss: 1.729
+[3] loss: 0.657
+[5] loss: 0.500
+[7] loss: 0.435
+[9] loss: 0.402
+[11] loss: 0.374
+[13] loss: 0.351
+[15] loss: 0.336
+[17] loss: 0.336
+[19] loss: 0.318
+[1] loss: 2.936
+[3] loss: 1.240
+[5] loss: 0.828
+[7] loss: 0.662
+[9] loss: 0.567
+[11] loss: 0.508
+[13] loss: 0.464
+[15] loss: 0.430
+[17] loss: 0.397
+[19] loss: 0.380
+[1] loss: 3.658
+[3] loss: 1.818
+[5] loss: 0.889
+[7] loss: 0.673
+[9] loss: 0.557
+[11] loss: 0.488
+[13] loss: 0.429
+[15] loss: 0.395
+[17] loss: 0.363
+[19] loss: 0.338
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 7405523: <python3 code/sagenet/pretrain_MGA.py> in cluster <codon> Done
+
+Job <python3 code/sagenet/pretrain_MGA.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Dec 28 14:22:07 2021
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Dec 28 14:22:07 2021
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Dec 28 14:22:07 2021
+Terminated at Tue Dec 28 14:37:53 2021
+Results reported at Tue Dec 28 14:37:53 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_MGA.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   20105.69 sec.
+    Max Memory :                                 3477 MB
+    Average Memory :                             1957.34 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               16523.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   956 sec.
+    Turnaround time :                            946 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+[1] loss: 0.964
+[3] loss: 0.483
+[5] loss: 0.378
+[7] loss: 0.337
+[9] loss: 0.316
+[11] loss: 0.302
+[13] loss: 0.286
+[15] loss: 0.284
+[17] loss: 0.283
+[19] loss: 0.274
+[1] loss: 1.174
+[3] loss: 0.508
+[5] loss: 0.407
+[7] loss: 0.359
+[9] loss: 0.330
+[11] loss: 0.313
+[13] loss: 0.296
+[15] loss: 0.283
+[17] loss: 0.273
+[19] loss: 0.262
+[1] loss: 1.919
+[3] loss: 0.707
+[5] loss: 0.522
+[7] loss: 0.445
+[9] loss: 0.406
+[11] loss: 0.371
+[13] loss: 0.354
+[15] loss: 0.336
+[17] loss: 0.322
+[19] loss: 0.301
+[1] loss: 2.661
+[3] loss: 1.038
+[5] loss: 0.721
+[7] loss: 0.585
+[9] loss: 0.505
+[11] loss: 0.454
+[13] loss: 0.403
+[15] loss: 0.383
+[17] loss: 0.354
+[19] loss: 0.337
+[1] loss: 3.245
+[3] loss: 1.245
+[5] loss: 0.789
+[7] loss: 0.627
+[9] loss: 0.517
+[11] loss: 0.448
+[13] loss: 0.388
+[15] loss: 0.353
+[17] loss: 0.325
+[19] loss: 0.295
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 8299803: <python3 code/sagenet/pretrain_MGA.py> in cluster <codon> Done
+
+Job <python3 code/sagenet/pretrain_MGA.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan  5 15:18:37 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan  5 15:18:38 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan  5 15:18:38 2022
+Terminated at Wed Jan  5 22:10:03 2022
+Results reported at Wed Jan  5 22:10:03 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_MGA.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   552554.31 sec.
+    Max Memory :                                 3475 MB
+    Average Memory :                             2802.05 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               16525.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   24684 sec.
+    Turnaround time :                            24686 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+[1] loss: 0.830
+[3] loss: 0.431
+[5] loss: 0.362
+[7] loss: 0.322
+[9] loss: 0.302
+[11] loss: 0.286
+[13] loss: 0.280
+[15] loss: 0.273
+[17] loss: 0.262
+[19] loss: 0.261
+[1] loss: 1.176
+[3] loss: 0.560
+[5] loss: 0.451
+[7] loss: 0.391
+[9] loss: 0.358
+[11] loss: 0.336
+[13] loss: 0.315
+[15] loss: 0.301
+[17] loss: 0.293
+[19] loss: 0.283
+[1] loss: 1.793
+[3] loss: 0.689
+[5] loss: 0.533
+[7] loss: 0.455
+[9] loss: 0.417
+[11] loss: 0.386
+[13] loss: 0.367
+[15] loss: 0.345
+[17] loss: 0.336
+[19] loss: 0.329
+[1] loss: 2.913
+[3] loss: 1.024
+[5] loss: 0.704
+[7] loss: 0.570
+[9] loss: 0.498
+[11] loss: 0.448
+[13] loss: 0.410
+[15] loss: 0.381
+[17] loss: 0.366
+[19] loss: 0.335
+[1] loss: 3.252
+[3] loss: 1.534
+[5] loss: 0.975
+[7] loss: 0.728
+[9] loss: 0.592
+[11] loss: 0.508
+[13] loss: 0.434
+[15] loss: 0.390
+[17] loss: 0.347
+[19] loss: 0.315
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-001>
+Subject: Job 8300625: <python3 code/sagenet/pretrain_MGA.py> in cluster <codon> Done
+
+Job <python3 code/sagenet/pretrain_MGA.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan  5 16:01:39 2022
+Job was executed on host(s) <codon-gpu-001>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan  5 16:01:40 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan  5 16:01:40 2022
+Terminated at Wed Jan  5 23:31:13 2022
+Results reported at Wed Jan  5 23:31:13 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_MGA.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   615630.50 sec.
+    Max Memory :                                 3408 MB
+    Average Memory :                             2789.41 MB
+    Total Requested Memory :                     20000.00 MB
+    Delta Memory :                               16592.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   26983 sec.
+    Turnaround time :                            26974 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+[1] loss: 0.851
+[3] loss: 0.427
+[5] loss: 0.353
+[7] loss: 0.326
+[9] loss: 0.316
+[11] loss: 0.309
+[13] loss: 0.301
+[15] loss: 0.290
+[17] loss: 0.285
+[19] loss: 0.275
+[1] loss: 1.586
+[3] loss: 0.619
+[5] loss: 0.457
+[7] loss: 0.390
+[9] loss: 0.356
+[11] loss: 0.343
+[13] loss: 0.326
+[15] loss: 0.312
+[17] loss: 0.309
+[19] loss: 0.297
+[1] loss: 1.766
+[3] loss: 0.738
+[5] loss: 0.554
+[7] loss: 0.468
+[9] loss: 0.431
+[11] loss: 0.395
+[13] loss: 0.372
+[15] loss: 0.357
+[17] loss: 0.332
+[19] loss: 0.329
+[1] loss: 2.769
+[3] loss: 1.043
+[5] loss: 0.722
+[7] loss: 0.577
+[9] loss: 0.494
+[11] loss: 0.436
+[13] loss: 0.404
+[15] loss: 0.364
+[17] loss: 0.345
+[19] loss: 0.321
+[1] loss: 3.348
+[3] loss: 1.615
+[5] loss: 1.077
+[7] loss: 0.819
+[9] loss: 0.664
+[11] loss: 0.562
+[13] loss: 0.499
+[15] loss: 0.447
+[17] loss: 0.395
+[19] loss: 0.358
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-001>
+Subject: Job 8564539: <python3 code/sagenet/pretrain_MGA.py> in cluster <codon> Done
+
+Job <python3 code/sagenet/pretrain_MGA.py> was submitted from host <hl-codon-32-01> by user <elyas> in cluster <codon> at Fri Jan  7 09:35:30 2022
+Job was executed on host(s) <codon-gpu-001>, in queue <gpu>, as user <elyas> in cluster <codon> at Fri Jan  7 14:35:47 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Fri Jan  7 14:35:47 2022
+Terminated at Fri Jan  7 19:52:55 2022
+Results reported at Fri Jan  7 19:52:55 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_MGA.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   573748.44 sec.
+    Max Memory :                                 3415 MB
+    Average Memory :                             2660.99 MB
+    Total Requested Memory :                     10000.00 MB
+    Delta Memory :                               6585.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   19030 sec.
+    Turnaround time :                            37045 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo3_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 126, in map_query
+    data_loader = get_dataloader(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 130, in get_dataloader
+    list_graphs.append(data.coalesce())
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/data.py", line 170, in coalesce
+    store.coalesce()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/storage.py", line 397, in coalesce
+    self.edge_index, self.edge_attr = coalesce(edge_index, edge_attr,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/coalesce.py", line 24, in coalesce
+    storage = storage.coalesce(reduce=op)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 399, in coalesce
+    return SparseStorage(row=row, rowptr=None, col=col, value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 65, in __init__
+    assert int(row.max()) < M
+KeyboardInterrupt
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo2_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 126, in map_query
+    data_loader = get_dataloader(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 130, in get_dataloader
+    list_graphs.append(data.coalesce())
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/data.py", line 170, in coalesce
+    store.coalesce()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/storage.py", line 397, in coalesce
+    self.edge_index, self.edge_attr = coalesce(edge_index, edge_attr,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/coalesce.py", line 24, in coalesce
+    storage = storage.coalesce(reduce=op)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 399, in coalesce
+    return SparseStorage(row=row, rowptr=None, col=col, value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 65, in __init__
+    assert int(row.max()) < M
+KeyboardInterrupt
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo1_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 126, in map_query
+    data_loader = get_dataloader(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 130, in get_dataloader
+    list_graphs.append(data.coalesce())
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/data.py", line 170, in coalesce
+    store.coalesce()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/storage.py", line 397, in coalesce
+    self.edge_index, self.edge_attr = coalesce(edge_index, edge_attr,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/coalesce.py", line 22, in coalesce
+    storage = SparseStorage(row=index[0], col=index[1], value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 76, in __init__
+    assert int(col.max()) < N
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1624470: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:28:57 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan 26 16:28:59 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan 26 16:28:59 2022
+Terminated at Wed Jan 26 16:29:17 2022
+Results reported at Wed Jan 26 16:29:17 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   19.12 sec.
+    Max Memory :                                 2669 MB
+    Average Memory :                             2026.25 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   28 sec.
+    Turnaround time :                            20 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1624468: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:28:57 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan 26 16:28:57 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan 26 16:28:57 2022
+Terminated at Wed Jan 26 16:29:17 2022
+Results reported at Wed Jan 26 16:29:17 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   17.33 sec.
+    Max Memory :                                 2669 MB
+    Average Memory :                             702.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   28 sec.
+    Turnaround time :                            20 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1624469: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:28:57 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan 26 16:28:57 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan 26 16:28:57 2022
+Terminated at Wed Jan 26 16:29:18 2022
+Results reported at Wed Jan 26 16:29:18 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   19.73 sec.
+    Max Memory :                                 2665 MB
+    Average Memory :                             701.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   28 sec.
+    Turnaround time :                            21 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo1_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 153, in map_query
+    kl_d = kullback_leibler_divergence(y_pred_final)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 171, in kullback_leibler_divergence
+    D = D - entropies
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1630702: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:58:56 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Jan 27 18:04:06 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Jan 27 18:04:06 2022
+Terminated at Fri Jan 28 01:25:22 2022
+Results reported at Fri Jan 28 01:25:22 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   97399.74 sec.
+    Max Memory :                                 11240 MB
+    Average Memory :                             5164.54 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               -3240.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   26490 sec.
+    Turnaround time :                            116786 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo3_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 126, in map_query
+    data_loader = get_dataloader(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 130, in get_dataloader
+    list_graphs.append(data.coalesce())
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/data.py", line 170, in coalesce
+    store.coalesce()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/storage.py", line 397, in coalesce
+    self.edge_index, self.edge_attr = coalesce(edge_index, edge_attr,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/coalesce.py", line 22, in coalesce
+    storage = SparseStorage(row=index[0], col=index[1], value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 76, in __init__
+    assert int(col.max()) < N
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1630704: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:58:56 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Jan 27 18:58:42 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Jan 27 18:58:42 2022
+Terminated at Fri Jan 28 01:28:57 2022
+Results reported at Fri Jan 28 01:28:57 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   105218.65 sec.
+    Max Memory :                                 8001 MB
+    Average Memory :                             5194.73 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               -1.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   23414 sec.
+    Turnaround time :                            117001 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo1_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 153, in map_query
+    kl_d = kullback_leibler_divergence(y_pred_final)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 173, in kullback_leibler_divergence
+    D *= (1 - np.eye(D.shape[0]))
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1624557: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:30:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Jan 27 18:58:33 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Jan 27 18:58:33 2022
+Terminated at Fri Jan 28 03:45:15 2022
+Results reported at Fri Jan 28 03:45:15 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo1_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   169586.52 sec.
+    Max Memory :                                 12290 MB
+    Average Memory :                             5665.72 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               -4290.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   31601 sec.
+    Turnaround time :                            126890 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo3_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 154, in map_query
+    kl_d = kl_d + kl_d.T
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1624559: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:30:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Jan 27 20:50:51 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Jan 27 20:50:51 2022
+Terminated at Fri Jan 28 04:09:41 2022
+Results reported at Fri Jan 28 04:09:41 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo3_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   93981.29 sec.
+    Max Memory :                                 9292 MB
+    Average Memory :                             5240.30 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               -1292.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   26344 sec.
+    Turnaround time :                            128356 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='seqfish_mouse_embryo', tag_query='query_scRNAseq', tag_ref='embryo2_2')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 153, in map_query
+    kl_d = kullback_leibler_divergence(y_pred_final)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 172, in kullback_leibler_divergence
+    D = D / np.log(2)
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1624558: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:30:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Jan 27 19:15:33 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Jan 27 19:15:33 2022
+Terminated at Fri Jan 28 05:47:42 2022
+Results reported at Fri Jan 28 05:47:42 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   151594.47 sec.
+    Max Memory :                                 10226 MB
+    Average Memory :                             6029.06 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               -2226.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   37929 sec.
+    Turnaround time :                            134237 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1630703: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 16:58:56 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Jan 27 18:10:18 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Jan 27 18:10:18 2022
+Terminated at Fri Jan 28 07:40:25 2022
+Results reported at Fri Jan 28 07:40:25 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag seqfish_mouse_embryo         --tag_ref embryo2_2         --tag_query  query_scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with signal termination: 9.
+
+Resource usage summary:
+
+    CPU time :                                   227963.00 sec.
+    Max Memory :                                 9058 MB
+    Average Memory :                             6243.94 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               -1058.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   48532 sec.
+    Turnaround time :                            139290 sec.
+
+The output (if any) is above this job summary.
+

@@ -1,0 +1,431 @@
+---
+title: "Figure 2: Spatial Mouse Atlas - Seqfish - Mouse Embryo"
+author:
+- name: Elyas Heidari
+  affiliation: 
+  - &IMLS Institute for Molecular Life Sciences, University of Zurich, Switzerland
+  - Swiss Institute of Bioinformatics (SIB), University of Zurich, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+# Setup / definitions
+
+
+```{r setup_knitr, include=FALSE}
+library('BiocStyle')
+set.seed(1996)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(autodep=TRUE, cache=FALSE, dev='pdf', cache.lazy = FALSE)
+# knitr::opts_chunk$set( autodep=TRUE, cache=TRUE, cache.lazy=FALSE, dev='png' )
+knitr::opts_knit$set( root.dir='..' )
+# wflow_build(files='analysis/MGA_data_multi_scRNAseq_.rmd', view=F, verbose=T, delete_cache=T)
+```
+
+```{r setup_libs, collapse=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+```
+
+## Libraries
+
+```{r libs, message=FALSE, warning=FALSE, cache=FALSE}
+# library('pika')
+library('tidyverse')
+library('igraph')
+library('data.table')
+library('SingleCellExperiment')
+library('magrittr')
+library('BiocParallel')
+library('patchwork')
+library('limma')
+library('cccd')
+library('philentropy')
+library('cowplot')
+library('zellkonverter')
+library('stringr')
+library('lisi')
+library('ggpubr')
+library('Rtsne')
+# library('anndata')
+```
+
+
+## Helper functions
+```{r setup_helpers, message=FALSE, cache=FALSE}
+source('code/utils/utils.R')
+source('code/utils/SMA_functions.R')
+```
+
+## Directories
+```{r setup_input, message=FALSE, cache=FALSE}
+tag       = 'seqfish_mouse_embryo/sagenet' 
+ref_tags   = c('embryo1_2', 'embryo2_2', 'embryo3_2')
+query_tag = c('scRNAseq', 'embryo1_5', 'embryo2_5', 'embryo3_5')
+out_dir   = file.path('output', tag)
+obj_dir   = 'int_data/seqfish_mouse_embryo/scRNAseq'
+dir.create(obj_dir)
+obj_list  = list()
+fig_dir   = 'figures/seqfish_mouse_embryo/scRNAseq'
+dir.create(fig_dir)
+fig_list = list()
+
+methods     = list.files(out_dir)
+names(methods) = methods
+names(ref_tags) = ref_tags
+preds_f = ref_tags %>% map(~file.path(out_dir, sprintf('preds_%s_query_data.h5ad', .x)))
+imp_f = ref_tags %>% map(~file.path('int_data/seqfish_mouse_embryo', sprintf('gene_dt_%s.txt', .x)))
+col_dt_f = ref_tags %>% map(~file.path('int_data/seqfish_mouse_embryo', sprintf('col_dt_%s.txt', .x)))
+
+```
+
+
+
+
+
+## Params
+```{r setup_outputs, message=FALSE, cache=FALSE}
+n_markers = 50
+overwrite = TRUE
+```
+
+# Load inputs
+```{r load_inputs, message=FALSE, cache=FALSE}
+sce_ref   = sce_f %>% readH5AD
+sce   = preds_f[['embryo1_2']] %>% readH5AD 
+sce_query       = sce %>% .[, sce$embryo %in% query_tag]
+types = intersect(sce_ref$cell_type, sce_query$cell_type)
+sce_ref   %<>% .[, sce_ref$cell_type %in% types]
+meta_ref = colData(sce_ref) %>% as.data.table
+cells_ref = meta_ref$cell_id
+sce_query %<>% .[, sce_query$cell_type %in% types]
+meta_query = colData(sce_query) %>% as.data.table
+cells_query = meta_query$cell_id
+cell_idx = which(sce$cell_id %in% cells_query)
+rm(sce)
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  # Gene importanc
+  preds_list = ref_tags %>% purrr::map(~(anndata::read_h5ad(preds_f[[.x]])$obsm$dist_map %>% as('sparseMatrix') %>% .[cell_idx, cell_idx]))
+  preds_list = ref_tags %>% purrr::map(~(anndata::read_h5ad(preds_f[[.x]])$obs$dist_map %>% as('sparseMatrix') %>% .[cell_idx, cell_idx]))
+gc()
+}
+
+
+
+
+imp = imp_f[['embryo1_2']] %>% fread %>% setnames('V1', 'GENE') %>%
+  .[order(embryo1_2_entropy)] 
+markers = imp$GENE[1:n_markers]
+col_dt  = col_dt_f[['embryo3_2']] %>%  fread 
+```
+
+# Processing / calculations
+## Distance matrices and embeddings
+```{r calc_dists, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  d      = list()
+  d_mtx  = list()
+  map_2d = list()
+
+  map_2d[['true']]          = as.matrix(meta_ref[, .(x,y)])
+  rownames(map_2d[['true']]) = meta_ref$cell_id
+
+  # sagenet distances
+  for(i in ref_tags){
+    d[[i]] = preds_list[[i]] %>% as.dist
+    d_mtx[[i]] = d[[i]] %>% as.matrix 
+    rownames(d_mtx[[i]]) = colnames(d_mtx[[i]]) = colnames(sce_query)
+    map_2d[[i]] = Rtsne(d_mtx[[i]], is_distance=T, perplexity=50)$Y
+    rownames(map_2d[[i]]) = colnames(sce_query)
+    meta_query[[paste0(i, '_1')]] = map_2d[[i]][meta_query$cell_id, 1]
+    meta_query[[paste0(i, '_2')]] = map_2d[[i]][meta_query$cell_id, 2]
+    # meta_query[, `:=`(i = ..map_2d[[i]][cell_id, 1], 
+    #               i = ..map_2d[[i]][cell_id, 2])]   
+    preds_list[[i]] = NULL
+  }
+
+  d_mtx[['all']] = (d_mtx %>% purrr::reduce(`+`))/3
+  rownames(d_mtx[['all']]) = colnames(d_mtx[['all']]) = colnames(sce_query)
+  map_2d[['all']] = Rtsne(d_mtx[['all']], is_distance=T, perplexity=50)$Y
+  rownames(map_2d[['all']]) = colnames(sce_query)
+  meta_query[, `:=`(sagenet_all_1 = ..map_2d[['all']][cell_id, 1], 
+              sagenet_all_2 = ..map_2d[['all']][cell_id, 2])]   
+
+  # true physical distances
+  d_true = dist(meta_ref[, .(x,y)])
+  d_mtx_true = d_true %>% as.matrix
+  rownames(d_mtx_true) = colnames(d_mtx_true) = meta_ref$cell_id
+
+  # obj_list[['d_mtx']] = append(d_mtx, d_mtx_true)
+  obj_list[['map_2d']] = map_2d
+  obj_list[['meta_dt']] = meta_query
+  gc()
+}else{
+  map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
+  meta_query = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
+}
+```
+
+## Cell2Cell afinity scores
+```{r calc_c2c, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_list.Rds'))
+){
+  # True physical space
+  ccc_list = list()
+  g_out    = map_2d[['true']] %>%
+    get_delaunay(plot=FALSE) %>%
+    .$graph
+  ccc_list[['true']] = cellCellContact(
+      sce = sce_ref,
+      group = 'cell_type',
+      graph = g_out,
+      nperm = 500,
+      plot = FALSE,
+      cellID='cell_id')
+
+  # Predicted spaces
+
+  for(meth in setdiff(names(map_2d), 'true')){
+    g_out    = map_2d[[meth]] %>% 
+      get_delaunay(plot=FALSE) %>%
+      .$graph
+    ccc_list[[meth]] = cellCellContact(
+        sce    = sce_query,
+        group  = 'cell_type',
+        graph  = g_out,
+        nperm  = 500,
+        plot   = FALSE,
+        cellID ='cell_id')
+
+  }
+
+  obj_list[['ccc_list']] = ccc_list
+}else{
+  ccc_list = readRDS(file.path(obj_dir, 'ccc_list.Rds'))
+}
+ccc_dist    = list()
+for(meth in setdiff(names(map_2d), 'true')){
+  # ccc_dist[[meth]] = c()
+  # for(e in levels(factor(meta_dt$embryo))){
+    m1 = ccc_list[[meth]]$pmat 
+    m2 = ccc_list[['true']]$pmat
+    types = intersect(rownames(m1), rownames(m2))
+    ccc_dist[[meth]] = norm(m1[types, types] - m2[types, types], '2')
+  # }
+}
+
+ccc_plot_list = names(ccc_list) %>%
+  map(~cellCellContactHeatmapTriangle(ccc_list[[.x]], celltype_colours, title=.x))
+
+# Scores' data table 
+ccc_dt = names(ccc_dist) %>%
+  map(~data.table(method=.x, corr=ccc_dist[[.x]])) %>% purrr::reduce(rbind) 
+
+```
+
+
+
+## Distribution of the lisi scores
+```{r calc_lisi, message=FALSE, cache=FALSE}
+meta_query %>% setkey(cell_id)
+meta_ref %>% setkey(cell_id)
+preds_list = list()
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'lisi_vals.Rds'))
+){
+  preds_list = ref_tags %>% map(~map_2d[[.x]][cells_query, ])
+  preds_list[['all']] = map_2d[['all']][cells_query, ]
+  preds_list[['true']] = meta_ref[cells_ref, .(x,y)]
+  # lisi_list   = list()
+  lisi_vals_true = compute_lisi(preds_list[['true']], meta_ref[cells_ref], c("cell_type")) %>%
+      as.data.table %>% 
+      .[, `:=`(cell_id = ..cells_ref, method = 'true')]
+  lisi_vals = setdiff(names(preds_list), 'true') %>%
+    map(~compute_lisi(preds_list[[.x]], meta_query[cells_query], c("cell_type")) %>%
+      as.data.table %>% 
+      .[, `:=`(cell_id = ..cells_query, method = .x)]) %>%
+      purrr::reduce(rbind)
+  lisi_vals = rbind(lisi_vals, lisi_vals_true)
+  obj_list[['lisi_vals']] = lisi_vals
+}else{
+  lisi_vals = readRDS(file.path(obj_dir, 'lisi_vals.Rds'))
+}
+methods = setdiff(unique(lisi_vals$method), 'true')
+names(methods) = methods
+meta_query %>% setkey(cell_id)
+meta_ref %>% setkey(cell_id)
+lisi_vals %<>% setkey(cell_id)
+lisi_vals = lisi_vals[order(cell_id)] %>%
+  setnames('cell_type', 'LISI') %>%
+  .[rbind(meta_ref[, .(cell_id, cell_type)], meta_query[, .(cell_id, cell_type)])]
+# lisi_dists = methods %>%
+#   map(~dist(rbind(lisi_vals[method == .x]$LISI, lisi_vals[method == 'true']$LISI)), na.rm=T) %>%
+#   map(c) %>%
+#   unlist
+```
+
+## A: True regional labels + cell types (ref)
+```{r A, fig.height=3, fig.width=10, message=FALSE, cache=FALSE}
+p = plot_spatial(col_dt[, .(x, -y)], labels=factor(as.character(col_dt$cell_type), ordered=TRUE), label_cols=celltype_colours, hide_legend = TRUE, title = 'cell types') +coord_fixed()
+p1 = plot_spatial(col_dt[, .(x, -y)], labels=factor(col_dt$leiden_0.01), hide_legend = TRUE, title='partitioning 1')+coord_fixed()
+p2 = plot_spatial(col_dt[, .(x, -y)], labels=factor(col_dt$leiden_0.05), hide_legend = TRUE, title='partitioning 2')+coord_fixed()
+p3 = plot_spatial(col_dt[, .(x, -y)], labels=factor(col_dt$leiden_0.1), hide_legend = TRUE, title='partitioning 3')+coord_fixed()
+p4 = plot_spatial(col_dt[, .(x, -y)], labels=factor(col_dt$leiden_0.5), hide_legend = TRUE, title='partitioning 4')+coord_fixed()
+p5 = plot_spatial(col_dt[, .(x, -y)], labels=factor(col_dt$leiden_1), hide_legend = TRUE, title='partitioning 5')+coord_fixed()
+
+fig_list[['A']] = p + p1 + p2 + p3 + p4 + p5 + plot_layout(nrow=1) 
+fig_list[['A']]
+```
+
+## B: UMAP plosts of expression space and the reconstructed space
+```{r B, fig.height=4, fig.width=16, message=FALSE, cache=FALSE, eval=TRUE}
+
+# meta_query[, ent_embryo1_2 :=  (ent_embryo1_2_leiden_1 + ent_embryo1_2_leiden_0.1 + ent_embryo1_2_leiden_0.01 + ent_embryo1_2_leiden_0.5 + ent_embryo1_2_leiden_0.05)/5 ]
+# meta_query$ent_embryo1_2 = 1 - meta_query$ent_embryo1_2/(max(meta_query$ent_embryo1_2))
+
+exprs_p = plot_2d( 
+    dim_df = meta_dt[, .(expr_tsne_1, expr_tsne_2)],
+    labels = meta_dt$embryo,
+    hide_legend = TRUE,
+    title = 'Expression',
+    sz = 1
+) + labs(x = '', y = '')
+
+
+lgened = (plot_2d( 
+    dim_df = meta_dt[, .(expr_tsne_1, expr_tsne_2)],
+    labels = meta_dt$embryo,
+    hide_legend = FALSE,
+    label_title = 'query dataset',
+    title = 'Expression',
+    sz = 1
+) + labs(x = '', y = '')) %>% get_legend() %>%
+  as_ggplot() 
+
+embryo1_p = plot_2d( 
+    dim_df = meta_query[, .(embryo1_2_1, embryo1_2_2)],
+    labels = meta_query$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'embryo1_2',
+    sz = 1
+) + labs(x = '', y = '')
+
+embryo2_p = plot_2d( 
+    dim_df = meta_query[, .(embryo2_2_1, embryo2_2_2)],
+    labels = meta_query$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'embryo2_2',
+    sz = 1
+) + labs(x = '', y = '')
+
+embryo3_p = plot_2d( 
+    dim_df = meta_query[, .(embryo3_2_1, embryo3_2_2)],
+    labels = meta_query$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'embryo3_2',
+    sz = 1
+) + labs(x = '', y = '')
+
+sagenet_p = plot_2d( 
+    dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
+    labels = meta_query$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'SageNet',
+    sz = 1,
+    # alpha = meta_query$ent_embryo1_2,
+) + labs(x = '', y = '')
+
+
+fig_list[['B']] = embryo1_p + embryo2_p + embryo3_p + sagenet_p +
+  plot_layout(ncol = 4)
+fig_list[['B']]
+
+```
+
+
+## C: Benchmark plots; dist. correlation, lisi scores, and cell2cell affinity dist.
+```{r C, fig.height=4, fig.width=10, message=FALSE, cache=FALSE}
+fig_list[['C2']] = ccc_dt %>% 
+  ggplot +
+  aes(x = factor(method, ordered=TRUE, levels=method_ord), y = corr, fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  geom_bar(stat="identity", position=position_dodge()) +
+  # geom_line() +
+  # geom_point() +
+  theme_bw() +
+  scale_fill_manual(values=method_cols, na.value='gray') +
+  labs(y = 'cell2cell affinity distance', fill = 'method') +
+  theme(legend.position='none') 
+
+fig_list[['C3']] = lisi_vals %>%
+  ggplot +
+  aes(x = factor(method, ordered=TRUE, levels=method_ord), y = cell_type, fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  geom_boxplot() +
+  theme_bw() +
+  scale_fill_manual(values=method_cols, na.value='gray') +
+  labs(y='LISI (cell type)', fill = 'method', x= 'method') +
+  theme(legend.position='none') +
+  scale_color_manual(values=method_cols, na.value='gray') 
+
+fig_list[['C']]  = fig_list[['C2']] + fig_list[['C3']] + plot_layout(ncol = 2)
+fig_list[['C']]
+```
+
+## D: Cell2Cell affinity plots
+```{r D, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+fig_list[['D']] = ccc_plot_list 
+fig_list[['D']]
+```
+
+## E: 
+```{r E, fig.height=7, fig.width=11, message=FALSE, cache=FALSE}
+# tab_dt = col_dt[, .N, by = 'cell_type'] 
+# to_add = setdiff(meta_dt$cell_type, tab_dt$cell_type)
+# to_add_dt = data.table(cell_type = to_add, N = 0)
+# tab_dt = rbind(to_add_dt, tab_dt) %>% .[order(N), ]
+# celltype_ord = tab_dt$cell_type
+
+# p1 = tab_dt %>%
+#   ggplot +
+#   aes(x = factor(cell_type, ordered=TRUE, levels= celltype_ord), y = N, fill=cell_type) +
+#   geom_bar(stat="identity") +
+#   theme_bw() +
+#   scale_fill_manual(values=celltype_colours, na.value='gray') +
+#   labs(y='number of cells', x= '') +
+#   theme(legend.position='none') + 
+#   theme(axis.text.x=element_blank())
+
+# p2 = meta_dt[embryo == 'scRNAseq'] %>%
+#   ggplot +
+#   aes(x = factor(cell_type, ordered=TRUE, levels= celltype_ord), y = ent, fill=cell_type) +
+#   geom_violin() +
+#   # + geom_jitter(height = 0, width = 0.1) +
+#   theme_bw() +
+#   scale_fill_manual(values=celltype_colours, na.value='gray') +
+#   labs(y='decidedness score', x= '') +
+#   theme(legend.position='none') + 
+#   theme(axis.text.x=element_text(angle = -45, hjust = 0))
+
+# fig_list[['E']] = p1 + p2 + plot_layout(ncol = 1)
+# fig_list[['E']]
+```
+
+
+# Save objects & plots
+```{r save, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+names(obj_list) %>% map(~saveRDS(obj_list[[.x]], file.path(obj_dir, paste0(.x, '.Rds'))))
+names(fig_list) %>% map(~saveRDS(fig_list[[.x]], file.path(fig_dir, paste0(.x, '.Rds'))))
+```

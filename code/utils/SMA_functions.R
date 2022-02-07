@@ -407,7 +407,7 @@ getRandomConnectivity = function(sce,
                                  option = "observed", 
                                  x_name = "x_global_affine",
                                  y_name = "y_global_affine",
-                                 splitgroups = c("embryo"),
+                                 splitgroups = c("experiment"),
                                  chunksize = 10000) {
     ######## new function with more functionality
     # option either observed or random
@@ -464,7 +464,7 @@ getRandomConnectivity_dep = function(sce,
                                      option = "observed", 
                                      x_name = "x_global_affine",
                                      y_name = "y_global_affine",
-                                     splitgroups = c("embryo")) {
+                                     splitgroups = c("experiment")) {
     ##### deprecated function!!!
     # option either observed or random
     # sce singlecellexperiment
@@ -789,7 +789,7 @@ cellCellContactHeatmapTriangle <- function(
                 cell_fun = function(j, i, x, y, w, h, col) {
                     if (j == i) {
                         grid.rect(x, y, w, h, gp = gpar(fill = col, col = "grey"))
-                        grid.text(rownames(mat2)[i], x + factor*unit(0.4, "cm"), y + factor*unit(0.5, "cm"), rot = 45, hjust = 0)
+                        grid.text(rownames(mat2)[i], x + factor*unit(1, "cm"), y + factor*unit(1, "cm"), rot = 45, hjust = 0)
                     } else if (which(od == i) < which(od == j)) {
                         # grid.rect(x, y, w, h, gp = gpar(fill = NULL, col = NA))
                         grid.rect(x, y, w, h, gp = gpar(fill = col, col = NA))

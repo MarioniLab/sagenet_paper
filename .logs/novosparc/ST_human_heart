@@ -1,0 +1,132 @@
+python3: can't open file 'run_novo.py': [Errno 2] No such file or directory
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-21-01>
+Subject: Job 9436086: <python3 run_novo.py         -i data_tidy --tag visium_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 run_novo.py         -i data_tidy --tag visium_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output> was submitted from host <hl-codon-01-03> by user <elyas> in cluster <codon> at Tue Jan 18 07:41:56 2022
+Job was executed on host(s) <hl-codon-21-01>, in queue <production>, as user <elyas> in cluster <codon> at Tue Jan 18 07:41:57 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 07:41:57 2022
+Terminated at Tue Jan 18 07:41:58 2022
+Results reported at Tue Jan 18 07:41:58 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 run_novo.py         -i data_tidy --tag visium_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output
+------------------------------------------------------------
+
+Exited with exit code 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.07 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   0 sec.
+    Turnaround time :                            2 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='visium_human_heart', tag_query='scRNAseq', tag_ref='ST')
+data_tidy/visium_human_heart/scRNAseq.h5ad
+Traceback (most recent call last):
+  File "code/experiments/run_novo.py", line 55, in <module>
+    ad_sp = sc.read_h5ad(path_sp)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 408, in read_h5ad
+    with h5py.File(filename, "r") as f:
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 444, in __init__
+    fid = make_fid(name, mode, userblock_size,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/h5py/_hl/files.py", line 199, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 100, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to open file (unable to open file: name = 'data_tidy/visium_human_heart/ST.h5ad', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-11-03>
+Subject: Job 9437721: <python3 code/experiments/run_novo.py         -i data_tidy --tag visium_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_novo.py         -i data_tidy --tag visium_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 07:45:55 2022
+Job was executed on host(s) <hl-codon-11-03>, in queue <production>, as user <elyas> in cluster <codon> at Tue Jan 18 07:45:56 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 07:45:56 2022
+Terminated at Tue Jan 18 07:46:06 2022
+Results reported at Tue Jan 18 07:46:06 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_novo.py         -i data_tidy --tag visium_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   18.35 sec.
+    Max Memory :                                 108 MB
+    Average Memory :                             84.00 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               7892.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                75
+    Run time :                                   10 sec.
+    Turnaround time :                            11 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='scRNAseq', tag_ref='ST')
+data_tidy/ST_human_heart/scRNAseq.h5ad
+Setting up for reconstruction ... done ( 6.82 seconds )
+Reconstructing spatial information with 0 markers: 3777 cells and 1515 locations ... 
+Trying with epsilon: 5.00e-03
+
+------------------------------------------------------------
+Sender: LSF System <lsf@hl-codon-41-01>
+Subject: Job 9438340: <python3 code/experiments/run_novo.py         -i data_tidy --tag ST_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_novo.py         -i data_tidy --tag ST_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output> was submitted from host <hl-codon-01-03> by user <elyas> in cluster <codon> at Tue Jan 18 08:11:57 2022
+Job was executed on host(s) <hl-codon-41-01>, in queue <production>, as user <elyas> in cluster <codon> at Tue Jan 18 08:11:57 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 08:11:57 2022
+Terminated at Tue Jan 18 08:12:40 2022
+Results reported at Tue Jan 18 08:12:40 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_novo.py         -i data_tidy --tag ST_human_heart        --tag_ref ST         --tag_query  scRNAseq         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1121.77 sec.
+    Max Memory :                                 619 MB
+    Average Memory :                             472.00 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               7381.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                138
+    Run time :                                   43 sec.
+    Turnaround time :                            43 sec.
+
+The output (if any) is above this job summary.
+

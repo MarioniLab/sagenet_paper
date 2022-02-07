@@ -1,0 +1,1499 @@
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.datasets.DHH_visium_()
+AttributeError: module 'sagenet' has no attribute 'datasets'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9433660: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 07:40:27 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 11:18:58 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 11:18:58 2022
+Terminated at Tue Jan 18 11:19:22 2022
+Results reported at Tue Jan 18 11:19:22 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.95 sec.
+    Max Memory :                                 232 MB
+    Average Memory :                             179.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   23 sec.
+    Turnaround time :                            13135 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='../../data_tidy', oo='../../output', tag='Syn', tag_query='test', tag_ref='train')
+cuda:0
+1
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 61, in <module>
+    sg_obj.load_model_as_folder(models_path)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 203, in load_model_as_folder
+    model_files = [f for f in listdir(dir) if re.search(r".pickle$", f)]
+FileNotFoundError: [Errno 2] No such file or directory: 'models/Syn/train'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9487563: <python3 code/experiments/run_sagenet.py> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 13:30:51 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 13:30:52 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 13:30:52 2022
+Terminated at Tue Jan 18 13:31:12 2022
+Results reported at Tue Jan 18 13:31:12 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.68 sec.
+    Max Memory :                                 254 MB
+    Average Memory :                             195.25 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   22 sec.
+    Turnaround time :                            21 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.datasets.DHH_visium_()
+AttributeError: module 'sagenet' has no attribute 'datasets'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9488898: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 13:34:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 13:34:26 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 13:34:26 2022
+Terminated at Tue Jan 18 13:34:45 2022
+Results reported at Tue Jan 18 13:34:45 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   13.19 sec.
+    Max Memory :                                 263 MB
+    Average Memory :                             215.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   19 sec.
+    Turnaround time :                            20 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.datasets.DHH_data.ST()
+AttributeError: module 'sagenet' has no attribute 'datasets'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9494460: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 13:49:41 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 13:52:33 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 13:52:33 2022
+Terminated at Tue Jan 18 13:52:43 2022
+Results reported at Tue Jan 18 13:52:43 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.69 sec.
+    Max Memory :                                 99 MB
+    Average Memory :                             99.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   11 sec.
+    Turnaround time :                            182 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.DHH_data.ST()
+AttributeError: module 'sagenet' has no attribute 'DHH_data'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9497065: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 13:56:24 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 13:56:25 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 13:56:25 2022
+Terminated at Tue Jan 18 13:56:36 2022
+Results reported at Tue Jan 18 13:56:36 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.38 sec.
+    Max Memory :                                 101 MB
+    Average Memory :                             101.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   19 sec.
+    Turnaround time :                            12 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.DHH_data.ST()
+AttributeError: module 'sagenet' has no attribute 'DHH_data'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9499825: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:03:53 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:03:54 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:03:54 2022
+Terminated at Tue Jan 18 14:04:04 2022
+Results reported at Tue Jan 18 14:04:04 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.65 sec.
+    Max Memory :                                 115 MB
+    Average Memory :                             115.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   22 sec.
+    Turnaround time :                            11 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='../../data_tidy', oo='../../output', tag='Syn', tag_query='test', tag_ref='train')
+cuda:0
+1
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 61, in <module>
+    sg_obj.load_model_as_folder(models_path)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 207, in load_model_as_folder
+    model_files = [f for f in listdir(dir) if re.search(r".pickle$", f)]
+FileNotFoundError: [Errno 2] No such file or directory: 'models/Syn/train'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500651: <python3 code/experiments/run_sagenet.py> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:06:02 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:06:06 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:06:06 2022
+Terminated at Tue Jan 18 14:06:16 2022
+Results reported at Tue Jan 18 14:06:16 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   11.80 sec.
+    Max Memory :                                 244 MB
+    Average Memory :                             204.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                91
+    Run time :                                   19 sec.
+    Turnaround time :                            14 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.DHH_data.ST()
+AttributeError: module 'sagenet' has no attribute 'DHH_data'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501848: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:09:09 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:10:38 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:10:38 2022
+Terminated at Tue Jan 18 14:10:48 2022
+Results reported at Tue Jan 18 14:10:48 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.67 sec.
+    Max Memory :                                 102 MB
+    Average Memory :                             69.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   10 sec.
+    Turnaround time :                            99 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.DHH_data.ST()
+AttributeError: module 'sagenet' has no attribute 'DHH_data'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1515498: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 13:38:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan 26 13:38:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan 26 13:38:46 2022
+Terminated at Wed Jan 26 13:38:56 2022
+Results reported at Wed Jan 26 13:38:56 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   10.14 sec.
+    Max Memory :                                 105 MB
+    Average Memory :                             105.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   13 sec.
+    Turnaround time :                            11 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.DHH_data_.ST()
+AttributeError: module 'sagenet' has no attribute 'DHH_data_'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1519716: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 13:42:17 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan 26 13:42:17 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan 26 13:42:17 2022
+Terminated at Wed Jan 26 13:42:29 2022
+Results reported at Wed Jan 26 13:42:29 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.68 sec.
+    Max Memory :                                 95 MB
+    Average Memory :                             95.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                43
+    Run time :                                   25 sec.
+    Turnaround time :                            12 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 35, in <module>
+    adata_r = sg.DHH_data_.ST()
+AttributeError: module 'sagenet' has no attribute 'DHH_data_'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1524769: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 13:45:29 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan 26 13:45:30 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan 26 13:45:30 2022
+Terminated at Wed Jan 26 13:45:42 2022
+Results reported at Wed Jan 26 13:45:42 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   8.52 sec.
+    Max Memory :                                 276 MB
+    Average Memory :                             217.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   25 sec.
+    Turnaround time :                            13 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+  0%|          | 0.00/3.21M [00:00<?, ?B/s] 58%|█████▊    | 1.85M/3.21M [00:00<00:00, 19.0MB/s]100%|██████████| 3.21M/3.21M [00:00<00:00, 22.8MB/s]
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 47, in <module>
+    sg_obj.add_ref(adata_r, comm_columns=['grid_2', 'grid_3', 'grid_4'], tag='ST_all', epochs=20, verbose = False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 92, in add_ref
+    clf.fit(data_loader, epochs = epochs, test_dataloader=None,verbose=verbose)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/classifier.py", line 151, in fit
+    loss.backward()
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 307, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/autograd/__init__.py", line 154, in backward
+    Variable._execution_engine.run_backward(
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1527610: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 13:47:04 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Wed Jan 26 13:47:05 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Wed Jan 26 13:47:05 2022
+Terminated at Wed Jan 26 14:22:49 2022
+Results reported at Wed Jan 26 14:22:49 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   40116.55 sec.
+    Max Memory :                                 2857 MB
+    Average Memory :                             517.42 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                133
+    Run time :                                   2142 sec.
+    Turnaround time :                            2145 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 48, in <module>
+    adata_r1.var.to_csv('int_data/ST_human_heart/gene_dt.txt', sep='\t')
+NameError: name 'adata_r1' is not defined
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1622376: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Wed Jan 26 15:57:18 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Jan 27 18:37:51 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Jan 27 18:37:51 2022
+Terminated at Thu Jan 27 20:48:50 2022
+Results reported at Thu Jan 27 20:48:50 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   45867.18 sec.
+    Max Memory :                                 3010 MB
+    Average Memory :                             1366.26 MB
+    Total Requested Memory :                     10000.00 MB
+    Delta Memory :                               6990.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   7859 sec.
+    Turnaround time :                            103892 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 48, in <module>
+    adata_r1.var.to_csv('int_data/ST_human_heart/gene_dt.txt', sep='\t')
+NameError: name 'adata_r1' is not defined
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1925503: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Fri Jan 28 16:13:56 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Fri Jan 28 16:13:57 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Fri Jan 28 16:13:57 2022
+Terminated at Fri Jan 28 16:46:09 2022
+Results reported at Fri Jan 28 16:46:09 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   40666.16 sec.
+    Max Memory :                                 2877 MB
+    Average Memory :                             1231.62 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               5123.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   1936 sec.
+    Turnaround time :                            1933 sec.
+
+The output (if any) is above this job summary.
+
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 1, in <module>
+    import sagenet as sg
+  File "/hps/software/users/marioni/elyas/anaconda3/lib/python3.6/site-packages/sagenet/__init__.py", line 5, in <module>
+    from . import classifier, model, sage, utils, MGA_data
+  File "/hps/software/users/marioni/elyas/anaconda3/lib/python3.6/site-packages/sagenet/classifier.py", line 6, in <module>
+    from sagenet.utils import compute_metrics
+  File "/hps/software/users/marioni/elyas/anaconda3/lib/python3.6/site-packages/sagenet/utils.py", line 5, in <module>
+    from sklearn.covariance import GraphicalLassoCV, graphical_lasso, LedoitWolf
+ImportError: cannot import name 'GraphicalLassoCV'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1927054: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Fri Jan 28 16:58:18 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Fri Jan 28 16:58:18 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Fri Jan 28 16:58:18 2022
+Terminated at Fri Jan 28 16:58:28 2022
+Results reported at Fri Jan 28 16:58:28 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   2.00 sec.
+    Max Memory :                                 20 MB
+    Average Memory :                             20.00 MB
+    Total Requested Memory :                     8000.00 MB
+    Delta Memory :                               7980.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                4
+    Run time :                                   20 sec.
+    Turnaround time :                            10 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH_.py", line 47, in <module>
+    sg_obj.add_ref(adata_r, comm_columns=['grid_2', 'grid_3', 'grid_4'], tag='ST_all', epochs=20, verbose = False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 92, in add_ref
+    clf.fit(data_loader, epochs = epochs, test_dataloader=None,verbose=verbose)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/classifier.py", line 149, in fit
+    pred  = self.net(x, edge_index)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/model.py", line 63, in forward
+    x = F.relu(layer(x, edge_index))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/nn/conv/transformer_conv.py", line 176, in forward
+    out = self.propagate(edge_index, query=query, key=key, value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/nn/conv/message_passing.py", line 309, in propagate
+    out = self.message(**msg_kwargs)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/nn/conv/transformer_conv.py", line 216, in message
+    alpha = softmax(alpha, index, ptr, size_i)
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2020686: <python3 code/sagenet/pretrain_DHH_.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH_.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 11:43:43 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 11:43:44 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 11:43:44 2022
+Terminated at Sat Jan 29 12:11:17 2022
+Results reported at Sat Jan 29 12:11:17 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH_.py
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   34166.21 sec.
+    Max Memory :                                 2843 MB
+    Average Memory :                             537.01 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   1667 sec.
+    Turnaround time :                            1654 sec.
+
+The output (if any) is above this job summary.
+
+python3: can't open file 'code/sagenet/pretrain_DHH.py': [Errno 2] No such file or directory
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2021729: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 12:57:36 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 12:57:36 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 12:57:36 2022
+Terminated at Sat Jan 29 12:57:37 2022
+Results reported at Sat Jan 29 12:57:37 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.08 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   8 sec.
+    Turnaround time :                            1 sec.
+
+The output (if any) is above this job summary.
+
+python3: can't open file 'code/sagenet/pretrain_DHH.py': [Errno 2] No such file or directory
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2021734: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 12:58:00 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 12:58:02 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 12:58:02 2022
+Terminated at Sat Jan 29 12:58:03 2022
+Results reported at Sat Jan 29 12:58:03 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.06 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   9 sec.
+    Turnaround time :                            3 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH_.py", line 47, in <module>
+    sg_obj.add_ref(adata_r, comm_columns=['grid_2', 'grid_3', 'grid_4'], tag='ST_all', epochs=20, verbose = False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 93, in add_ref
+    imp = clf.interpret(data_loader, n_features=adata.shape[1], n_classes=(np.max(adata.obs[comm].values.astype('long'))+1))
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/classifier.py", line 252, in interpret
+    attributions /= np.linalg.norm(attributions)
+  File "<__array_function__ internals>", line 5, in norm
+  File "/homes/elyas/.local/lib/python3.8/site-packages/numpy/linalg/linalg.py", line 2530, in norm
+    sqnorm = dot(x, x)
+  File "<__array_function__ internals>", line 5, in dot
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2021752: <python3 code/sagenet/pretrain_DHH_.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH_.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 12:58:54 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 12:58:56 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 12:58:56 2022
+Terminated at Sat Jan 29 13:27:47 2022
+Results reported at Sat Jan 29 13:27:47 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH_.py
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   34996.21 sec.
+    Max Memory :                                 2756 MB
+    Average Memory :                             448.89 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   1730 sec.
+    Turnaround time :                            1733 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH_.py", line 47, in <module>
+    sg_obj.add_ref(adata_r, comm_columns=['grid_2', 'grid_3', 'grid_4'], tag='ST_all', epochs=20, verbose = False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 72, in add_ref
+    data_loader = get_dataloader(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 130, in get_dataloader
+    list_graphs.append(data.coalesce())
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/data.py", line 170, in coalesce
+    store.coalesce()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/storage.py", line 397, in coalesce
+    self.edge_index, self.edge_attr = coalesce(edge_index, edge_attr,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/coalesce.py", line 24, in coalesce
+    storage = storage.coalesce(reduce=op)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 399, in coalesce
+    return SparseStorage(row=row, rowptr=None, col=col, value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 65, in __init__
+    assert int(row.max()) < M
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2022632: <python3 code/sagenet/pretrain_DHH_.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH_.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 14:00:55 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 14:00:55 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 14:00:55 2022
+Terminated at Sat Jan 29 14:57:05 2022
+Results reported at Sat Jan 29 14:57:05 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH_.py
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   37533.43 sec.
+    Max Memory :                                 2787 MB
+    Average Memory :                             448.74 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   3384 sec.
+    Turnaround time :                            3370 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/deprecation.py:13: UserWarning: 'data.DataLoader' is deprecated, use 'loader.DataLoader' instead
+  warnings.warn(out)
+cuda:0
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2022799: <python3 code/sagenet/pretrain_DHH_.py> in cluster <codon> Done
+
+Job <python3 code/sagenet/pretrain_DHH_.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 14:11:05 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 14:11:07 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 14:11:07 2022
+Terminated at Sat Jan 29 15:16:29 2022
+Results reported at Sat Jan 29 15:16:29 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH_.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   52620.37 sec.
+    Max Memory :                                 2857 MB
+    Average Memory :                             918.11 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               143.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   3934 sec.
+    Turnaround time :                            3924 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH_.py", line 37, in <module>
+    sg.utils.glasso(adata_r, [0.5, 0.75, 1])
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 40, in glasso
+    cov = GraphicalLassoCV(alphas=alphas, n_jobs=n_jobs).fit(data)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sklearn/covariance/_graph_lasso.py", line 743, in fit
+    this_path = Parallel(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/joblib/parallel.py", line 1041, in __call__
+    if self.dispatch_one_batch(iterator):
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/joblib/parallel.py", line 859, in dispatch_one_batch
+    self._dispatch(tasks)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/joblib/parallel.py", line 777, in _dispatch
+    job = self._backend.apply_async(batch, callback=cb)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/joblib/_parallel_backends.py", line 208, in apply_async
+    result = ImmediateResult(func)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/joblib/_parallel_backends.py", line 572, in __init__
+    self.results = batch()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/joblib/parallel.py", line 262, in __call__
+    return [func(*args, **kwargs)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/joblib/parallel.py", line 262, in <listcomp>
+    return [func(*args, **kwargs)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sklearn/utils/fixes.py", line 222, in __call__
+    return self.function(*args, **kwargs)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sklearn/covariance/_graph_lasso.py", line 492, in graphical_lasso_path
+    this_score = log_likelihood(test_emp_cov, precision_)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sklearn/covariance/_empirical_covariance.py", line 45, in log_likelihood
+    log_likelihood_ = - np.sum(emp_cov * precision) + fast_logdet(precision)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sklearn/utils/extmath.py", line 92, in fast_logdet
+    sign, ld = np.linalg.slogdet(A)
+  File "<__array_function__ internals>", line 5, in slogdet
+  File "/homes/elyas/.local/lib/python3.8/site-packages/numpy/linalg/linalg.py", line 2098, in slogdet
+    sign, logdet = _umath_linalg.slogdet(a, signature=signature)
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2025781: <python3 code/sagenet/pretrain_DHH_.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH_.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 17:11:33 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 17:12:12 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 17:12:12 2022
+Terminated at Sat Jan 29 17:16:29 2022
+Results reported at Sat Jan 29 17:16:29 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH_.py
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   3421.29 sec.
+    Max Memory :                                 384 MB
+    Average Memory :                             363.84 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               2616.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   256 sec.
+    Turnaround time :                            296 sec.
+
+The output (if any) is above this job summary.
+
+Terminated
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2025774: <python3 code/sagenet/pretrain_DHH_.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH_.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 17:10:57 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 17:10:57 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 17:10:57 2022
+Terminated at Sat Jan 29 17:16:32 2022
+Results reported at Sat Jan 29 17:16:32 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH_.py
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with exit code 143.
+
+Resource usage summary:
+
+    CPU time :                                   4645.89 sec.
+    Max Memory :                                 443 MB
+    Average Memory :                             425.52 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               2557.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   345 sec.
+    Turnaround time :                            335 sec.
+
+The output (if any) is above this job summary.
+
+python3: can't open file 'code/experimetns/run_sagenet.py': [Errno 2] No such file or directory
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2025896: <python3 code/experimetns/run_sagenet.py> in cluster <codon> Exited
+
+Job <python3 code/experimetns/run_sagenet.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 17:19:17 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 17:19:17 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 17:19:17 2022
+Terminated at Sat Jan 29 17:19:18 2022
+Results reported at Sat Jan 29 17:19:18 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experimetns/run_sagenet.py
+------------------------------------------------------------
+
+Exited with exit code 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.07 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   8 sec.
+    Turnaround time :                            1 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='scRNAseq', tag_ref='ST')
+cuda:0
+1
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 61, in <module>
+    sg_obj.load_model_as_folder(models_path)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 207, in load_model_as_folder
+    model_files = [f for f in listdir(dir) if re.search(r".pickle$", f)]
+FileNotFoundError: [Errno 2] No such file or directory: 'models/ST_human_heart/ST'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2025921: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST         --tag_query  scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST         --tag_query  scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 17:20:49 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 17:20:50 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 17:20:50 2022
+Terminated at Sat Jan 29 17:21:05 2022
+Results reported at Sat Jan 29 17:21:05 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST         --tag_query  scRNAseq         --oo output
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   13.00 sec.
+    Max Memory :                                 274 MB
+    Average Memory :                             206.67 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               2726.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   14 sec.
+    Turnaround time :                            16 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='scRNAseq', tag_ref='ST_all')
+cuda:0
+1
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 61, in <module>
+    sg_obj.load_model_as_folder(models_path)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 207, in load_model_as_folder
+    model_files = [f for f in listdir(dir) if re.search(r".pickle$", f)]
+FileNotFoundError: [Errno 2] No such file or directory: 'models/ST_human_heart/ST_all'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2025987: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 17:24:39 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 17:24:40 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 17:24:40 2022
+Terminated at Sat Jan 29 17:24:55 2022
+Results reported at Sat Jan 29 17:24:55 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   12.73 sec.
+    Max Memory :                                 74 MB
+    Average Memory :                             74.00 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               2926.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                43
+    Run time :                                   18 sec.
+    Turnaround time :                            16 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='scRNAseq', tag_ref='ST_all')
+cuda:0
+1
+2
+3
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 68, in <module>
+    sg_obj.map_query(adata_q)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 126, in map_query
+    data_loader = get_dataloader(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/utils.py", line 130, in get_dataloader
+    list_graphs.append(data.coalesce())
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/data.py", line 170, in coalesce
+    store.coalesce()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_geometric/data/storage.py", line 397, in coalesce
+    self.edge_index, self.edge_attr = coalesce(edge_index, edge_attr,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/coalesce.py", line 22, in coalesce
+    storage = SparseStorage(row=index[0], col=index[1], value=value,
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/torch_sparse/storage.py", line 65, in __init__
+    assert int(row.max()) < M
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2026068: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 17:29:19 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 17:29:20 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 17:29:20 2022
+Terminated at Sat Jan 29 17:42:09 2022
+Results reported at Sat Jan 29 17:42:09 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   13366.31 sec.
+    Max Memory :                                 3048 MB
+    Average Memory :                             2630.32 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               -48.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   781 sec.
+    Turnaround time :                            770 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='scRNAseq', tag_ref='ST_all')
+cuda:0
+1
+2
+3
+4
+5
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2026343: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sat Jan 29 17:45:06 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sat Jan 29 17:45:07 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sat Jan 29 17:45:07 2022
+Terminated at Sat Jan 29 18:25:00 2022
+Results reported at Sat Jan 29 18:25:00 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  scRNAseq         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   40044.73 sec.
+    Max Memory :                                 3155 MB
+    Average Memory :                             2931.61 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               -155.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   2403 sec.
+    Turnaround time :                            2394 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+cuda:0
+Traceback (most recent call last):
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3361, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 76, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 108, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 5198, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 5206, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'grid2'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 54, in <module>
+    sg_obj.add_ref(adata_r, comm_columns=['grid2', 'grid3', 'grid_4'], tag=i + '_loo', epochs=10, verbose = False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 74, in add_ref
+    X           = adata.X, y = adata.obs[comm].values.astype('long'), 
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/frame.py", line 3455, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3363, in get_loc
+    raise KeyError(key) from err
+KeyError: 'grid2'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2097649: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sun Jan 30 14:04:30 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sun Jan 30 14:04:30 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sun Jan 30 14:04:30 2022
+Terminated at Sun Jan 30 14:32:59 2022
+Results reported at Sun Jan 30 14:32:59 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   25934.22 sec.
+    Max Memory :                                 415 MB
+    Average Memory :                             399.51 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               1585.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   1718 sec.
+    Turnaround time :                            1709 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+cuda:0
+Traceback (most recent call last):
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3361, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 76, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 108, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 5198, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 5206, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'grid2'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 54, in <module>
+    sg_obj.add_ref(adata_r, comm_columns=['grid2', 'grid3', 'grid_4'], tag=i + '_loo', epochs=10, verbose = False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 74, in add_ref
+    X           = adata.X, y = adata.obs[comm].values.astype('long'), 
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/frame.py", line 3455, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3363, in get_loc
+    raise KeyError(key) from err
+KeyError: 'grid2'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2097639: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sun Jan 30 14:02:51 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sun Jan 30 14:15:11 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sun Jan 30 14:15:11 2022
+Terminated at Sun Jan 30 14:41:48 2022
+Results reported at Sun Jan 30 14:41:48 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   24188.66 sec.
+    Max Memory :                                 514 MB
+    Average Memory :                             490.84 MB
+    Total Requested Memory :                     4000.00 MB
+    Delta Memory :                               3486.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   1598 sec.
+    Turnaround time :                            2337 sec.
+
+The output (if any) is above this job summary.
+
+/homes/elyas/.local/lib/python3.8/site-packages/setuptools/distutils_patch.py:25: UserWarning: Distutils was imported before Setuptools. This usage is discouraged and may exhibit undesirable behaviors or errors. Please use Setuptools' objects directly or at least import Setuptools first.
+  warnings.warn(
+cuda:0
+Traceback (most recent call last):
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3361, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 76, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 108, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 5198, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 5206, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'grid2'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "code/sagenet/pretrain_DHH.py", line 54, in <module>
+    sg_obj.add_ref(adata_r, comm_columns=['grid2', 'grid3', 'grid_4'], tag=i + '_loo', epochs=10, verbose = False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/sagenet/sage.py", line 74, in add_ref
+    X           = adata.X, y = adata.obs[comm].values.astype('long'), 
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/frame.py", line 3455, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3363, in get_loc
+    raise KeyError(key) from err
+KeyError: 'grid2'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-001>
+Subject: Job 2097685: <python3 code/sagenet/pretrain_DHH.py> in cluster <codon> Exited
+
+Job <python3 code/sagenet/pretrain_DHH.py> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sun Jan 30 14:09:14 2022
+Job was executed on host(s) <codon-gpu-001>, in queue <gpu>, as user <elyas> in cluster <codon> at Sun Jan 30 14:26:35 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sun Jan 30 14:26:35 2022
+Terminated at Sun Jan 30 14:44:09 2022
+Results reported at Sun Jan 30 14:44:09 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/sagenet/pretrain_DHH.py
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   23547.41 sec.
+    Max Memory :                                 368 MB
+    Average Memory :                             344.84 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               2632.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                91
+    Run time :                                   1054 sec.
+    Turnaround time :                            2095 sec.
+
+The output (if any) is above this job summary.
+

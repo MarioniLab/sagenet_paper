@@ -1,0 +1,2402 @@
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D2', tag_ref='CN74_D2_lo')
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E1', tag_ref='CN73_E1_lo')
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_C2', tag_ref='CN73_C2_lo')
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E2', tag_ref='CN73_E2_lo')
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 39, in <module>
+    os.makedirs(args.oo)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/os.py", line 223, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: 'output/ST_human_heart/tangram_cells'
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 39, in <module>
+    os.makedirs(args.oo)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/os.py", line 223, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: 'output/ST_human_heart/tangram_cells'
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 39, in <module>
+    os.makedirs(args.oo)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/os.py", line 223, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: 'output/ST_human_heart/tangram_cells'
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 39, in <module>
+    os.makedirs(args.oo)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/os.py", line 223, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: 'output/ST_human_heart/tangram_cells'
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500593: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:44 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:45 2022
+Terminated at Tue Jan 18 14:05:53 2022
+Results reported at Tue Jan 18 14:05:53 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   3.73 sec.
+    Max Memory :                                 113 MB
+    Average Memory :                             113.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   7 sec.
+    Turnaround time :                            9 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500604: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:46 2022
+Terminated at Tue Jan 18 14:05:54 2022
+Results reported at Tue Jan 18 14:05:54 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   3.61 sec.
+    Max Memory :                                 212 MB
+    Average Memory :                             178.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                90
+    Run time :                                   8 sec.
+    Turnaround time :                            9 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500599: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:46 2022
+Terminated at Tue Jan 18 14:05:55 2022
+Results reported at Tue Jan 18 14:05:55 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   3.47 sec.
+    Max Memory :                                 208 MB
+    Average Memory :                             174.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                90
+    Run time :                                   8 sec.
+    Turnaround time :                            10 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500597: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:46 2022
+Terminated at Tue Jan 18 14:05:55 2022
+Results reported at Tue Jan 18 14:05:55 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   3.47 sec.
+    Max Memory :                                 209 MB
+    Average Memory :                             175.67 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                90
+    Run time :                                   8 sec.
+    Turnaround time :                            10 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E2', tag_ref='CN74_E2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1306 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 209 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.591
+Score: 0.772
+Score: 0.773
+Score: 0.773
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E1', tag_ref='CN74_E1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1301 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 214 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.595
+Score: 0.780
+Score: 0.781
+Score: 0.781
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D1', tag_ref='CN74_D1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1337 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 178 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.593
+Score: 0.774
+Score: 0.775
+Score: 0.775
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_C1', tag_ref='CN74_C1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1335 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 180 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.596
+Score: 0.782
+Score: 0.783
+Score: 0.783
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_D2', tag_ref='CN73_D2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1356 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 159 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.585
+Score: 0.752
+Score: 0.753
+Score: 0.753
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 177, in train
+    run_loss = self._loss_fn(verbose=False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 128, in _loss_fn
+    vg_reg = (vg_term / self.lambda_g2).tolist()
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 102, in __init__
+    if value != torch.ceil(value):
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 120, in __init__
+    if nonzero_finite_max / nonzero_finite_min > 1000.\
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 90, in __init__
+    nonzero_finite_vals = torch.masked_select(tensor_view, torch.isfinite(tensor_view) & tensor_view.ne(0))
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 188, in train
+    optimizer.step()
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/optim/optimizer.py", line 88, in wrapper
+    return func(*args, **kwargs)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/autograd/grad_mode.py", line 28, in decorate_context
+    return func(*args, **kwargs)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/optim/adam.py", line 133, in step
+    F.adam(params_with_grad,
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/optim/_functional.py", line 94, in adam
+    denom = (exp_avg_sq.sqrt() / math.sqrt(bias_correction2)).add_(eps)
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500595: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:44 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:45 2022
+Terminated at Tue Jan 18 14:06:11 2022
+Results reported at Tue Jan 18 14:06:11 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   19.48 sec.
+    Max Memory :                                 2553 MB
+    Average Memory :                             1943.75 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   25 sec.
+    Turnaround time :                            27 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500606: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:46 2022
+Terminated at Tue Jan 18 14:06:11 2022
+Results reported at Tue Jan 18 14:06:11 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   18.88 sec.
+    Max Memory :                                 2550 MB
+    Average Memory :                             669.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   26 sec.
+    Turnaround time :                            26 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500605: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:46 2022
+Terminated at Tue Jan 18 14:06:12 2022
+Results reported at Tue Jan 18 14:06:12 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   20.41 sec.
+    Max Memory :                                 2555 MB
+    Average Memory :                             669.25 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   26 sec.
+    Turnaround time :                            27 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500601: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:46 2022
+Terminated at Tue Jan 18 14:06:12 2022
+Results reported at Tue Jan 18 14:06:12 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   18.59 sec.
+    Max Memory :                                 2556 MB
+    Average Memory :                             670.75 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   26 sec.
+    Turnaround time :                            27 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9500603: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:05:45 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:05:46 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:05:46 2022
+Terminated at Tue Jan 18 14:06:13 2022
+Results reported at Tue Jan 18 14:06:13 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   18.80 sec.
+    Max Memory :                                 2549 MB
+    Average Memory :                             668.75 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   26 sec.
+    Turnaround time :                            28 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_C2', tag_ref='CN73_C2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1329 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 186 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.581
+Score: 0.750
+Score: 0.751
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 120, in __init__
+    if nonzero_finite_max / nonzero_finite_min > 1000.\
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501643: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:08:33 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:08:33 2022
+Terminated at Tue Jan 18 14:08:52 2022
+Results reported at Tue Jan 18 14:08:52 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   23.07 sec.
+    Max Memory :                                 2550 MB
+    Average Memory :                             1939.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   19 sec.
+    Turnaround time :                            20 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_D2', tag_ref='CN73_D2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1356 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 159 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.583
+Score: 0.752
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 177, in train
+    run_loss = self._loss_fn(verbose=False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 128, in _loss_fn
+    vg_reg = (vg_term / self.lambda_g2).tolist()
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501644: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:08:52 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:08:52 2022
+Terminated at Tue Jan 18 14:09:16 2022
+Results reported at Tue Jan 18 14:09:16 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   28.92 sec.
+    Max Memory :                                 2551 MB
+    Average Memory :                             1913.75 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   24 sec.
+    Turnaround time :                            44 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E1', tag_ref='CN73_E1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1412 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 103 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.584
+Score: 0.757
+Score: 0.758
+Score: 0.758
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 120, in __init__
+    if nonzero_finite_max / nonzero_finite_min > 1000.\
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501645: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:09:16 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:09:16 2022
+Terminated at Tue Jan 18 14:09:35 2022
+Results reported at Tue Jan 18 14:09:35 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   23.92 sec.
+    Max Memory :                                 2550 MB
+    Average Memory :                             1913.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   18 sec.
+    Turnaround time :                            63 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E2', tag_ref='CN73_E2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1411 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 104 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.582
+Score: 0.748
+Score: 0.748
+Score: 0.749
+Score: 0.749
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 120, in __init__
+    if nonzero_finite_max / nonzero_finite_min > 1000.\
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501646: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:09:35 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:09:35 2022
+Terminated at Tue Jan 18 14:09:58 2022
+Results reported at Tue Jan 18 14:09:58 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   26.83 sec.
+    Max Memory :                                 2551 MB
+    Average Memory :                             1913.25 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   23 sec.
+    Turnaround time :                            86 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_C1', tag_ref='CN74_C1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1335 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 180 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.598
+Score: 0.782
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501647: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:09:53 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:09:53 2022
+Terminated at Tue Jan 18 14:10:08 2022
+Results reported at Tue Jan 18 14:10:08 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with signal termination: 25.
+
+Resource usage summary:
+
+    CPU time :                                   21.53 sec.
+    Max Memory :                                 2558 MB
+    Average Memory :                             1746.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   23 sec.
+    Turnaround time :                            96 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:Printing scores every 100 epochs.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D2', tag_ref='CN74_D2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1333 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 182 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.591
+Score: 0.769
+Score: 0.769
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D1', tag_ref='CN74_D1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1337 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 178 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.592
+Score: 0.774
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 120, in __init__
+    if nonzero_finite_max / nonzero_finite_min > 1000.\
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501649: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:10:08 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:10:08 2022
+Terminated at Tue Jan 18 14:10:22 2022
+Results reported at Tue Jan 18 14:10:22 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   23.04 sec.
+    Max Memory :                                 139 MB
+    Average Memory :                             92.67 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                90
+    Run time :                                   14 sec.
+    Turnaround time :                            110 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501648: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:09:58 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:09:58 2022
+Terminated at Tue Jan 18 14:10:23 2022
+Results reported at Tue Jan 18 14:10:23 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   28.24 sec.
+    Max Memory :                                 2560 MB
+    Average Memory :                             1920.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   24 sec.
+    Turnaround time :                            111 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E1', tag_ref='CN74_E1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1301 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 214 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.595
+Score: 0.780
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.782
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501651: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:10:22 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:10:22 2022
+Terminated at Tue Jan 18 14:10:36 2022
+Results reported at Tue Jan 18 14:10:36 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with signal termination: 25.
+
+Resource usage summary:
+
+    CPU time :                                   20.73 sec.
+    Max Memory :                                 1731 MB
+    Average Memory :                             1155.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   15 sec.
+    Turnaround time :                            124 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E2', tag_ref='CN74_E2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1306 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 209 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.591
+Score: 0.772
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 120, in __init__
+    if nonzero_finite_max / nonzero_finite_min > 1000.\
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9501652: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:08:32 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 14:10:23 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 14:10:23 2022
+Terminated at Tue Jan 18 14:10:40 2022
+Results reported at Tue Jan 18 14:10:40 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   16.67 sec.
+    Max Memory :                                 2549 MB
+    Average Memory :                             1912.25 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   17 sec.
+    Turnaround time :                            128 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_C2', tag_ref='CN73_C2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1329 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 186 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 312, in map_cells_to_space
+    mapper = mo.Mapper(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 56, in __init__
+    self.S = torch.tensor(S, device=device, dtype=torch.float32)
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519360: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:30:27 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:30:27 2022
+Terminated at Tue Jan 18 18:30:47 2022
+Results reported at Tue Jan 18 18:30:47 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   13.37 sec.
+    Max Memory :                                 1659 MB
+    Average Memory :                             1243.25 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   21 sec.
+    Turnaround time :                            12969 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_D2', tag_ref='CN73_D2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1356 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 159 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.585
+Score: 0.752
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519361: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:30:47 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:30:47 2022
+Terminated at Tue Jan 18 18:31:02 2022
+Results reported at Tue Jan 18 18:31:02 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   22.25 sec.
+    Max Memory :                                 425 MB
+    Average Memory :                             284.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   14 sec.
+    Turnaround time :                            12984 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E1', tag_ref='CN73_E1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1412 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 103 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.585
+Score: 0.757
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519362: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:31:02 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:31:02 2022
+Terminated at Tue Jan 18 18:31:16 2022
+Results reported at Tue Jan 18 18:31:16 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   21.20 sec.
+    Max Memory :                                 107 MB
+    Average Memory :                             71.33 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                51
+    Run time :                                   14 sec.
+    Turnaround time :                            12998 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E2', tag_ref='CN73_E2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1411 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 104 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.583
+Score: 0.748
+Score: 0.748
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_C1', tag_ref='CN74_C1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1335 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 180 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.597
+Score: 0.782
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 65, in <module>
+    ad_out.T.write(filename=preds_f)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_core/anndata.py", line 1905, in write_h5ad
+    _write_h5ad(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_io/h5ad.py", line 85, in write_h5ad
+    adata.strings_to_categoricals()
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_core/anndata.py", line 1209, in strings_to_categoricals
+    string_cols = [
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/anndata/_core/anndata.py", line 1210, in <listcomp>
+    key for key in df.columns if infer_dtype(df[key]) == "string"
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519363: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:31:14 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:31:14 2022
+Terminated at Tue Jan 18 18:31:34 2022
+Results reported at Tue Jan 18 18:31:34 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   18.92 sec.
+    Max Memory :                                 2566 MB
+    Average Memory :                             1929.25 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   29 sec.
+    Turnaround time :                            13016 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519364: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:31:16 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:31:16 2022
+Terminated at Tue Jan 18 18:31:35 2022
+Results reported at Tue Jan 18 18:31:35 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   20.05 sec.
+    Max Memory :                                 2583 MB
+    Average Memory :                             1937.75 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   18 sec.
+    Turnaround time :                            13017 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D2', tag_ref='CN74_D2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1333 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 182 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 312, in map_cells_to_space
+    mapper = mo.Mapper(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 56, in __init__
+    self.S = torch.tensor(S, device=device, dtype=torch.float32)
+KeyboardInterrupt
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D1', tag_ref='CN74_D1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1337 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 178 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 312, in map_cells_to_space
+    mapper = mo.Mapper(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 56, in __init__
+    self.S = torch.tensor(S, device=device, dtype=torch.float32)
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519366: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:31:35 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:31:35 2022
+Terminated at Tue Jan 18 18:31:54 2022
+Results reported at Tue Jan 18 18:31:54 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   10.60 sec.
+    Max Memory :                                 2311 MB
+    Average Memory :                             1723.75 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   20 sec.
+    Turnaround time :                            13036 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519365: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:31:34 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:31:34 2022
+Terminated at Tue Jan 18 18:31:55 2022
+Results reported at Tue Jan 18 18:31:55 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   10.37 sec.
+    Max Memory :                                 2255 MB
+    Average Memory :                             691.75 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   20 sec.
+    Turnaround time :                            13037 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E2', tag_ref='CN74_E2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1306 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 209 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.590
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 177, in train
+    run_loss = self._loss_fn(verbose=False)
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 130, in _loss_fn
+    entropy_reg = (regularizer_term / self.lambda_r).tolist()
+KeyboardInterrupt
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E1', tag_ref='CN74_E1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1301 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 214 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.595
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 184, in train
+    training_history[keys[i]].append(str(run_loss[i]))
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 249, in __repr__
+    return torch._tensor_str._str(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 415, in _str
+    return _str_intern(self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 390, in _str_intern
+    tensor_str = _tensor_str(self, indent)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 251, in _tensor_str
+    formatter = _Formatter(get_summarized_data(self) if summarize else self)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor_str.py", line 102, in __init__
+    if value != torch.ceil(value):
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519368: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:31:55 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:31:55 2022
+Terminated at Tue Jan 18 18:32:14 2022
+Results reported at Tue Jan 18 18:32:14 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   15.77 sec.
+    Max Memory :                                 2548 MB
+    Average Memory :                             1911.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   20 sec.
+    Turnaround time :                            13056 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 9519367: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Tue Jan 18 14:54:38 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Jan 18 18:31:54 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Jan 18 18:31:54 2022
+Terminated at Tue Jan 18 18:32:16 2022
+Results reported at Tue Jan 18 18:32:16 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   15.20 sec.
+    Max Memory :                                 2556 MB
+    Average Memory :                             642.50 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   20 sec.
+    Turnaround time :                            13058 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+INFO:root:Saving results..
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_C1', tag_ref='CN74_C1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1335 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 180 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.599
+Score: 0.782
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Score: 0.783
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D1', tag_ref='CN74_D1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1337 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 178 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.591
+Score: 0.774
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Score: 0.775
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_C2', tag_ref='CN73_C2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1329 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 186 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.582
+Score: 0.750
+Score: 0.751
+Score: 0.751
+Score: 0.751
+Score: 0.751
+Score: 0.751
+Score: 0.751
+Score: 0.751
+Score: 0.751
+INFO:root:Saving results..
+INFO:root:Saving results..
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E1', tag_ref='CN73_E1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1412 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 103 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.583
+Score: 0.757
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Score: 0.758
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_E2', tag_ref='CN73_E2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1411 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 104 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.582
+Score: 0.748
+Score: 0.748
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Score: 0.749
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN73_D2', tag_ref='CN73_D2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1356 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 159 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.583
+Score: 0.752
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+Score: 0.753
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791155: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:20:38 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:20:38 2022
+Terminated at Tue Feb  1 18:21:01 2022
+Results reported at Tue Feb  1 18:21:01 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D1'_lo'    --tag_query  CN74_D1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   15.38 sec.
+    Max Memory :                                 1609 MB
+    Average Memory :                             1216.00 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               391.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   39 sec.
+    Turnaround time :                            35 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791148: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:20:26 2022
+Terminated at Tue Feb  1 18:21:03 2022
+Results reported at Tue Feb  1 18:21:03 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_C2'_lo'    --tag_query  CN73_C2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   16.40 sec.
+    Max Memory :                                 1716 MB
+    Average Memory :                             442.25 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               284.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   39 sec.
+    Turnaround time :                            38 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791153: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:20:26 2022
+Terminated at Tue Feb  1 18:21:03 2022
+Results reported at Tue Feb  1 18:21:03 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_C1'_lo'    --tag_query  CN74_C1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   16.09 sec.
+    Max Memory :                                 1573 MB
+    Average Memory :                             405.50 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               427.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   40 sec.
+    Turnaround time :                            37 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791151: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:20:26 2022
+Terminated at Tue Feb  1 18:21:03 2022
+Results reported at Tue Feb  1 18:21:03 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E2'_lo'    --tag_query  CN73_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   14.74 sec.
+    Max Memory :                                 1601 MB
+    Average Memory :                             413.00 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               399.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   40 sec.
+    Turnaround time :                            38 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791150: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:20:26 2022
+Terminated at Tue Feb  1 18:21:04 2022
+Results reported at Tue Feb  1 18:21:04 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_E1'_lo'    --tag_query  CN73_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   16.05 sec.
+    Max Memory :                                 1595 MB
+    Average Memory :                             411.50 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               405.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   40 sec.
+    Turnaround time :                            39 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791149: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:25 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:20:26 2022
+Terminated at Tue Feb  1 18:21:04 2022
+Results reported at Tue Feb  1 18:21:04 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN73_D2'_lo'    --tag_query  CN73_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   16.00 sec.
+    Max Memory :                                 1875 MB
+    Average Memory :                             393.75 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               125.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   40 sec.
+    Turnaround time :                            39 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:382 training genes are saved in `uns``training_genes` of both single cell and spatial Anndatas.
+INFO:root:382 overlapped genes are saved in `uns``overlap_genes` of both single cell and spatial Anndatas.
+INFO:root:uniform based density prior is calculated and saved in `obs``uniform_density` of the spatial Anndata.
+INFO:root:rna count based density prior is calculated and saved in `obs``rna_count_based_density` of the spatial Anndata.
+INFO:root:Allocate tensors for mapping.
+INFO:root:Begin training with 382 genes and None density_prior in cells mode...
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Printing scores every 100 epochs.
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_D2', tag_ref='CN74_D2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1333 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 182 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.590
+Score: 0.769
+Score: 0.769
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Score: 0.770
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E1', tag_ref='CN74_E1_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1301 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 214 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.595
+Score: 0.780
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.781
+Score: 0.782
+Traceback (most recent call last):
+  File "code/experiments/run_tangram.py", line 60, in <module>
+    ad_out = tg.map_cells_to_space(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_utils.py", line 318, in map_cells_to_space
+    mapping_matrix, training_history = mapper.train(
+  File "/hps/software/users/marioni/elyas/eli_env/lib/python3.8/site-packages/tangram/mapping_optimizer.py", line 187, in train
+    loss.backward()
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/_tensor.py", line 307, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph, inputs=inputs)
+  File "/homes/elyas/.local/lib/python3.8/site-packages/torch/autograd/__init__.py", line 154, in backward
+    Variable._execution_engine.run_backward(
+KeyboardInterrupt
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791157: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> in cluster <codon> Done
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:21:02 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:21:02 2022
+Terminated at Tue Feb  1 18:21:22 2022
+Results reported at Tue Feb  1 18:21:22 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_D2'_lo'    --tag_query  CN74_D2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   17.63 sec.
+    Max Memory :                                 161 MB
+    Average Memory :                             107.33 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               1839.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                90
+    Run time :                                   20 sec.
+    Turnaround time :                            56 sec.
+
+The output (if any) is above this job summary.
+
+INFO:root:Saving results..
+Namespace(cluster_label='cells', i='data_tidy', oo='output', tag='ST_human_heart', tag_query='CN74_E2', tag_ref='CN74_E2_lo')
+cuda:0
+AnnData object with n_obs × n_vars = 1306 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_', 'uniform_density', 'rna_count_based_density'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+AnnData object with n_obs × n_vars = 209 × 382
+    obs: 'cell_id', 'class__', 'x', 'y', 'sample', 'class_x', 'class_y', 'class_'
+    var: 'ID', 'TXID', 'GENEID', 'code', 'GENE', 'n_cells'
+    uns: 'X_name', 'adj', 'training_genes', 'overlap_genes'
+Score: 0.592
+Score: 0.772
+Score: 0.773
+Score: 0.773
+Score: 0.773
+Score: 0.773
+Score: 0.773
+Score: 0.773
+Score: 0.773
+Score: 0.773
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791158: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:21:05 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:21:05 2022
+Terminated at Tue Feb  1 18:21:22 2022
+Results reported at Tue Feb  1 18:21:22 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E1'_lo'    --tag_query  CN74_E1     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with exit code 130.
+
+Resource usage summary:
+
+    CPU time :                                   15.63 sec.
+    Max Memory :                                 2552 MB
+    Average Memory :                             641.50 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               -552.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   20 sec.
+    Turnaround time :                            56 sec.
+
+The output (if any) is above this job summary.
+
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2791159: <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells> was submitted from host <codon-gpu-001> by user <elyas> in cluster <codon> at Tue Feb  1 18:20:26 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Tue Feb  1 18:21:08 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Tue Feb  1 18:21:08 2022
+Terminated at Tue Feb  1 18:21:23 2022
+Results reported at Tue Feb  1 18:21:23 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_tangram.py     -i data_tidy --tag ST_human_heart    --tag_ref CN74_E2'_lo'    --tag_query  CN74_E2     --oo output     --cluster_label cells
+------------------------------------------------------------
+
+TERM_MEMLIMIT: job killed after reaching LSF memory usage limit.
+Exited with signal termination: 25.
+
+Resource usage summary:
+
+    CPU time :                                   24.51 sec.
+    Max Memory :                                 2579 MB
+    Average Memory :                             1725.00 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               -579.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                132
+    Run time :                                   15 sec.
+    Turnaround time :                            57 sec.
+
+The output (if any) is above this job summary.
+

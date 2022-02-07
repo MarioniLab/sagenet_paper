@@ -239,7 +239,7 @@ plot_2d <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3
 }
 
 
-plot_2d_cont <- function(dim_df, labels, label_cols=nice_cols, title='', label_title='label', sz=3){
+plot_2d_cont <- function(dim_df, labels, label_cols=nice_cols, title='', label_title='label', sz=3, hide_legend=TRUE){
     dim_dt = data.table(label=labels,
                          dim1=unlist(dim_df[,1]), dim2=unlist(dim_df[,2])) 
     dim_plot = dim_dt %>%
@@ -250,13 +250,16 @@ plot_2d_cont <- function(dim_df, labels, label_cols=nice_cols, title='', label_t
         # coord_fixed() +
         scale_color_viridis(na.value='gray') +
         theme_bw() + 
-        theme(legend.position = "none",
+        theme(
             axis.text= element_blank(), 
             axis.ticks.x=element_blank(),
             axis.ticks.y=element_blank(), 
             panel.grid.major = element_blank(), 
-            panel.grid.minor = element_blank()) +
-        labs(title=title, x='', y='', color=label_title)
+            panel.grid.minor = element_blank(),
+            plot.title = element_text(hjust = 0.5)) +
+        labs(title=title, x='', y='', color=label_title) +
+        if(hide_legend)
+            dim_plot = dim_plot + theme(legend.position='none')
     dim_plot
 }
 
@@ -273,7 +276,7 @@ read_preds_cells <- function(preds_f, func='mean'){
 }
 
 read_preds_novosparc <- function(preds_f, func='mean'){
-    preds     = preds_f %>% readH5AD
+    preds     = zellkonverter::readH5AD(preds_f)
     ref_locs  = rowData(preds)[,c('x', 'y')] %>% as.matrix
     preds_p   = t(assays(preds)[['X']])
     if(func == 'max')
@@ -284,7 +287,7 @@ read_preds_novosparc <- function(preds_f, func='mean'){
 }
 
 read_preds_tangram <- function(preds_f, func='mean'){
-    preds     = preds_f %>% readH5AD
+    preds     = zellkonverter::readH5AD(preds_f)
     ref_locs  = colData(preds)[,c('x', 'y')] %>% as.matrix
     preds_p   = assays(preds)[['X']]
     if(func == 'max')
@@ -334,4 +337,11 @@ read_imp <- function(imp_f){
       as.data.table
   imp_dt
 
+}
+
+
+get_confidence <- function(sce){
+    meta_dt = colData(sce) %>% as.data.table 
+    meta_dt %<>% .[, .SD, .SDcols = names(meta_dt) %like% '^ent']
+    rowSums(meta_dt)
 }
