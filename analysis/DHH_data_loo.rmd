@@ -110,13 +110,11 @@ imp_dt = apply(imp, 2, function(x) rownames(imp)[order(-x)]) %>%
     as.data.table 
 imp_dt %<>% .[1:n_markers,]
 markers = imp_dt %>% unlist %>% unique
-
-
-
 sce_list = sce_f %>% map(readH5AD) 
 s_sce = sce_list %>% purrr::reduce(cbind)
 meta_dt = colData(s_sce) %>% as.data.table
 rm(sce_list)
+
 if(overwrite | 
   !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
   !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
@@ -136,7 +134,8 @@ if(overwrite |
 gc()
 }
 
-col_dt  = col_dt_f %>%  fread 
+col_dt  = col_dt_f %>%  fread %>%
+  .[, class__ := factor(..class__code[class__], ordered=TRUE, levels=class__ord)]
 ```
 
 # Processing / calculations
@@ -292,8 +291,8 @@ for(meth in setdiff(names(map_2d), 'true')){
   }
 }
 
-ccc_plot_list = names(ccc_list) %>%
-  map(~ccc_list[[.x]][3] %>% map(function(y) cellCellContactHeatmapTriangle(y, celltype_colours, title=.x)))
+# ccc_plot_list = names(ccc_list) %>%
+#   map(~ccc_list[[.x]][3] %>% map(function(y) cellCellContactHeatmapTriangle(y, celltype_colours, title=.x)))
 
 # Scores' data table 
 ccc_dt = names(ccc_dist) %>%
@@ -333,13 +332,24 @@ if(overwrite |
 }else{
   lisi_vals = readRDS(file.path(obj_dir, 'lisi_vals.Rds'))
 }
+# methods = setdiff(unique(lisi_vals$method), 'true')
+# names(methods) = methods
+# lisi_vals %<>% setkey(cell_id)
+# lisi_vals = lisi_vals[order(cell_id)] %>%
+#   setnames('class__', 'LISI') %>%
+#   .[meta_dt[, .(cell_id, class__)]]
+# obj_list[['lisi_vals']] = lisi_vals
+
+lisi_vals = dcast(lisi_vals, cell_id ~ method, value.var='LISI' ) %>%
+  .[, (setdiff(names(.), 'cell_id')) := lapply(.SD, function(x) x/.SD$true), .SDcols = setdiff(names(.), 'cell_id')] %>%
+  melt(variable.name='method', value.name='LISI') %>%
+  .[method != 'true']
 methods = setdiff(unique(lisi_vals$method), 'true')
 names(methods) = methods
 lisi_vals %<>% setkey(cell_id)
 lisi_vals = lisi_vals[order(cell_id)] %>%
-  setnames('class__', 'LISI') %>%
-  .[meta_dt[, .(cell_id, class__)]]
-obj_list[['lisi_vals']] = lisi_vals
+  # setnames('cell_type', 'LISI') %>%
+  .[meta_dt[, .(cell_id, class__, sample)]]
 # lisi_dists = methods %>%
 #   map(function(y) exp_names %>%
 #     map(~dist(rbind(lisi_vals[method == y & sample == .x]$LISI, lisi_vals[method == 'true'& sample == .x]$LISI)), na.rm=T)
@@ -347,18 +357,16 @@ obj_list[['lisi_vals']] = lisi_vals
 #   map(unlist) %>%
 #   unlist 
 
-lisi_dists = methods %>%
-  map(~dist(rbind(lisi_vals[method == .x]$LISI, lisi_vals[method == 'true']$LISI)), na.rm=T) %>%
-  map(c) %>%
-  unlist
+# lisi_dists = methods %>%
+#   map(~dist(rbind(lisi_vals[method == .x]$LISI, lisi_vals[method == 'true']$LISI)), na.rm=T) %>%
+#   map(c) %>%
+#   unlist
 
 ```
 
 ## B: True regional labels + cell types (ref)
-```{r B, fig.height=24, fig.width=10, message=FALSE, cache=FALSE}
-col_dt[, class__ := paste0('class__', class__)]
-class__cols = .palette3[1:length(unique(col_dt$class__))]
-names(class__cols) = as.factor(as.character(unique(col_dt$class__)))
+```{r B, fig.height=24, fig.width=12, message=FALSE, cache=FALSE}
+meta_dt[, class__ := factor(..class__code[class__], ordered=TRUE, levels=class__ord)]
 grid2_cols = .palette1[1:length(unique(col_dt$grid_2))]
 names(grid2_cols) = as.factor(as.character(unique(col_dt$grid_2)))
 grid3_cols = .palette1[1:length(unique(col_dt$grid_3))]
@@ -368,7 +376,7 @@ names(grid4_cols) = as.factor(as.character(unique(col_dt$grid_4)))
 for(i in 1:length(exp_names)){
   c_dt   = col_dt[sample == exp_names[i]]
   if(i == 1){
-    p = plot_spatial(c_dt[, .(x, y)], labels=factor(as.character(c_dt$class__)), hide_legend = FALSE, title='region', label_cols=class__cols, sz=2) + coord_fixed() + labs(y=exp_names[i]) + theme(text = element_text(size = 20))
+    p = plot_spatial(c_dt[, .(x, y)], labels=factor(as.character(c_dt$class__)), hide_legend = FALSE, title='region', label_cols=class__cols, sz=2, label_title='region') + coord_fixed() + labs(y=exp_names[i]) + theme(text = element_text(size = 20))
     p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_2), hide_legend = FALSE, title='2 * 2', sz=2, label_cols=grid2_cols) + coord_fixed() + theme(text = element_text(size = 20))) 
     p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_3), hide_legend = FALSE, title='3 * 3', sz=2, label_cols=grid3_cols) + coord_fixed() + theme(text = element_text(size = 20))) 
     p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_4), hide_legend = FALSE, title='4 * 4', sz=2, label_cols=grid4_cols) + coord_fixed() + theme(text = element_text(size = 20)))
@@ -377,7 +385,7 @@ for(i in 1:length(exp_names)){
       labels = factor(as.character(c_dt$class__)),
       hide_legend = TRUE,
       title = 'SageNet',
-      sz = 1.5, 
+      sz = 2, 
       label_cols=class__cols
     ) + theme(text = element_text(size = 20)) )
   }
@@ -391,7 +399,7 @@ for(i in 1:length(exp_names)){
       labels = factor(as.character(c_dt$class__)),
       hide_legend = TRUE,
       title = '',
-      sz = 1.5, 
+      sz = 2, 
       label_cols=class__cols
     ) ) 
   }
@@ -402,17 +410,17 @@ fig_list[['A']]
 ```
 
 ## C: Benchmark plots; dist. correlation, lisi scores, and cell2cell affinity dist.
-```{r C, fig.height=4, fig.width=15, message=FALSE, cache=FALSE}
+```{r C, fig.height=7, fig.width=26, message=FALSE, cache=FALSE}
 fig_list[['C1']] = cor_dt %>% 
   ggplot +
   aes(x = sample, y = corr, group = method, color=factor(method, ordered=TRUE, levels=method_ord)) +
   # geom_bar(stat="identity", position=position_dodge()) +
-  geom_line() +
-  geom_point() +
+  geom_line(size=3) +
+  geom_point(size=4) +
   scale_color_manual(values=method_cols, na.value='gray') +
-  labs(fill='method', y = 'spearman correlation') +
-  theme_bw() +
-  theme(legend.position='none')  + theme(text = element_text(size = 10)) + 
+  labs(fill='method', y = "Spearman's correlation", x = 'sample (query dataset)') +
+  theme_minimal() +
+  theme(legend.position='none')  + theme(text = element_text(size = 20)) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 
 
@@ -420,27 +428,27 @@ fig_list[['C2']] = ccc_dt %>%
   ggplot +
   aes(x = sample, y = corr, group = method, color=factor(method, ordered=TRUE, levels=method_ord)) +
   # geom_bar(stat="identity", position=position_dodge()) +
-  geom_line() +
-  geom_point() +
+  geom_line(size=3) +
+  geom_point(size=4) +
   scale_color_manual(values=method_cols, na.value='gray') +
-  labs(fill='method', y = 'spot2spot affinity distance') +
-  theme_bw() +
-  theme(legend.position='none')  + theme(text = element_text(size = 10))  + 
+  labs(fill='method', y = 'spot-spot affinity distance', x = 'sample (query dataset)') +
+  theme_minimal() +
+  theme(legend.position='none')  + theme(text = element_text(size = 20))  + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 
-lisi_dists = round(lisi_dists,digits=2)
+# lisi_dists = round(lisi_dists,digits=2)
 fig_list[['C3']] = lisi_vals %>%
   ggplot +
   aes(x = factor(method, ordered=TRUE, levels=method_ord), y = LISI, fill=factor(method, ordered=TRUE, levels=method_ord)) +
-  geom_boxplot() +
-  theme_bw() +
-  scale_fill_manual(values=method_cols, na.value='gray') +
-  labs(y='LISI (region)', fill = 'method', x= 'method') +
-  theme(legend.position='none') +
-  geom_text(aes(x=method, y=max(LISI), label=lisi_dists[method], col=method), size=5) +
-  scale_color_manual(values=method_cols, na.value='gray') + 
-  theme(text = element_text(size = 10)) +
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
+  geom_boxplot(color='#959595') +
+  theme_minimal() +
+  scale_fill_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, limits=unique(lisi_vals$method)) +
+  labs(y='scaled LISI (cell type)', fill = 'method', x= 'method') +
+  # theme(legend.position='none') +
+  # geom_text(aes(x=method, y=max(LISI) + 1.5, label=lisi_dists[method], col=method), size=7.5) +
+  scale_color_manual(values=method_cols, na.value='#e6e6e6') + theme(text = element_text(size = 20)) +
+  theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  geom_hline(yintercept=1, linetype="dashed", color = "black")
 
 fig_list[['C']]  = fig_list[['C1']] + fig_list[['C2']] + fig_list[['C3']] + plot_layout(ncol = 3)
 fig_list[['C']]

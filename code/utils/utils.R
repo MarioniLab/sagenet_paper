@@ -73,6 +73,8 @@ celltype_colours = c("Epiblast" = "#635547",
                      "Presomitic mesoderm" = "#9DD84A"
 )
 
+
+
 .palette1   = c(
     "#DC050C", "#FB8072", "#1965B0", "#7BAFDE", "#882E72", "#B17BA6", 
     "#FF7F00", "#FDB462", "#E7298A", "#E78AC3", "#33A02C", "#B2DF8A", 
@@ -94,10 +96,59 @@ celltype_colours = c("Epiblast" = "#635547",
     "#8600bf", "#ba5ce3", "#808000", "#aeae5c", 
     "#1e90ff", "#00bfff", "#56ff0d", "#ffff00")
 
-method_ord  = c('true', 'sagenet', 'tangram_cells', 'novosparc', 'sagenet_markers', 'exprs')
+
+method_ord  = c('True Space', 'sagenet', 'tangram_cells', 'novosparc', 'sagenet_markers', 'exprs')
 method_cols = c("#E1C239", '#33A02C', '#FF7F00', '#882E72', '#B2DF8A', '#666666')
 names(method_cols) = method_ord
 
+# method_ord  = c('True Space', 'sagenet', 'tangram_cells', 'novosparc', 'sagenet_markers', 'exprs')
+# method_cols = c("#E1C239", '#1e90ff', '#f79083', '#B2DF8A', '#8DD3C7', '#BEAED4')
+# names(method_cols) = method_ord
+
+embryo_ord  = c('scRNAseq', 'embryo1_2', 'embryo1_5', 'embryo2_2', 'embryo2_5', 'embryo3_2', 'embryo3_5')
+embryo_cols = c("#DC050C", "#8600bf", "#ba5ce3", "#E7298A", "#E78AC3", "#1965B0", "#7BAFDE")
+names(embryo_cols) = embryo_ord
+
+class__code = c(
+    'Compact ventricular myocardium',
+    'Trabecular ventricular myocardium (1)',
+    'Trabecular ventricular myocardium (2)',
+    'Trabecular ventricular myocardium (3)',
+    'Atrial myocardium',
+    'Outflow tract / large vessels',
+    'Atrioventricular mesenchyme & valves',
+    'Mediastinal mesenchyme & vessels',
+    'Cavities with blood & immune cells',
+    'Epicardium')
+
+class__cols = c(
+    'Atrial myocardium' = '#A10037',
+    'Compact ventricular myocardium' = '#77441B',
+    'Trabecular ventricular myocardium (1)' = '#aa8888',
+    'Trabecular ventricular myocardium (2)' = '#826366',
+    'Trabecular ventricular myocardium (3)' = '#5B3F45',
+    'Outflow tract / large vessels' = '#DA5921',
+    'Atrioventricular mesenchyme & valves' = '#cc7818',
+    'Mediastinal mesenchyme & vessels' = '#EF4E22',
+    'Cavities with blood & immune cells' = '#808000',
+    'Epicardium' = '#0F4A9C')
+class__ord = names(class__cols)
+
+cell_type_cols = c(
+    'Fibroblast-like' = '#8EC792',
+    'Epicardial cells' = '#0F4A9C',
+    'Epicardium-derived cells' = '#7BAFDE',
+    'Smooth muscle cells' = '#C9EBFB',
+    'Ventricular cardiomyocytes' = '#FB8072',
+    'Myoz2-enriched cardiomyocytes' = '#DC050C',
+    'Atrial cardiomyocytes' = '#A10037',
+    'Capillary endothelium' = '#EF5A9D',
+    'Endothelium / pericytes' = '#F397C0',
+    'Erythrocytes' = '#EF4E22',
+    'Cardiac neural crest cells' = '#E1C239',
+    'Immune cells' = '#808000')
+
+cell_type_ord = names(cell_type_cols)
 # mart = useMart('ensembl', dataset='hsapiens_gene_ensembl', host='www.ensembl.org')
 
 # go_cellcycle = getBM(
@@ -173,7 +224,7 @@ analyze_network <- function(graph_obj, res = 1){
 
 }
 
-graph_col_comm <- function(graph, lay, grp, sz, title=NULL, labels){
+graph_col_comm <- function(graph, lay, grp, title=NULL, labels){
     igraph::V(graph)$color <- grp
     v <-  igraph::V(graph)
     # sprintf(comm_out, title) %>% pdf()
@@ -196,6 +247,20 @@ graph_col_comm <- function(graph, lay, grp, sz, title=NULL, labels){
     p
 }
 
+graph_col_act <- function(graph, values, contrast=1, lay, title){
+    grp_range = c(min(values)^(contrast)/sum(values^(contrast)), max(values)^(contrast)/sum(values^(contrast)))
+    grp_vals  = seq(grp_range[1],grp_range[2],length.out=9)
+    grp_cols  = circlize::colorRamp2(grp_vals, viridis::viridis(9))
+    igraph::V(graph)$color = grp_cols(values^(contrast)/sum(values^(contrast)))
+    p = plot.igraph(graph,
+        vertex.size = 5,
+        layout = lay,
+        vertex.frame.color = igraph::V(graph)$color,
+        vertex.label = "",
+        main=title)
+    p
+}
+
 plot_spatial <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3), title='', label_title='label', hide_legend=TRUE, sz=0.5){
     dim_dt = data.table(label=labels,
                          dim1=unlist(dim_df[,1]), dim2=unlist(dim_df[,2])) 
@@ -210,7 +275,7 @@ plot_spatial <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .pal
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(),
             plot.title = element_text(hjust = 0.5)) +
-        scale_color_manual(values=label_cols, na.value='gray' , drop = TRUE, limits = unique(labels)) +
+        scale_color_manual(values=label_cols, na.value='#e6e6e6' , drop = TRUE, limits = unique(labels)) +
         labs(title=title, x='', y='', color=label_title) 
     if(hide_legend)
         dim_plot = dim_plot + theme(legend.position='none')
@@ -224,15 +289,15 @@ plot_2d <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3
         ggplot +
         aes(dim1, dim2, color=label) +
         geom_point(size=sz, alpha=alpha) +
-        theme_bw() + 
+        theme_minimal() + 
         theme(axis.text= element_blank(), 
             axis.ticks.x=element_blank(),
             axis.ticks.y=element_blank(), 
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(),
             plot.title = element_text(hjust = 0.5)) +
-        scale_color_manual(values=label_cols, na.value='gray' , drop = TRUE, limits = unique(labels)) +
-        labs(title=title, x='', y='', color=label_title)
+        scale_color_manual(values=label_cols, na.value='#e6e6e6' , drop = TRUE, limits = unique(labels)) +
+        labs(title=title, x='', y='', color=label_title, alpha='confidence score')
     if(hide_legend)
         dim_plot = dim_plot + theme(legend.position='none')
     dim_plot
@@ -248,7 +313,7 @@ plot_2d_cont <- function(dim_df, labels, label_cols=nice_cols, title='', label_t
         # geom_hex(bins = 30) + 
         geom_point(size=sz) +
         # coord_fixed() +
-        scale_color_viridis(na.value='gray') +
+        scale_color_viridis(na.value='#e6e6e6') +
         theme_bw() + 
         theme(
             axis.text= element_blank(), 
@@ -345,3 +410,5 @@ get_confidence <- function(sce){
     meta_dt %<>% .[, .SD, .SDcols = names(meta_dt) %like% '^ent']
     rowSums(meta_dt)
 }
+
+

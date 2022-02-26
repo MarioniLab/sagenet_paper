@@ -93,16 +93,18 @@ col_dt_f = file.path('int_data/ST_human_heart', 'col_dt_ST.txt')
 
 ## Params
 ```{r setup_outputs, message=FALSE, cache=FALSE}
-overwrite = TRUE
+overwrite = FALSE
 ```
 
 # Load inputs
 ```{r load_inputs, message=FALSE, cache=FALSE}
 sce_list = 'output/ST_human_heart/sagenet/preds_ST_all_scRNAseq.h5ad' %>% map(readH5AD) 
 s_sce = sce_list %>% purrr::reduce(cbind)
-meta_dt = colData(s_sce) %>% as.data.table
+meta_dt = colData(s_sce) %>% as.data.table %>%
+  .[, celltype := gsub(' $', '', celltype)]
+colData(s_sce) = DataFrame(meta_dt)
 rm(sce_list)
-meta_dt$ent = get_confidence(s_sce)
+meta_dt$ent = get_confidence(s_sce) / 3
 if(overwrite | 
   !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
   !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
@@ -117,8 +119,8 @@ gc()
 }
 
 col_dt  = col_dt_f %>%  fread 
-type_cols = .palette2[1:length(unique(meta_dt$celltype))]
-names(type_cols) = as.factor(as.character(unique(meta_dt$celltype)))
+# type_cols = .palette2[1:length(unique(meta_dt$celltype))]
+# names(type_cols) = as.factor(as.character(unique(meta_dt$celltype)))
 ```
 
 # Processing / calculations
@@ -141,8 +143,8 @@ if(overwrite |
     rownames(d_mtx[['sagenet']]) = colnames(d_mtx[['sagenet']]) = colnames(s_sce)
     map_2d[['sagenet']] = Rtsne(d_mtx[['sagenet']], is_distance=T)$Y
     rownames(map_2d[['sagenet']]) = colnames(s_sce)
-    meta_dt[, `:=`(sagenet_all_1 = ..map_2d[['sagenet']][cell_id, 1], 
-              sagenet_all_2 = ..map_2d[['sagenet']][cell_id, 2])]   
+    meta_dt[, `:=`(sagenet_all_1 = ..map_2d[['sagenet']][, 1], 
+              sagenet_all_2 = ..map_2d[['sagenet']][, 2])]   
 
 
     # d[['exprs']] = dist(t(assays(s_sce)[[1]])) %>% as.dist
@@ -181,15 +183,17 @@ if(overwrite |
             graph  = g_out,
             nperm  = 1000,
             plot   = FALSE,
-            cellID ='cell_id')
+            cellID ='')
 
-  obj_list[['ccc_map']] = map_2d
+  obj_list[['ccc_map']] = ccc_map
 }else{
   ccc_map = readRDS(file.path(obj_dir, 'ccc_map.Rds'))
 }
-ccc_map = cellCellContactHeatmapTriangle(ccc_map, type_cols, title='')
+pmat = ccc_map$pmat
+rownames(pmat) = colnames(pmat) = gsub(' $', '', colnames(pmat))
+ccc_plot = cellCellContactHeatmapTriangle(pmat, cell_type_cols, title='')
 
-ccc_map
+ccc_plot
 
 
 ```
@@ -198,16 +202,19 @@ ccc_map
 
 ## B: UMAP plosts of expression space and the reconstructed space
 ```{r B, fig.height=6, fig.width=9, message=FALSE, cache=FALSE, eval=TRUE}
-meta_dt %<>% .[, .SD[sample(.N)]]
+# meta_dt %<>% .[, .SD[sample(.N)]]
+meta_dt %<>% 
+  .[, celltype := factor(celltype, ordered=TRUE, levels=cell_type_ord)] %>%
+  .[order(celltype)]
 meta_dt$ent = 1 - meta_dt$ent/(max(meta_dt$ent))
 
 sagenet_p = plot_2d( 
-    dim_df = meta_dt[, .(sagenet_all_1, sagenet_all_2)],
+    dim_df = map_2d[['sagenet']][meta_dt$,],
     labels = meta_dt$celltype,
-    label_cols = type_cols,
+    label_cols = cell_type_cols,
     hide_legend = FALSE,
     title = '',
-    sz = 1,
+    sz = 2.5,
     alpha = meta_dt$ent,
     label_title = 'cell type'
 ) + labs(x = '', y = '')
@@ -216,17 +223,39 @@ sagenet_p = plot_2d(
 fig_list[['B']] = sagenet_p
 fig_list[['B']]
 
+# meta_dt %>%
+#   ggplot +
+#   aes(x = factor(celltype, ordered=TRUE, levels= names(type_cols)), y = ent, fill=celltype) +
+#   geom_violin() +
+#   # + geom_jitter(height = 0, width = 0.1) +
+#   theme_bw() +
+#   scale_fill_manual(values=type_cols, na.value='gray') +
+#   labs(y='confidence score', x= '') +
+#   theme(legend.position='none') + 
+#   theme(axis.text.x=element_text(angle = 45, hjust = 1))
+
+```
+
+## XD: 
+```{r XD, fig.height=6, fig.width=5, message=FALSE, cache=FALSE}
+tab_dt= copy(meta_dt[, .(ent=median(ent), .N), by = 'celltype']) %>% .[order(ent), ]
+type_ord = unique(tab_dt$celltype)
+data_summary <- function(x) {
+   m <- mean(x)
+   ymin <- m-sd(x)
+   ymax <- m+sd(x)
+   return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
 meta_dt %>%
   ggplot +
-  aes(x = factor(celltype, ordered=TRUE, levels= names(type_cols)), y = ent, fill=celltype) +
-  geom_violin() +
-  # + geom_jitter(height = 0, width = 0.1) +
-  theme_bw() +
-  scale_fill_manual(values=type_cols, na.value='gray') +
+  aes(x = factor(celltype, ordered=TRUE, levels= type_ord), y = ent, color=celltype) +
+  theme_minimal() +
+  scale_color_manual(values=cell_type_cols, na.value='#e6e6e6', drop=TRUE) +
   labs(y='confidence score', x= '') +
-  theme(legend.position='none') + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-
+  stat_summary(fun.data=data_summary, size=1.5) +
+  coord_flip() + 
+  theme(legend.position='none')
 ```
 
 

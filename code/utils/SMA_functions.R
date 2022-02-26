@@ -407,11 +407,11 @@ getRandomConnectivity = function(sce,
                                  option = "observed", 
                                  x_name = "x_global_affine",
                                  y_name = "y_global_affine",
-                                 splitgroups = c("experiment"),
+                                 splitgroups = c("embryo"),
                                  chunksize = 10000) {
     ######## new function with more functionality
     # option either observed or random
-    # sce singlecellexperiment
+    # sce singlecellembryo
     # neighbours a two column matrix with cell names
     # here group is a matrix of prior probabilities of cell types
     
@@ -464,7 +464,7 @@ getRandomConnectivity_dep = function(sce,
                                      option = "observed", 
                                      x_name = "x_global_affine",
                                      y_name = "y_global_affine",
-                                     splitgroups = c("experiment")) {
+                                     splitgroups = c("embryo")) {
     ##### deprecated function!!!
     # option either observed or random
     # sce singlecellexperiment
@@ -561,7 +561,7 @@ cellCellContact = function(sce,
     return(out)
 }
 
-cellCellContactMap = function(out, order = NULL, exclude = NULL) {
+cellCellContactMap = function(pmat, order = NULL, exclude = NULL) {
     # this function takes output from cellCellContact() 
     # and gives a ggplot object of the graph
     # out = mat_p_sym
@@ -571,7 +571,7 @@ cellCellContactMap = function(out, order = NULL, exclude = NULL) {
     require(ggplot2)
     
     obs = out[["obs"]]
-    pmat = out[["pmat"]]
+    # pmat = out[["pmat"]]
     
     mat_p_df = melt(pmat)
     colnames(mat_p_df) <- c("subcluster_1","subcluster_2", "pvalue")
@@ -630,7 +630,7 @@ cellCellContactMap = function(out, order = NULL, exclude = NULL) {
 }
 
 
-cellCellContactHeatmap = function(out,
+cellCellContactHeatmap = function(pmat,
                                   col,
                                   split_n = NULL,
                                   order = NULL,
@@ -641,7 +641,7 @@ cellCellContactHeatmap = function(out,
     
     require(ComplexHeatmap)
     
-    pmat = out[["pmat"]]
+    # pmat = out[["pmat"]]
     
     if (!is.null(exclude)) {
         pmat <- pmat[setdiff(rownames(pmat), exclude), setdiff(colnames(pmat), exclude)]
@@ -699,7 +699,7 @@ cellCellContactHeatmap = function(out,
 
 
 cellCellContactHeatmapTriangle <- function(
-    out,
+    pmat,
     col_ann,
     split_n = NULL,
     order = NULL,
@@ -710,7 +710,7 @@ cellCellContactHeatmapTriangle <- function(
 
     require(ComplexHeatmap)
     
-    pmat = out[["pmat"]]
+    # pmat = out[["pmat"]]
     
     if (!is.null(exclude)) {
         pmat <- pmat[setdiff(rownames(pmat), exclude), setdiff(colnames(pmat), exclude)]
@@ -725,18 +725,18 @@ cellCellContactHeatmapTriangle <- function(
     
     mat2 = pmat
     od = 1:nrow(mat2)
-    # if (cluster) {
-    #     hc = hclust(dist(mat2), ...)
-    #     od = hc$order
-    #     if (is.null(split_n)) {
-    #         split_n = dynamicTreeCut::cutreeHybrid(hc, distM=NULL)
-    #     }
-    #     mat2 = mat2[od, od]
-    # } else {
-    #     hc = FALSE
-    #     od = 1:nrow(mat2)
-    #     split_n <- NULL
-    # }
+    if (cluster) {
+        hc = hclust(dist(mat2), ...)
+        od = hc$order
+        # if (is.null(split_n)) {
+        #     split_n = dynamicTreeCut::cutreeHybrid(hc, distM=NULL)
+        # }
+        # mat2 = mat2[od, od]
+    } else {
+        hc = FALSE
+        od = 1:nrow(mat2)
+        split_n <- NULL
+    }
     
     mat2_mask = mat2
     for (i in 1:nrow(mat2_mask)) {
@@ -750,8 +750,8 @@ cellCellContactHeatmapTriangle <- function(
     h = Heatmap(mat2_mask,
                 col = c("cornflowerblue", "white", "#ed6495"),
                 
-                cluster_rows = FALSE,
-                cluster_columns = FALSE,
+                cluster_rows = hc,
+                cluster_columns = hc,
                 
                 column_dend_side = "bottom",
                 show_row_names = FALSE,
@@ -765,6 +765,7 @@ cellCellContactHeatmapTriangle <- function(
                 height = factor*unit(ncol(mat2), "cm"),
                 
                 column_title = title,
+                column_title_gp = gpar(fontsize = 20, fontface = "bold"),
                 row_title = NULL,
                 
                 na_col = NA,
@@ -789,7 +790,7 @@ cellCellContactHeatmapTriangle <- function(
                 cell_fun = function(j, i, x, y, w, h, col) {
                     if (j == i) {
                         grid.rect(x, y, w, h, gp = gpar(fill = col, col = "grey"))
-                        grid.text(rownames(mat2)[i], x + factor*unit(1, "cm"), y + factor*unit(1, "cm"), rot = 45, hjust = 0)
+                        grid.text(rownames(mat2)[i], x + factor*unit(0.5, "cm"), y + factor*unit(0.5, "cm"), rot = 45, hjust = 0, gp = gpar(size=20))
                     } else if (which(od == i) < which(od == j)) {
                         # grid.rect(x, y, w, h, gp = gpar(fill = NULL, col = NA))
                         grid.rect(x, y, w, h, gp = gpar(fill = col, col = NA))

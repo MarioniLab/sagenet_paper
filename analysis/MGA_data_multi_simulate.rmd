@@ -155,7 +155,7 @@ if(overwrite |
   meta_query = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
 }
 
-methods = c('true', 'all', 'embryo1_2', 'embryo2_2', 'embryo3_2')
+methods = c('true', 'all', 'embryo3_2', 'embryo2_2', 'embryo1_2')
 method_cols = c('#E1C239', "#1965B0", '#FF7F00', "#FDB462", "#FB8072")
 method_ord = names(method_cols) = names(methods) = methods
 ```
@@ -287,82 +287,110 @@ lisi_dists = methods %>%
 ```
 
 ## A: Benchmark plots; dist. correlation, lisi scores, and cell2cell affinity dist.
-```{r A, fig.height=6, fig.width=18, message=FALSE, cache=FALSE}
-fig_list[['C1']] = cor_dt %>% 
-  ggplot +
-  aes(x = embryo, y = corr, group = method, color=factor(method, ordered=TRUE, levels=method_ord)) +
-  # geom_bar(stat="identity", position=position_dodge()) +
-  geom_line() +
-  geom_point() +
-  scale_color_manual(values=method_cols, na.value='gray') +
-  labs(color='reference', y = 'spearman correlation') +
-  theme_bw()  + theme(text = element_text(size = 20)) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1)) 
+```{r A, fig.height=4, fig.width=9, message=FALSE, cache=FALSE}
+colblu <- colorRampPalette(c("white", "#00bfff")) 
 
-fig_list[['C2']] = ccc_dt %>% 
+fig_list[['C1']] = cor_dt %>%
   ggplot +
-  aes(x = embryo, y = corr, group = method, color=factor(method, ordered=TRUE, levels=method_ord)) +
-  # geom_bar(stat="identity", position=position_dodge()) +
-  geom_line() +
-  geom_point() +
-  theme_bw() +
-  scale_color_manual(values=method_cols, na.value='gray') +
-  labs(y = 'cell2cell affinity distance', fill = 'reference') +
-  theme(legend.position='none')  + theme(text = element_text(size = 20)) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))   
+  aes(x = embryo, fill=corr, y=factor(method, ordered=TRUE, levels=method_ord)) +
+  scale_fill_gradientn(colors = colblu(50), breaks = c(min(cor_dt$corr), max(cor_dt$corr)), labels = c("low", "high"))+
+  geom_tile() +
+  geom_text(aes(label=round(corr,digits=2))) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5), legend.position='bottom', axis.text.x=element_text(angle = 45, hjust = 1)) +
+  labs(title="Spearman's correlation", x='query dataset', y= 'reference dataset', fill="") 
 
-lisi_dists = round(lisi_dists,digits=2)
-fig_list[['C3']] = lisi_vals %>%
+colred <- colorRampPalette(c("#A10037", "white")) 
+fig_list[['C2']] = ccc_dt %>%
   ggplot +
-  aes(x = factor(method, ordered=TRUE, levels=method_ord), y = LISI, fill=factor(method, ordered=TRUE, levels=method_ord)) +
-  geom_boxplot() +
-  theme_bw() +
-  scale_fill_manual(values=method_cols, na.value='gray') +
-  labs(y='LISI (cell type)', fill = 'reference', x= 'reference dataset') +
-  theme(legend.position='none') +
-  geom_text(aes(x=method, y=max(LISI), label=lisi_dists[method], col=method), size=5) +
-  scale_color_manual(values=method_cols, na.value='gray') + theme(text = element_text(size = 20)) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1)) 
+  aes(x = embryo, fill=corr, y=factor(method, ordered=TRUE, levels=method_ord)) +
+  scale_fill_gradientn(colors = colred(50), breaks = c(min(ccc_dt$corr), max(ccc_dt$corr)), labels = c("low", "high"))+
+  geom_tile() +
+  geom_text(aes(label=round(corr,digits=2))) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5), legend.position='bottom', axis.text.x=element_text(angle = 45, hjust = 1), axis.ticks.y=element_blank(), axis.text.y=element_blank()) +
+  labs(title="cell-cell affinity distance", x='query dataset', y= '', fill="") 
 
-# fig_list[['C']]  = fig_list[['C1']] + fig_list[['C2']] + fig_list[['C3']] + plot_layout(ncol = 3, guides = "collect")
 
 fig_list[['C']]  = fig_list[['C1']] + fig_list[['C2']] + 
-  plot_layout(ncol = 2, guides = "collect")
-fig_list[['C']]
+  plot_layout(ncol = 2)
+fig_list[['C']] 
+
+# fig_list[['C1']] = cor_dt %>% 
+#   ggplot +
+#   aes(x = embryo, y = corr, group = method, color=factor(method, ordered=TRUE, levels=method_ord)) +
+#   # geom_bar(stat="identity", position=position_dodge()) +
+#   geom_line(size=3) +
+#   geom_point(size=4) +
+#   scale_color_manual(values=method_cols, na.value='gray', drop=TRUE, levels=unique(cor_dt$method)) +
+#   labs(color='reference', y = 'spearman correlation') +
+#   theme_bw()  + theme(text = element_text(size = 20)) + 
+#   theme(axis.text.x=element_text(angle = 45, hjust = 1)) 
+
+# fig_list[['C2']] = ccc_dt %>% 
+#   ggplot +
+#   aes(x = embryo, y = corr, group = method, color=factor(method, ordered=TRUE, levels=method_ord)) +
+#   # geom_bar(stat="identity", position=position_dodge()) +
+#   geom_line(size=3) +
+#   geom_point(size=4) +
+#   theme_bw() +
+#   scale_color_manual(values=method_cols, na.value='gray', drop=TRUE) +
+#   labs(y = 'cell2cell affinity distance', fill = 'reference') +
+#   theme(legend.position='none')  + theme(text = element_text(size = 20)) + 
+#   theme(axis.text.x=element_text(angle = 45, hjust = 1))   
+
+# lisi_dists = round(lisi_dists,digits=2)
+# fig_list[['C3']] = lisi_vals %>%
+#   ggplot +
+#   aes(x = factor(method, ordered=TRUE, levels=method_ord), y = LISI, fill=factor(method, ordered=TRUE, levels=method_ord)) +
+#   geom_boxplot() +
+#   theme_bw() +
+#   scale_fill_manual(values=method_cols, na.value='gray') +
+#   labs(y='LISI (cell type)', fill = 'reference', x= 'reference dataset') +
+#   theme(legend.position='none') +
+#   geom_text(aes(x=method, y=max(LISI), label=lisi_dists[method], col=method), size=5) +
+#   scale_color_manual(values=method_cols, na.value='gray') + theme(text = element_text(size = 20)) + 
+#   theme(axis.text.x=element_text(angle = 45, hjust = 1)) 
+
+# # fig_list[['C']]  = fig_list[['C1']] + fig_list[['C2']] + fig_list[['C3']] + plot_layout(ncol = 3, guides = "collect")
+
+# fig_list[['C']]  = fig_list[['C1']] + fig_list[['C2']] + 
+#   plot_layout(ncol = 2, guides = "collect")
+# fig_list[['C']]
 ```
 
 ## XA: 
 ```{r XA, fig.height=10, fig.width=20, message=FALSE, cache=FALSE}
-col_dt  = col_dt_f %>%  fread 
-tab_dt = col_dt[, .N, by = 'cell_type'] %>% .[order(N), ]
-celltype_ord = tab_dt$cell_type
-# lisi_dists = round(lisi_dists,digits=2)
-# lisi_vals %<>% .[method %in% c('true', 'sagenet')]
-fig_list[['XA']] = lisi_vals %>%
-  ggplot +
-  aes(x = factor(cell_type, ordered=TRUE, levels=celltype_ord), y = LISI, color=factor(cell_type, ordered=TRUE, levels=celltype_ord), fill=factor(method, ordered=TRUE, levels=method_ord)) +
-  geom_boxplot() +
-  theme_bw() +
-  scale_color_manual(values=celltype_colours, na.value='gray') +
-  scale_fill_manual(values=method_cols, na.value='gray') +
-  labs(y='LISI (cell type)', fill = 'cell type', x= '') +
-  theme(legend.position='none') + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))  + theme(text = element_text(size = 20))   
+# col_dt  = col_dt_f %>%  fread 
+# tab_dt = col_dt[, .N, by = 'cell_type'] %>% .[order(N), ]
+# celltype_ord = tab_dt$cell_type
+# # lisi_dists = round(lisi_dists,digits=2)
+# # lisi_vals %<>% .[method %in% c('true', 'sagenet')]
+# fig_list[['XA']] = lisi_vals %>%
+#   ggplot +
+#   aes(x = factor(cell_type, ordered=TRUE, levels=celltype_ord), y = LISI, color=factor(cell_type, ordered=TRUE, levels=celltype_ord), fill=factor(method, ordered=TRUE, levels=method_ord)) +
+#   geom_boxplot() +
+#   theme_bw() +
+#   scale_color_manual(values=celltype_colours, na.value='gray') +
+#   scale_fill_manual(values=method_cols, na.value='gray') +
+#   labs(y='LISI (cell type)', fill = 'cell type', x= '') +
+#   theme(legend.position='none') + 
+#   theme(axis.text.x=element_text(angle = 45, hjust = 1))  + theme(text = element_text(size = 20))   
 
-fig_list[['XA']]
+# fig_list[['XA']]
 
-fig_list[['XB']] = lisi_vals %>%
-  ggplot +
-  aes(x = embryo, y = LISI, color=embryo, fill=factor(method, ordered=TRUE, levels=method_ord)) +
-  geom_boxplot() +
-  theme_bw() +
-  scale_color_manual(values=.palette1, na.value='gray') +
-  scale_fill_manual(values=method_cols, na.value='gray') +
-  labs(y='LISI (cell type)', fill = 'cell type', x= '') +
-  theme(legend.position='none') + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))  + theme(text = element_text(size = 20))   
+# fig_list[['XB']] = lisi_vals %>%
+#   ggplot +
+#   aes(x = embryo, y = LISI, color=embryo, fill=factor(method, ordered=TRUE, levels=method_ord)) +
+#   geom_boxplot() +
+#   theme_bw() +
+#   scale_color_manual(values=.palette1, na.value='gray') +
+#   scale_fill_manual(values=method_cols, na.value='gray') +
+#   labs(y='LISI (cell type)', fill = 'cell type', x= '') +
+#   theme(legend.position='none') + 
+#   theme(axis.text.x=element_text(angle = 45, hjust = 1))  + theme(text = element_text(size = 20))   
 
-fig_list[['XB']]
+# fig_list[['XB']]
 ```
 
 

@@ -94,17 +94,20 @@ cell_idx  = which(sce_query$embryo %in% query_tag)
 sce_query = sce_query[, cell_idx]
 meta_query = colData(sce_query) %>% as.data.table
 # rm(sce_query)
-ent = preds_f %>% map(readH5AD) %>% map(get_confidence) %>% purrr::reduce(`+`) %>% .[cell_idx]
-meta_query$ent = ent / max(ent)
+
 gc()
 if(overwrite | 
   !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
   !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
 ){
+  ent = preds_f %>% map(readH5AD) %>% map(get_confidence) %>% purrr::reduce(`+`) %>% .[cell_idx]
+  meta_query$ent = ent / max(ent)
   # Gene importanc
   preds_list = ref_tags %>% purrr::map(~(anndata::read_h5ad(preds_f[[.x]])$obsm$dist_map) %>% as('sparseMatrix') %>% .[cell_idx, cell_idx]) 
 gc()
 }
+
+col_dt  = col_dt_f %>%  fread 
 ```
 
 # Processing / calculations
@@ -172,39 +175,79 @@ method_ord = names(method_cols) = names(methods) = methods
 
 
 ## Cell2Cell afinity scores
-```{r calc_c2c, fig.height=15, fig.width=15, message=FALSE, cache=FALSE}
+```{r calc_c2c, fig.height=15, fig.width=15, message=FALSE, cache=FALSE, eval=FALSE}
 
-g_out    = map_2d[['all']] %>%
-  get_delaunay(plot=FALSE) %>%
-  .$graph
+# g_out    = map_2d[['all']] %>%
+#   get_delaunay(plot=FALSE) %>%
+#   .$graph
 
-ccc_map = cellCellContact(
-          sce    = sce_query,
-          group  = 'cell_type',
-          graph  = g_out,
-          nperm  = 500,
-          plot   = FALSE,
-          cellID ='cell_id')
+# ccc_map = cellCellContact(
+#           sce    = sce_query,
+#           group  = 'cell_type',
+#           graph  = g_out,
+#           nperm  = 500,
+#           plot   = FALSE,
+#           cellID ='cell_id')
 
-obj_list[['ccc_map']] = map_2d
+# obj_list[['ccc_map']] = map_2d
 
-ccc_map = cellCellContactHeatmapTriangle(ccc_map, celltype_colours, title='')
+# ccc_map = cellCellContactHeatmapTriangle(ccc_map, celltype_colours, title='')
 
-ccc_map
+# ccc_map
+```
+
+## LISI scores
+```{r calc_lisi, fig.height=4, fig.width=4, message=FALSE, cache=FALSE}
+
+methods = c('exprs', 'sagenet (all)')
+method_cols = c('#666666', "#33A02C")
+method_ord = names(method_cols) = names(methods) = methods
+
+lisi_sagenet = compute_lisi(map_2d[['all']], meta_query[, .(cell_type, embryo = ifelse(embryo != 
+ 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
+      as.data.table %>%
+      .[, .(method ='sagenet (all)', embryo, cell_type)] %>%
+      melt(id='method')
+lisi_exprs = compute_lisi(map_2d[['exprs']], meta_query[, .(cell_type, embryo = ifelse(embryo != 
+ 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
+      as.data.table %>%
+      .[, .(method ='exprs', embryo, cell_type)] %>%
+      melt(id='method')
+lisi = rbind(lisi_sagenet, lisi_exprs) %>%
+  setnames('variable', 'var') 
+
+saganet_embryo = median(lisi[method == 'sagenet (all)' & var == 'embryo']$value)
+print(saganet_embryo)
+exprs_embryo = median(lisi[method == 'exprs' & var == 'embryo']$value)
+print(exprs_embryo)
+
+lisi %>%
+  ggplot +
+  aes(x = factor(method, ordered=TRUE, levels=method_ord), 
+    y = value, fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  facet_wrap(. ~ var, scales="free_y", labeller = labeller(var = c('embryo' = 'query dataset', 'cell_type' = 'cell type'))) +
+  scale_fill_manual(values=method_cols) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(x='method', y='LISI') +
+  theme(legend.position='none')
+
 ```
 
 
 ## B: UMAP plosts of expression space and the reconstructed space
-```{r B, fig.height=10, fig.width=11, message=FALSE, cache=FALSE, eval=TRUE}
+```{r B, fig.height=8, fig.width=11, message=FALSE, cache=FALSE, eval=TRUE}
 meta_query %<>% .[, .SD[sample(.N)]]
 meta_query$ent = 1 - meta_query$ent/(max(meta_query$ent))
+meta_query$ent_plot = meta_query$ent ^ 2
+
 exprs_p = plot_2d( 
     dim_df = meta_query[, .(expr_tsne_1, expr_tsne_2)],
     labels = meta_query$cell_type,
     label_cols = celltype_colours,
     hide_legend = TRUE,
     title = 'Expression',
-    sz = 1
+    sz = 1.5
 ) + labs(x = '', y = '')
 
 
@@ -213,30 +256,31 @@ sagenet_p = plot_2d(
     dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
     labels = meta_query$cell_type,
     label_cols = celltype_colours,
-    hide_legend = TRUE,
-    title = 'SageNet',
-    sz = 1,
-    alpha = meta_query$ent,
+    hide_legend = FALSE,
+    title = 'SageNet (all)',
+    sz = 1.5,
+    alpha = meta_query$ent_plot,
+    label_title = 'cell type'
 ) + labs(x = '', y = '')
 
 exprs_batch_p = plot_2d( 
     dim_df = meta_query[, .(expr_tsne_1, expr_tsne_2)],
-    labels = meta_query$embryo,
-    label_cols = .palette1,
+    labels = factor(meta_query$embryo, ordered=TRUE, levels=embryo_ord),
+    label_cols = embryo_cols,
     hide_legend = TRUE,
     title = '',
-    sz = 1
+    sz = 1.5
 ) + labs(x = '', y = '')
 
 sagenet_batch_p = plot_2d( 
     dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
-    labels = meta_query$embryo,
-    label_cols = .palette1,
+    labels = factor(meta_query$embryo, ordered=TRUE, levels=embryo_ord),
+    label_cols = embryo_cols,
     hide_legend = FALSE,
-    label_title = 'dataset',
-    sz = 1,
-    alpha = meta_query$ent,
-) + labs(x = '', y = '', alpha='confidence')
+    label_title = 'query dataset',
+    sz = 1.5,
+    alpha = meta_query$ent_plot
+) + labs(x = '', y = '')
 
 
 fig_list[['B']] = exprs_p + sagenet_p + exprs_batch_p + sagenet_batch_p  + 
@@ -244,6 +288,124 @@ fig_list[['B']] = exprs_p + sagenet_p + exprs_batch_p + sagenet_batch_p  +
 fig_list[['B']]
 
 ```
+
+## XB: 
+```{r XB, fig.height=4, fig.width=12, message=FALSE, cache=FALSE, eval=TRUE}
+meta_query %>% setkey(cell_id)
+brain_cells = meta_query[cell_type=='Forebrain/Midbrain/Hindbrain']$cell_id
+
+hc = hclust(dist(map_2d[['all']][brain_cells,])^2, "cen")
+memb = cutree(hc, k = 10)
+memb %<>% ifelse(. < 4, ., 'other (brain)')
+
+subtype_code = c('1' = 'Forebrain', '2' = 'Hindbrain', '3' = 'Midbrain', 'other (brain)' = 'other (brain)')
+subtype_cols = c(
+  'Forebrain' = '#00bfff', 
+  'Midbrain'  = '#B17BA6', 
+  'Hindbrain' = '#FB8072', 
+  'other (brain)'     = '#999999'
+)
+subtype_ord = names(subtype_cols)
+
+sagenet_p = plot_2d( 
+    dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
+    labels = factor(subtype_code[memb[meta_query$cell_id]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = FALSE,
+    title = 'SageNet (all)',
+    sz = 1.5,
+    alpha = meta_query[meta_query$cell_id]$ent_plot,
+    label_title = 'sub-type'
+) + labs(x = '', y = '')
+
+exprs_p = plot_2d( 
+    dim_df = meta_query[, .(expr_tsne_1, expr_tsne_2)],
+    labels = factor(subtype_code[memb[meta_query$cell_id]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = TRUE,
+    title = 'exprs',
+    sz = 1.5,
+    label_title = 'sub-type'
+) + labs(x = '', y = '')
+
+
+seqfish_cells = meta_query[embryo=='embryo1_5']$cell_id
+seqfish_p = plot_2d( 
+    dim_df = meta_query[seqfish_cells, .(x, -y)],
+    labels = factor(subtype_code[memb[seqfish_cells]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = TRUE,
+    title = 'embryo1_5',
+    sz = 1.5,
+    label_title = 'sub-type'
+) + labs(x = '', y = '') + coord_fixed()
+
+sagenet_p + exprs_p + seqfish_p + plot_layout(ncol=3, guides='collect')
+```
+## XD: 
+```{r XD, fig.height=10, fig.width=5, message=FALSE, cache=FALSE, eval=TRUE}
+# tab_dt = col_dt[, .N, by = 'cell_type'] %>% .[order(N), ]
+tab_dt = copy(meta_query[, .(ent=median(ent), .N, dataset='query'), by = 'cell_type']) %>% .[order(ent), ]
+celltype_ord = unique(tab_dt$cell_type)
+
+data_summary <- function(x) {
+   m <- median(x)
+   ymin <- m-sd(x)
+   ymax <- m+sd(x)
+   return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
+p1 = meta_query %>%
+  ggplot +
+  aes(x = factor(cell_type, ordered=TRUE, levels= celltype_ord), y = ent, color=cell_type) +
+  stat_summary(fun.data=data_summary, size=1.2) +
+  # + geom_jitter(height = 0, width = 0.1) +
+  theme_minimal()  +
+  scale_color_manual(values=c(celltype_colours, subtype_cols), na.value='#e6e6e6', drop=TRUE, limits=unique(tab_dt$cell_type)) +
+  labs(y='confidence score', x= '', colour='cell type') +
+  theme(legend.position='none', axis.text.x=element_text(angle = 90, hjust = 1)) +
+  coord_flip()
+
+fig_list[['XD']] = p1 
+fig_list[['XD']]
+```
+
+
+## XC: 
+```{r XC, fig.height=16, fig.width=16, message=FALSE, cache=FALSE, eval=TRUE}
+meta_query[brain_cells, cell_type := subtype_code[memb[brain_cells]]]
+rownames(meta_query) = meta_query$cell_id
+colData(sce_query) = DataFrame(meta_query)
+colnames(sce_query) = meta_query$cell_id
+
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_map.Rds'))
+){
+  g_out    = map_2d[['all']] %>%
+    get_delaunay(plot=FALSE) %>%
+    .$graph
+
+  ccc_map = cellCellContact(
+            sce    = sce_query,
+            group  = 'cell_type',
+            graph  = g_out,
+            nperm  = 500,
+            plot   = FALSE,
+            cellID ='cell_id')
+
+  obj_list[['ccc_map']] = ccc_map
+}else{
+  ccc_map = readRDS(file.path(obj_dir, 'ccc_map.Rds'))
+}
+
+
+ccc_map = cellCellContactHeatmapTriangle(ccc_map$pmat, c(celltype_colours, subtype_cols), title='')
+
+ccc_map
+```
+
+
+
 
 
 

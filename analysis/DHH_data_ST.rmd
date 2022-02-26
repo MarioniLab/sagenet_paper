@@ -1,0 +1,376 @@
+---
+title: "Figure 4: Developing Human Heart - scRNAseq schema"
+author:
+- name: Elyas Heidari
+  affiliation: 
+  - &IMLS Institute for Molecular Life Sciences, University of Zurich, Switzerland
+  - Swiss Institute of Bioinformatics (SIB), University of Zurich, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+# Setup / definitions
+
+
+```{r setup_knitr, include=FALSE}
+library('BiocStyle')
+set.seed(1996)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(autodep=TRUE, cache=FALSE, dev='pdf', cache.lazy = FALSE)
+# knitr::opts_chunk$set( autodep=TRUE, cache=TRUE, cache.lazy=FALSE, dev='png' )
+knitr::opts_knit$set( root.dir='..' )
+# wflow_build(files='analysis/DHH_data_ST.rmd', view=F, verbose=T, delete_cache=T)
+```
+
+```{r setup_libs, collapse=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+```
+
+## Libraries
+
+```{r libs, message=FALSE, warning=FALSE, cache=FALSE}
+# library('pika')
+library('tidyverse')
+library('igraph')
+library('data.table')
+library('SingleCellExperiment')
+library('magrittr')
+library('BiocParallel')
+library('patchwork')
+library('limma')
+library('cccd')
+library('philentropy')
+library('cowplot')
+library('zellkonverter')
+library('stringr')
+library('lisi')
+library('ggpubr')
+library('Rtsne')
+# library('anndata')
+```
+
+
+## Helper functions
+```{r setup_helpers, message=FALSE, cache=FALSE}
+source('code/utils/utils.R')
+source('code/utils/SMA_functions.R')
+```
+
+## Directories
+```{r setup_input, message=FALSE, cache=FALSE}
+tag       = 'ST_human_heart' 
+ref_tag   = 'ST_all'
+data_dir  = file.path('data_tidy', tag)
+out_dir   = file.path('output', tag)
+obj_dir   = 'int_data/ST_human_heart/ST'
+dir.create(obj_dir)
+obj_list  = list()
+fig_dir   = 'figures/ST_human_heart/ST'
+dir.create(fig_dir)
+fig_list = list()
+data_f    = list.files(data_dir)
+exp_names = 'ST'
+names(exp_names) = exp_names
+sce_f     = exp_names %>% 
+  map(~file.path(data_dir, paste0(.x, '.h5ad')))
+methods     = 'sagenet'
+names(methods) = methods
+preds_f   = methods %>% 
+  map(function(y) exp_names %>% 
+    map(~file.path(out_dir, y, paste0(paste('preds', 'ST_all', .x, sep='_'), '.h5ad')))
+  )
+
+imp_f = 'int_data/ST_human_heart/imp_ST.txt'
+adj_f = 'models/ST_human_heart/ST_all/ST_all_grid_2.h5ad'
+
+```
+
+
+
+
+
+## Params
+```{r setup_outputs, message=FALSE, cache=FALSE}
+overwrite = FALSE
+n_markers = 10
+```
+
+# Load inputs
+```{r load_inputs, message=FALSE, cache=FALSE}
+sce_list = 'output/ST_human_heart/sagenet/preds_ST_all_ST.h5ad' %>% map(readH5AD) 
+s_sce = sce_list %>% purrr::reduce(cbind)
+meta_dt = colData(s_sce) %>% as.data.table 
+colnames(s_sce) = meta_dt$cell_id
+rm(sce_list)
+gene_names = rownames(s_sce) 
+adj         = assays(readH5AD(adj_f))[[1]]
+rownames(adj) = colnames(adj) = gene_names
+adj         = adj[rowSums(adj) != 0, rowSums(adj) != 0]
+
+meta_dt$ent = get_confidence(s_sce) / 3
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  # Gene importanc
+
+  preds_list = list()
+  preds_list[['sagenet']] = anndata::read_h5ad('output/ST_human_heart/sagenet/preds_ST_all_ST.h5ad')$obsm$dist_map 
+
+
+gc()
+}
+imp = imp_f %>% fread %>% setnames('V1', 'GENE')
+genes = imp$GENE
+imp %<>% .[,-1] %>% as.matrix
+rownames(imp) = genes
+imp_abs = abs(imp)
+# imp = apply(imp, 2, function(x) (x)/(max(x)))
+imp_dt = apply(imp, 2, function(x) rownames(imp)[order(-x)[1:n_markers]]) %>%
+    as.data.table
+markers = imp_dt %>% unlist %>% setdiff(c())
+print(markers)
+
+meta_dt  %<>%
+  .[, class__ := factor(..class__code[class__], ordered=TRUE, levels=class__ord)]
+s_sce$class__ = meta_dt$class__
+
+col_dt_f = file.path('int_data/ST_human_heart/col_dt_ST.txt')
+col_dt  = col_dt_f %>%  fread %>%
+  .[, class__ := factor(..class__code[class__], ordered=TRUE, levels=class__ord)] %>%
+  setkey(cell_id) %>%
+  .[order(sample)]
+grid2_cols = .palette1[1:length(unique(col_dt$grid_2))]
+names(grid2_cols) = as.factor(as.character(unique(col_dt$grid_2)))
+grid3_cols = .palette1[1:length(unique(col_dt$grid_3))]
+names(grid3_cols) = as.factor(as.character(unique(col_dt$grid_3)))
+grid4_cols = .palette1[1:length(unique(col_dt$grid_4))]
+names(grid4_cols) = as.factor(as.character(unique(col_dt$grid_4)))
+col_dt %>% setkey(cell_id)
+```
+
+# Processing / calculations
+## Distance matrices and embeddings
+```{r calc_dists, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  d      = list()
+  d_mtx  = list()
+  map_2d = list()
+
+
+  # sagenet distances
+  # d[['sagenet']] = preds_list[['sagenet']] %>% map(as.dist)
+  d_mtx[['sagenet']] = preds_list[['sagenet']]
+
+  # for(i in exp_names){
+  rownames(d_mtx[['sagenet']]) = colnames(d_mtx[['sagenet']]) = colnames(s_sce)
+  map_2d[['sagenet']] = Rtsne(d_mtx[['sagenet']], is_distance=T)$Y
+  rownames(map_2d[['sagenet']]) = colnames(s_sce)
+  meta_dt[, `:=`(sagenet_all_1 = ..map_2d[['sagenet']][, 1], 
+            sagenet_all_2 = ..map_2d[['sagenet']][, 2])]   
+
+
+  expr_pcs = prcomp(assays(s_sce)[[1]])$rotation[,1:10]
+  d[['exprs']] = dist(expr_pcs) %>% as.dist
+  d_mtx[['exprs']] = d[['exprs']] %>% as.matrix 
+  rownames(d_mtx[['exprs']]) = colnames(d_mtx[['exprs']]) = colnames(s_sce)
+  # map_2d[['exprs']] = uwot::umap(d[['exprs']], n_neighbors=50)
+  map_2d[['exprs']] = Rtsne(d_mtx[['exprs']], is_distance=T, perplexity=50)$Y
+  rownames(map_2d[['exprs']]) = colnames(s_sce)
+  meta_dt[, `:=`(expr_tsne_1 = ..map_2d[['exprs']][, 1], 
+                expr_tsne_2 = ..map_2d[['exprs']][, 2])]
+
+  # }
+
+  # obj_list[['d_mtx']] = append(d_mtx, d_mtx_true)
+  obj_list[['map_2d']] = map_2d
+  obj_list[['meta_dt']] = meta_dt
+  gc()
+}else{
+  map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
+  meta_query = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
+}
+```
+
+
+
+## Cell2Cell afinity scores
+```{r calc_c2c, fig.height=10, fig.width=10, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_map.Rds'))
+){
+
+  g_out    = map_2d[['sagenet']] %>%
+    get_delaunay(plot=FALSE) %>%
+    .$graph
+
+  ccc_map = cellCellContact(
+            sce    = s_sce,
+            group  = 'class__',
+            graph  = g_out,
+            nperm  = 1000,
+            plot   = FALSE,
+            cellID ='cell_id')
+
+  obj_list[['ccc_map']] = ccc_map
+}else{
+  ccc_map = readRDS(file.path(obj_dir, 'ccc_map.Rds'))
+}
+pmat = ccc_map$pmat
+rownames(pmat) = colnames(pmat) = gsub(' $', '', colnames(pmat))
+ccc_plot = cellCellContactHeatmapTriangle(pmat, class__cols, title='')
+
+ccc_plot
+
+
+```
+
+
+
+## B: UMAP plosts of expression space and the reconstructed space
+```{r B, fig.height=4, fig.width=12, message=FALSE, cache=FALSE, eval=TRUE}
+# meta_dt %<>% .[, .SD[sample(.N)]]
+meta_dt %<>% 
+  .[, class__ := factor(class__, ordered=TRUE, levels=class__ord)] %>%
+  .[order(class__)]
+meta_dt$ent = 1 - meta_dt$ent/(max(meta_dt$ent))
+
+sagenet_p = plot_2d( 
+    dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
+    labels = meta_dt$class__,
+    label_cols = class__cols,
+    hide_legend = TRUE,
+    sz = 2.5,
+    alpha = meta_dt$ent,
+    title = 'region'
+) + labs(x = '', y = '')
+
+sagenet_batch_p = plot_2d( 
+    dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
+    labels = meta_dt$sample,
+    label_cols = .palette3,
+    hide_legend = FALSE,
+    sz = 2.5,
+    alpha = meta_dt$ent,
+    title = 'sample (query dataset)',
+    label_title = 'sample'
+) + labs(x = '', y = '')
+
+sagenet_grid_p = plot_2d( 
+    dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
+    labels = factor(col_dt[meta_dt$cell_id]$grid_3),
+    label_cols = grid3_cols,
+    hide_legend = TRUE,
+    sz = 2.5,
+    alpha = meta_dt$ent,
+    title = '3 * 3 grid'
+) + labs(x = '', y = '')
+
+fig_list[['B1']] = sagenet_p  + sagenet_grid_p + sagenet_batch_p + plot_layout(ncol=3, guides='collect')
+fig_list[['B1']]
+
+exprs_p = plot_2d( 
+    dim_df = -map_2d[['exprs']][meta_dt$cell_id,],
+    labels = meta_dt$class__,
+    label_cols = class__cols,
+    hide_legend = TRUE,
+    sz = 2.5,
+    alpha = meta_dt$ent,
+    title = 'region'
+) + labs(x = '', y = '')
+
+exprs_batch_p = plot_2d( 
+    dim_df = -map_2d[['exprs']][meta_dt$cell_id,],
+    labels = meta_dt$sample,
+    label_cols = .palette3,
+    hide_legend = FALSE,
+    sz = 2.5,
+    alpha = meta_dt$ent,
+    title = 'sample (query dataset)',
+    label_title = 'sample'
+) + labs(x = '', y = '')
+
+exprs_grid_p = plot_2d( 
+    dim_df = -map_2d[['exprs']][meta_dt$cell_id,],
+    labels = factor(col_dt[meta_dt$cell_id]$grid_3, ordered=TRUE),
+    label_cols = grid3_cols,
+    hide_legend = FALSE,
+    sz = 2.5,
+    alpha = meta_dt$ent,
+    title = '3 * 3 grid'
+) + labs(x = '', y = '')
+
+fig_list[['B2']] = exprs_p  + exprs_grid_p + exprs_batch_p + plot_layout(ncol=3, guides='collect')
+fig_list[['B2']]
+```
+
+## XD: 
+```{r XD, fig.height=6, fig.width=5, message=FALSE, cache=FALSE}
+tab_dt= copy(meta_dt[, .(ent=median(ent), .N), by = 'class__']) %>% .[order(ent), ]
+type_ord = unique(tab_dt$class__)
+data_summary <- function(x) {
+   m <- mean(x)
+   ymin <- m-sd(x)
+   ymax <- m+sd(x)
+   return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
+meta_dt %>%
+  ggplot +
+  aes(x = factor(class__, ordered=TRUE, levels= type_ord), y = ent, color=class__) +
+  theme_minimal() +
+  scale_color_manual(values=class__cols, na.value='#e6e6e6', drop=TRUE) +
+  labs(y='confidence score', x= '') +
+  stat_summary(fun.data=data_summary, size=1.5) +
+  coord_flip() + 
+  theme(legend.position='none')
+```
+
+
+```{r XN2, fig.height=24, fig.width=24, message=FALSE, cache=FALSE, eval=TRUE}
+
+# p_list = list()
+# for(m in intersect(markers, rownames(s_sce))){
+
+#   p_list[[m]] = plot_2d_cont( 
+#     dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
+#     labels = assays(s_sce)[[1]][m, meta_dt$cell_id],
+#     # label_cols = celltype_colours,
+#     hide_legend = TRUE,
+#     title = m,
+#     sz = 2.5
+#     # alpha = meta_dt$ent,
+#   ) + labs(x = '', y = '', color='') + 
+#     theme_void() + 
+#     theme(legend.position='none')
+
+# }
+# p_list %<>% purrr::reduce(`+`) + plot_layout(ncol=6)
+# p_list
+
+
+```
+
+## XA: GGM
+```{r XA, fig.height=10, fig.width=10, message=FALSE, cache=FALSE}
+g_obj       = graph_from_adjacency_matrix(adj, mode='undirected') 
+d           = cluster_louvain(g_obj)
+grp         =  .palette2[membership(d)]
+lay         = layout_nicely(g_obj)
+graph_col_comm(graph=g_obj, lay=lay, grp=grp, title='GIN on ST dataset', labels=rownames(adj))
+graph_col_comm(graph=g_obj, lay=lay, grp=ifelse(rownames(adj) %in% markers, grp, '#e6e6e6'), title='Markers', labels=ifelse(rownames(adj) %in% markers, rownames(adj), ''))
+
+```
+
+# Save objects & plots
+```{r save, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+names(obj_list) %>% map(~saveRDS(obj_list[[.x]], file.path(obj_dir, paste0(.x, '.Rds'))))
+names(fig_list) %>% map(~saveRDS(fig_list[[.x]], file.path(fig_dir, paste0(.x, '.Rds'))))
+```

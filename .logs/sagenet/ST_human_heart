@@ -1497,3 +1497,132 @@ Resource usage summary:
 
 The output (if any) is above this job summary.
 
+Traceback (most recent call last):
+  File "code/experiments/run_sagenet.py", line 6, in <module>
+    import tangram as tg
+ModuleNotFoundError: No module named 'tangram'
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1838210: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output> in cluster <codon> Exited
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Thu Feb 24 18:43:02 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Feb 24 18:43:03 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Feb 24 18:43:03 2022
+Terminated at Thu Feb 24 18:43:13 2022
+Results reported at Thu Feb 24 18:43:13 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   1.83 sec.
+    Max Memory :                                 21 MB
+    Average Memory :                             21.00 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               2979.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                4
+    Run time :                                   18 sec.
+    Turnaround time :                            11 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='ST', tag_ref='ST_all')
+cuda:0
+1
+2
+3
+4
+5
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1838224: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Thu Feb 24 18:44:14 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Feb 24 18:44:17 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Feb 24 18:44:17 2022
+Terminated at Thu Feb 24 18:45:02 2022
+Results reported at Thu Feb 24 18:45:02 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   97.15 sec.
+    Max Memory :                                 1929 MB
+    Average Memory :                             1203.80 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               1071.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                92
+    Run time :                                   46 sec.
+    Turnaround time :                            48 sec.
+
+The output (if any) is above this job summary.
+
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='ST', tag_ref='ST_all')
+cuda:0
+1
+2
+3
+4
+5
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 1838237: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Thu Feb 24 18:45:19 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Thu Feb 24 18:45:20 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Thu Feb 24 18:45:20 2022
+Terminated at Thu Feb 24 18:45:41 2022
+Results reported at Thu Feb 24 18:45:41 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  ST         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   101.08 sec.
+    Max Memory :                                 2812 MB
+    Average Memory :                             2133.50 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               188.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                131
+    Run time :                                   22 sec.
+    Turnaround time :                            22 sec.
+
+The output (if any) is above this job summary.
+
