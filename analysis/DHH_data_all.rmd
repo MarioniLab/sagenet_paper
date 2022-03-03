@@ -209,7 +209,7 @@ meta_dt %<>%
 meta_dt$ent = 1 - meta_dt$ent/(max(meta_dt$ent))
 
 sagenet_p = plot_2d( 
-    dim_df = map_2d[['sagenet']][meta_dt$,],
+    dim_df = map_2d[['sagenet']][meta_dt$cell_id,],
     labels = meta_dt$celltype,
     label_cols = cell_type_cols,
     hide_legend = FALSE,

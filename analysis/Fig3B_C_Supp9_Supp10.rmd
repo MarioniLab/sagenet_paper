@@ -1,0 +1,439 @@
+---
+title: "Spatial Mouse Atlas - Seqfish - Mouse Embryo, Figure 3B-C and Supp. Fig. 9-10"
+author:
+- name: Elyas Heidari
+  affiliation: 
+  - &IMLS Institute for Molecular Life Sciences, University of Zurich, Switzerland
+  - Swiss Institute of Bioinformatics (SIB), University of Zurich, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+# Setup / definitions
+
+
+```{r setup_knitr, include=FALSE}
+library('BiocStyle')
+set.seed(1996)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(autodep=TRUE, cache=FALSE, dev='pdf', cache.lazy = FALSE)
+# knitr::opts_chunk$set( autodep=TRUE, cache=TRUE, cache.lazy=FALSE, dev='png' )
+knitr::opts_knit$set( root.dir='..' )
+# wflow_build(files='analysis/Fig3B_C_Supp9_Supp10.rmd', view=F, verbose=T, delete_cache=T)
+```
+
+```{r setup_libs, collapse=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+```
+
+## Libraries
+
+```{r libs, message=FALSE, warning=FALSE, cache=FALSE}
+library('tidyverse')
+library('igraph')
+library('data.table')
+library('SingleCellExperiment')
+library('magrittr')
+library('BiocParallel')
+library('patchwork')
+library('limma')
+library('cccd')
+library('philentropy')
+library('cowplot')
+library('zellkonverter')
+library('stringr')
+library('lisi')
+library('ggpubr')
+library('Rtsne')
+```
+
+
+## Helper functions
+```{r setup_helpers, message=FALSE, cache=FALSE}
+source('code/utils/utils.R')
+source('code/utils/SMA_functions.R')
+```
+
+## Directories
+```{r setup_input, message=FALSE, cache=FALSE}
+tag       = 'seqfish_mouse_embryo/sagenet' 
+ref_tags   = c('embryo1_2', 'embryo2_2', 'embryo3_2')
+query_tag  = c('scRNAseq', 'embryo1_5', 'embryo2_5', 'embryo3_5')
+out_dir   = file.path('output', tag)
+obj_dir   = 'int_data/seqfish_mouse_embryo/all'
+dir.create(obj_dir)
+obj_list  = list()
+fig_dir   = 'figures/seqfish_mouse_embryo/all'
+dir.create(fig_dir)
+fig_list = list()
+
+names(ref_tags) = ref_tags
+preds_f = ref_tags %>% map(~file.path(out_dir, sprintf('preds_%s_query_data.h5ad', .x)))
+col_dt_f = file.path('int_data/seqfish_mouse_embryo/', 'embryo1_2', 'col_dt_embryo1_2.txt')
+```
+
+
+
+
+
+## Params
+```{r setup_outputs, message=FALSE, cache=FALSE}
+overwrite = FALSE
+```
+
+# Load inputs
+```{r load_inputs, message=FALSE, cache=FALSE}
+sce_query = preds_f[['embryo1_2']] %>% readH5AD 
+cell_idx  = which(sce_query$embryo %in% query_tag)
+sce_query = sce_query[, cell_idx]
+meta_query = colData(sce_query) %>% as.data.table
+# rm(sce_query)
+
+gc()
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  ent = preds_f %>% map(readH5AD) %>% map(get_confidence) %>% purrr::reduce(`+`) %>% .[cell_idx]
+  meta_query$ent = ent / max(ent)
+  # Gene importanc
+  preds_list = ref_tags %>% purrr::map(~(anndata::read_h5ad(preds_f[[.x]])$obsm$dist_map) %>% as('sparseMatrix') %>% .[cell_idx, cell_idx]) 
+gc()
+}
+
+col_dt  = col_dt_f %>%  fread 
+```
+
+# Processing / calculations
+## Distance matrices and embeddings
+```{r calc_dists, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  d      = list()
+  d_mtx  = list()
+  map_2d = list()
+
+  map_2d[['true']]          = as.matrix(meta_query[, .(x,y)])
+  rownames(map_2d[['true']]) = meta_query$cell_id
+
+  # sagenet distances
+  for(i in ref_tags){
+    d[[i]] = preds_list[[i]] %>% as.dist
+    d_mtx[[i]] = d[[i]] %>% as.matrix 
+    d_mtx[[i]] = d_mtx[[i]]/norm(d_mtx[[i]])
+    rownames(d_mtx[[i]]) = colnames(d_mtx[[i]]) = colnames(sce_query)
+    map_2d[[i]] = Rtsne(d_mtx[[i]], is_distance=T, perplexity=50)$Y
+    # map_2d[[i]] = uwot::umap(d[[i]])
+    rownames(map_2d[[i]]) = colnames(sce_query)
+    meta_query[[paste0(i, '_1')]] = map_2d[[i]][meta_query$cell_id, 1]
+    meta_query[[paste0(i, '_2')]] = map_2d[[i]][meta_query$cell_id, 2]
+    # meta_query[, `:=`(i = ..map_2d[[i]][cell_id, 1], 
+    #               i = ..map_2d[[i]][cell_id, 2])]   
+    preds_list[[i]] = NULL
+  }
+
+  d_mtx[['all']] = (d_mtx %>% purrr::reduce(`+`))/3
+  rownames(d_mtx[['all']]) = colnames(d_mtx[['all']]) = colnames(sce_query)
+  map_2d[['all']] = Rtsne(d_mtx[['all']], is_distance=T, perplexity=50)$Y
+  # map_2d[['all']] = uwot::umap(as.dist(d[[i]]))
+  rownames(map_2d[['all']]) = colnames(sce_query)
+  meta_query[, `:=`(sagenet_all_1 = ..map_2d[['all']][cell_id, 1], 
+              sagenet_all_2 = ..map_2d[['all']][cell_id, 2])] 
+
+  d[['exprs']] = dist(t(assays(sce_query)[[1]])) %>% as.dist
+  d_mtx[['exprs']] = d[['exprs']] %>% as.matrix 
+  rownames(d_mtx[['exprs']]) = colnames(d_mtx[['exprs']]) = colnames(sce_query)
+  map_2d[['exprs']] = Rtsne(d_mtx[['exprs']], is_distance=T, perplexity=50)$Y
+  rownames(map_2d[['exprs']]) = colnames(sce_query)
+  meta_query[, `:=`(expr_tsne_1 = ..map_2d[['exprs']][cell_id, 1], 
+                expr_tsne_2 = ..map_2d[['exprs']][cell_id, 2])] 
+
+  d_true = dist(meta_query[, .(x,y)])
+  d_mtx_true = d_true %>% as.matrix
+  rownames(d_mtx_true) = colnames(d_mtx_true) = meta_query$cell_id
+  # obj_list[['d_mtx']] = append(d_mtx, d_mtx_true)
+  obj_list[['map_2d']] = map_2d
+  obj_list[['meta_dt']] = meta_query
+  gc()
+}else{
+  map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
+  meta_query = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
+}
+```
+
+
+## 3B: The reconstructed spaces
+```{r 3B, fig.height=10, fig.width=12, message=FALSE, cache=FALSE, eval=TRUE}
+meta_query %<>% .[, .SD[sample(.N)]]
+meta_query$ent = 1 - meta_query$ent/(max(meta_query$ent))
+meta_query$ent_plot = meta_query$ent ^ 2
+
+exprs_p = plot_2d( 
+    dim_df = meta_query[, .(expr_tsne_1, expr_tsne_2)],
+    labels = meta_query$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'Expression',
+    sz = 2.5
+) + labs(x = '', y = '') + theme(text = element_text(size = 15))
+
+sagenet_p = plot_2d( 
+    dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
+    labels = meta_query$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'SageNet (Ensemble)',
+    sz = 2.5,
+    alpha = meta_query$ent_plot,
+    label_title = 'cell type'
+) + labs(x = '', y = '') + theme(text = element_text(size = 15))
+
+exprs_batch_p = plot_2d( 
+    dim_df = meta_query[, .(expr_tsne_1, expr_tsne_2)],
+    labels = factor(meta_query$embryo, ordered=TRUE, levels=embryo_ord),
+    label_cols = embryo_cols,
+    hide_legend = TRUE,
+    title = '',
+    sz = 2.5
+) + labs(x = '', y = '')
+
+sagenet_batch_p = plot_2d( 
+    dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
+    labels = factor(meta_query$embryo, ordered=TRUE, levels=embryo_ord),
+    label_cols = embryo_cols,
+    hide_legend = TRUE,
+    label_title = 'query dataset',
+    sz = 2.5,
+    alpha = meta_query$ent_plot
+) + labs(x = '', y = '') +
+  scale_color_manual(values=embryo_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=embryo_ord[embryo_ord %in% unique(meta_query$embryo)], 
+    labels=embryo_code)
+
+batch_legend = (plot_2d( 
+    dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
+    labels = factor(meta_query$embryo, ordered=TRUE, levels=embryo_ord),
+    label_cols = embryo_cols,
+    hide_legend = FALSE,
+    label_title = 'query dataset',
+    sz = 4,
+    alpha = meta_query$ent_plot
+) + labs(x = '', y = '') + theme(text = element_text(size = 15)) +
+  scale_color_manual(values=embryo_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=embryo_ord[embryo_ord %in% unique(meta_query$embryo)], 
+    labels=embryo_code)) %>% get_legend() %>%
+  as_ggplot() 
+
+
+fig_list[['3B']] = 
+  sagenet_p +
+  exprs_p +  
+  plot_spacer() +
+  sagenet_batch_p  + 
+  exprs_batch_p + 
+  batch_legend +
+  plot_layout(ncol = 3, guides = 'collect', widths=c(5, 5, 2, 5, 5, 2))
+fig_list[['3B']]
+
+```
+
+## LISI scores
+```{r 3C, fig.height=5, fig.width=5, message=FALSE, cache=FALSE}
+
+methods = c('exprs', 'SageNet (Ensemble)')
+method_cols = c('#666666', "#33A02C")
+method_ord = names(method_cols) = names(methods) = methods
+
+lisi_sagenet = compute_lisi(map_2d[['all']][meta_query$cell_id,], meta_query[, .(cell_type, embryo = ifelse(embryo != 
+ 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
+      as.data.table %>%
+      .[, .(method ='SageNet (Ensemble)', embryo, cell_type)] %>%
+      melt(id='method')
+lisi_exprs = compute_lisi(map_2d[['exprs']][meta_query$cell_id,], meta_query[, .(cell_type, embryo = ifelse(embryo != 
+ 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
+      as.data.table %>%
+      .[, .(method ='exprs', embryo, cell_type)] %>%
+      melt(id='method')
+lisi = rbind(lisi_sagenet, lisi_exprs) %>%
+  setnames('variable', 'var') 
+
+saganet_embryo = median(lisi[method == 'SageNet (Ensemble)' & var == 'embryo']$value)
+print(saganet_embryo)
+exprs_embryo = median(lisi[method == 'exprs' & var == 'embryo']$value)
+print(exprs_embryo)
+
+fig_list[['3C']] = lisi %>%
+  ggplot +
+  aes(x = factor(method, ordered=TRUE, levels=method_ord), 
+    y = log2(value), fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  facet_wrap(. ~ var, scales="free_y", labeller = labeller(var = c('embryo' = 'query dataset', 'cell_type' = 'cell type'))) +
+  scale_fill_manual(values=method_cols) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x='method', y='log2(LISI)') +
+  theme(legend.position='none')
+fig_list[['3C']]
+```
+
+
+
+## Supp9: Separation of brain sub-types
+```{r Supp9, fig.height=5, fig.width=16, message=FALSE, cache=FALSE, eval=TRUE}
+meta_query %>% setkey(cell_id)
+brain_cells = meta_query[cell_type=='Forebrain/Midbrain/Hindbrain']$cell_id
+
+hc = hclust(dist(map_2d[['all']][brain_cells,])^2, "cen")
+memb = cutree(hc, k = 10)
+memb %<>% ifelse(. < 4, ., 'other (brain)')
+
+subtype_code = c('1' = 'Forebrain', '2' = 'Hindbrain', '3' = 'Midbrain', 'other (brain)' = 'other brain cells')
+subtype_cols = c(
+  'Forebrain' = '#00bfff', 
+  'Midbrain'  = '#B17BA6', 
+  'Hindbrain' = '#FB8072', 
+  'other brain cells'     = '#999999'
+)
+subtype_ord = names(subtype_cols)
+
+sagenet_p = plot_2d( 
+    dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
+    labels = factor(subtype_code[memb[meta_query$cell_id]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = TRUE,
+    title = 'SageNet (Ensemble)',
+    sz = 2.5,
+    alpha = meta_query[meta_query$cell_id]$ent_plot,
+    label_title = 'sub-type'
+) + labs(x = '', y = '') + theme(text = element_text(size = 15))
+
+
+legend_brain = (plot_2d( 
+    dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
+    labels = factor(subtype_code[memb[meta_query$cell_id]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = FALSE,
+    title = 'SageNet (Ensemble)',
+    sz = 4,
+    alpha = meta_query[meta_query$cell_id]$ent_plot,
+    label_title = 'sub-type'
+) + labs(x = '', y = '') + theme(text = element_text(size = 15)) +
+  scale_color_manual(values=subtype_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=subtype_ord, 
+    labels=c('NA' = 'other', subtype_ord))) %>% get_legend() %>%
+  as_ggplot() 
+
+exprs_p = plot_2d( 
+    dim_df = meta_query[, .(expr_tsne_1, expr_tsne_2)],
+    labels = factor(subtype_code[memb[meta_query$cell_id]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = TRUE,
+    title = 'Expression',
+    sz = 2.5,
+    label_title = 'sub-type'
+) + labs(x = '', y = '') + theme(text = element_text(size = 15))
+
+
+seqfish_cells = meta_query[embryo=='embryo1_5']$cell_id
+seqfish_p = plot_2d( 
+    dim_df = meta_query[seqfish_cells, .(x, -y)],
+    labels = factor(subtype_code[memb[seqfish_cells]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = TRUE,
+    title = 'E1_L2',
+    sz = 2.5,
+    label_title = 'sub-type'
+) + labs(x = '', y = '') + coord_fixed() + theme(text = element_text(size = 15))
+
+fig_list[['Supp9']] = 
+  sagenet_p + 
+  exprs_p + 
+  seqfish_p + 
+  legend_brain + 
+  plot_layout(ncol=4, widths=c(5, 5, 4, 2))
+fig_list[['Supp9']]
+```
+
+## Supp10A: confidence scores
+```{r Supp10A, fig.height=9, fig.width=4, message=FALSE, cache=FALSE, eval=TRUE}
+meta_query[brain_cells, cell_type := subtype_code[memb[brain_cells]]]
+rownames(meta_query) = meta_query$cell_id
+colData(sce_query) = DataFrame(meta_query)
+colnames(sce_query) = meta_query$cell_id
+
+tab_dt = copy(meta_query[, .(ent=median(ent), .N, dataset='query'), by = 'cell_type']) %>% .[order(ent), ]
+celltype_ord = unique(tab_dt$cell_type)
+
+data_summary <- function(x) {
+   m <- median(x)
+   ymin <- m-sd(x)
+   ymax <- m+sd(x)
+   return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
+fig_list[['Supp10A']] = meta_query[cell_type %in% names(which(table(cell_type) > 20))] %>%
+  ggplot +
+  aes(x = factor(cell_type, ordered=TRUE, levels= celltype_ord), y = ent, color=cell_type) +
+  stat_summary(fun.data=data_summary, size=1.5) +
+  # + geom_jitter(height = 0, width = 0.1) +
+  theme_bw()  +
+  scale_color_manual(values=c(celltype_colours, subtype_cols), na.value='#e6e6e6', drop=TRUE, limits=unique(tab_dt$cell_type)) +
+  labs(y='confidence score', x= '', colour='cell type') +
+  theme(legend.position='none', axis.text.x=element_text(angle = 90, hjust = 1)) +
+  coord_flip()
+
+fig_list[['Supp10A']]
+```
+
+
+## Supp10B: cell-type contact map
+```{r Supp10B, fig.height=20, fig.width=20, message=FALSE, cache=FALSE, eval=TRUE}
+
+
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_map.Rds'))
+){
+  sce_query$dummy = 'X'
+
+  type_tb = table(sce_query$cell_type)
+  type_tb %<>% .[type_tb < 50] %>% names
+  sce_query %<>% .[,!sce_query$cell_type %in% type_tb]
+  g_out    = map_2d[['all']][sce_query$cell_id,] %>%
+    get_delaunay(plot=FALSE) %>%
+    .$graph
+
+
+  ccc_map = cellCellContact(
+            sce    = sce_query,
+            group  = 'cell_type',
+            graph  = g_out,
+            nperm  = 500,
+            plot   = FALSE,
+            cellID ='cell_id')
+
+  obj_list[['ccc_map']] = ccc_map
+}else{
+  ccc_map = readRDS(file.path(obj_dir, 'ccc_map.Rds'))
+}
+
+
+ccc_map = cellCellContactHeatmapTriangle(ccc_map$pmat, c(celltype_colours, subtype_cols, 'other' = '#e6e6e6'), title='')
+
+ccc_map
+```
+
+
+
+
+
+
+# Save objects & plots
+```{r save, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+names(obj_list) %>% map(~saveRDS(obj_list[[.x]], file.path(obj_dir, paste0(.x, '.Rds'))))
+names(fig_list) %>% map(~saveRDS(fig_list[[.x]], file.path(fig_dir, paste0(.x, '.Rds'))))
+```

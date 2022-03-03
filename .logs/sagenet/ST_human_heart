@@ -1626,3 +1626,47 @@ Resource usage summary:
 
 The output (if any) is above this job summary.
 
+Namespace(i='data_tidy', oo='output', tag='ST_human_heart', tag_query='query', tag_ref='ST_all')
+cuda:0
+1
+2
+3
+4
+5
+
+------------------------------------------------------------
+Sender: LSF System <lsf@codon-gpu-002>
+Subject: Job 2251715: <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  query         --oo output> in cluster <codon> Done
+
+Job <python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  query         --oo output> was submitted from host <codon-gpu-002> by user <elyas> in cluster <codon> at Sun Feb 27 18:43:12 2022
+Job was executed on host(s) <codon-gpu-002>, in queue <gpu>, as user <elyas> in cluster <codon> at Sun Feb 27 18:46:14 2022
+</homes/elyas> was used as the home directory.
+</nfs/research/marioni/elyas/papers/sagenet_paper> was used as the working directory.
+Started at Sun Feb 27 18:46:14 2022
+Terminated at Sun Feb 27 19:14:39 2022
+Results reported at Sun Feb 27 19:14:39 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 code/experiments/run_sagenet.py         -i data_tidy --tag ST_human_heart         --tag_ref ST_all         --tag_query  query         --oo output
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   60493.49 sec.
+    Max Memory :                                 3450 MB
+    Average Memory :                             3112.68 MB
+    Total Requested Memory :                     3000.00 MB
+    Delta Memory :                               -450.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                131
+    Run time :                                   1708 sec.
+    Turnaround time :                            1887 sec.
+
+The output (if any) is above this job summary.
+

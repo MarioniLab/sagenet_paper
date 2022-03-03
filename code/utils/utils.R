@@ -109,6 +109,23 @@ embryo_ord  = c('scRNAseq', 'embryo1_2', 'embryo1_5', 'embryo2_2', 'embryo2_5', 
 embryo_cols = c("#DC050C", "#8600bf", "#ba5ce3", "#E7298A", "#E78AC3", "#1965B0", "#7BAFDE")
 names(embryo_cols) = embryo_ord
 
+embryo_code = c(
+    'scRNAseq'  = 'scRNAseq',
+    'embryo1_2' = 'E1_L1', 
+    'embryo1_5' = 'E1_L2', 
+    'embryo2_2' = 'E2_L1', 
+    'embryo2_5' = 'E2_L2',
+    'embryo3_2' = 'E3_L1',
+    'embryo3_5' = 'E3_L2')
+
+method_code = c(
+    'True Space'      = 'True Space',
+    'sagenet'         = 'SageNet', 
+    'tangram_cells'   = 'Tangram', 
+    'novosparc'       = 'novoSpaRc', 
+    'sagenet_markers' = "SageNet-SIG", 
+    'exprs'           = 'Expression')
+
 class__code = c(
     'Compact ventricular myocardium',
     'Trabecular ventricular myocardium (1)',
@@ -268,7 +285,7 @@ plot_spatial <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .pal
         ggplot +
         aes(dim1, dim2, color=label) +
         geom_point(size=sz) +
-        theme_void() + 
+        theme_minimal() + 
         theme(axis.text= element_blank(), 
             axis.ticks.x=element_blank(),
             axis.ticks.y=element_blank(), 
@@ -282,13 +299,13 @@ plot_spatial <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .pal
     dim_plot
 }
 
-plot_2d <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3), title='', label_title='label', hide_legend=TRUE, sz=1, alpha=1){
+plot_2d <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3), title='', label_title='label', hide_legend=TRUE, sz=1, alpha=1, shape=16){
     dim_dt = data.table(label=labels,
                          dim1=unlist(dim_df[,1]), dim2=unlist(dim_df[,2]), alpha=alpha) 
     dim_plot = dim_dt %>%
         ggplot +
         aes(dim1, dim2, color=label) +
-        geom_point(size=sz, alpha=alpha) +
+        geom_point(size=sz, alpha=alpha, shape=shape) +
         theme_minimal() + 
         theme(axis.text= element_blank(), 
             axis.ticks.x=element_blank(),

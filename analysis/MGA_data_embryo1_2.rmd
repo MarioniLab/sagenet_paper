@@ -1,5 +1,5 @@
 ---
-title: "Figure 2: Spatial Mouse Atlas - Seqfish - Mouse Embryo"
+title: "Spatial Mouse Atlas - Seqfish - Mouse Embryo, Figure 2, Supp. Fig. 1-7"
 author:
 - name: Elyas Heidari
   affiliation: 
@@ -106,13 +106,10 @@ rownames(adj) = colnames(adj) = gene_names
 adj         = adj[rowSums(adj) != 0, rowSums(adj) != 0]
 
 
-
 if(overwrite | 
   !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
   !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
 ){
-  # Gene importanc
-
   preds_list = list()
   preds_list[['sagenet']] = anndata::read_h5ad(preds_f[['sagenet']])$obsm$dist_map 
   adj = anndata::read_h5ad(preds_f[['sagenet']])$varm$adj
@@ -351,12 +348,6 @@ lisi_vals %<>% setkey(cell_id)
 lisi_vals = lisi_vals[order(cell_id)] %>%
   # setnames('cell_type', 'LISI') %>%
   .[meta_dt[, .(cell_id, cell_type, embryo)]]
-# norm_lisi = norm(as.matrix(lisi_vals[method == 'True Space']$LISI)) %>% sqrt
-# lisi_vals[]
-# lisi_dists = methods %>%
-#   map(~dist(rbind(lisi_vals[method == .x]$LISI, lisi_vals[method == 'True Space']$LISI))/norm_lisi, na.rm=T) %>%
-#   map(c) %>%
-#   unlist 
 ```
 
 
@@ -375,8 +366,8 @@ fig_list[['A']]
 # plist
 ```
 
-## B: UMAP plosts of expression space and the reconstructed space
-```{r B_new, fig.height=10, fig.width=15, message=FALSE, cache=FALSE, eval=TRUE}
+## C: UMAP plosts of expression space and the reconstructed space
+```{r C_new, fig.height=10, fig.width=15, message=FALSE, cache=FALSE, eval=TRUE}
 meta_dt %<>% .[, .SD[sample(.N)]]
 meta_dt[, ent :=  (ent_embryo1_2_leiden_1 + ent_embryo1_2_leiden_0.1 + ent_embryo1_2_leiden_0.01 + ent_embryo1_2_leiden_0.5 + ent_embryo1_2_leiden_0.05)/5 ]
 meta_dt$ent = meta_dt$ent_plot = (1 - meta_dt$ent/(max(meta_dt$ent)))^2
@@ -388,18 +379,6 @@ exprs_p = plot_2d(
     title = 'Expression',
     sz = 2.5,
 ) + labs(x = '', y = '') 
-
-
-# lgened = (plot_2d( 
-#     dim_df = meta_dt[, .(expr_tsne_1, expr_tsne_2)],
-#     labels = meta_dt$cell_type,
-#     label_cols = celltype_colours,
-#     hide_legend = FALSE,
-#     label_title = 'cell type',
-#     title = 'Expression',
-#     sz = 2.5
-# ) + labs(x = '', y = '')+ theme(text = element_text(size = 10))   ) %>% get_legend() %>%
-#   as_ggplot() 
 
 
 markers_p = plot_2d( 
@@ -421,15 +400,22 @@ sagenet_p = plot_2d(
     alpha = meta_dt$ent_plot,
 ) + labs(x = '', y = '')
 
-lgened = (plot_2d( 
-    dim_df = meta_dt[, .(sagenet_1, sagenet_2)],
+lgened1 = (plot_2d( 
+    dim_df = meta_dt[order(cell_type), .(sagenet_1, sagenet_2)],
     labels = meta_dt$cell_type,
     label_cols = celltype_colours,
     hide_legend = FALSE,
     title = 'SageNet',
-    sz = 2.5,
+    sz = 5,
     alpha = meta_dt$ent_plot,
-) + labs(x = '', y = '', color = 'cell type')+ theme(text = element_text(size = 10))   ) %>% get_legend() %>%
+) + labs(x = '', y = '', color = 'cell type')+ theme(text = element_text(size = 15))   ) %>% get_legend() %>%
+  as_ggplot() 
+
+lgened2 = (
+  ggplot(meta_dt) +
+  aes(x = 1, y = 1, alpha=ent_plot)+
+  geom_point(size=5) +
+  labs(alpha='confidence score')) + theme(text = element_text(size = 15))   ) %>% get_legend() %>%
   as_ggplot() 
 
 novosparc_p = plot_2d( 
@@ -456,9 +442,86 @@ fig_list[['B']]
 
 ```
 
+## BX: UMAP plosts of expression space and the reconstructed space
+```{r B_X, fig.height=10, fig.width=15, message=FALSE, cache=FALSE, eval=TRUE}
+meta_dt %<>% .[, .SD[sample(.N)]]
+meta_dt[, ent :=  (ent_embryo1_2_leiden_1 + ent_embryo1_2_leiden_0.1 + ent_embryo1_2_leiden_0.01 + ent_embryo1_2_leiden_0.5 + ent_embryo1_2_leiden_0.05)/5 ]
+meta_dt$ent = meta_dt$ent_plot = (1 - meta_dt$ent/(max(meta_dt$ent)))^2
+exprs_p = plot_2d( 
+    dim_df = meta_dt[, .(expr_tsne_1, expr_tsne_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'Expression',
+    sz = 2.5,
+) + labs(x = '', y = '') 
+
+
+markers_p = plot_2d( 
+    dim_df = meta_dt[, .(markers_tsne_1, markers_tsne_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'SageNet Markers',
+    sz = 2.5
+) + labs(x = '', y = '') 
+
+sagenet_p = plot_2d( 
+    dim_df = meta_dt[, .(sagenet_1, sagenet_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'SageNet',
+    sz = 2.5,
+    alpha = meta_dt$ent_plot,
+) + labs(x = '', y = '')
+
+lgened1 = (plot_2d( 
+    dim_df = meta_dt[order(cell_type), .(sagenet_1, sagenet_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = FALSE,
+    title = 'SageNet',
+    sz = 5,
+    alpha = meta_dt$ent_plot,
+) + labs(x = '', y = '', color = 'cell type')+ theme(text = element_text(size = 15))   ) %>% get_legend() %>%
+  as_ggplot() 
+
+lgened2 = (
+  ggplot(meta_dt) +
+  aes(x = 1, y = 1, alpha=ent_plot)+
+  geom_point(size=5) +
+  labs(alpha='confidence score')) + theme(text = element_text(size = 15))   ) %>% get_legend() %>%
+  as_ggplot() 
+
+novosparc_p = plot_2d( 
+    dim_df = meta_dt[, .(novosparc_1, novosparc_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'novosparc',
+    sz = 2.5
+) + labs(x = '', y = '')  
+
+tangram_p = plot_2d( 
+    dim_df = meta_dt[, .(tangram_1, tangram_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'Tangram',
+    sz = 2.5
+) + labs(x = '', y = '') 
+
+fig_list[['B']] = exprs_p + markers_p + sagenet_p + novosparc_p + tangram_p  + lgened +
+  plot_layout(ncol = 3)
+fig_list[['B']]
+
+```
+
+
 ```{r XN, fig.height=4, fig.width=12, message=FALSE, cache=FALSE, eval=TRUE}
 
-types = copy(meta_dt)[!(cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm')), cell_type := '0']$cell_type
+types = copy(meta_dt)[!(cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm')), cell_type := 'other']$cell_type
 ord = order(-as.numeric(types))
 types %<>% .[ord]
 
@@ -496,7 +559,7 @@ lgened = (plot_2d(
   as_ggplot() 
 
 
-p = plot_spatial(col_dt[, .(x, -y)], labels=factor(ifelse(col_dt$cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm'), col_dt$cell_type, NA)), label_cols=celltype_colours, hide_legend = TRUE, title = 'cell types', sz=1) +coord_fixed()
+p = plot_spatial(col_dt[, .(x, -y)], labels=factor(ifelse(col_dt$cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm'), col_dt$cell_type, NA)), label_cols=celltype_colours, hide_legend = TRUE, title = 'embryo1_2', sz=1) +coord_fixed()
 
 fig_list[['XN']] = exprs_p + sagenet_p + p  + lgened +
   plot_layout(ncol = 4)
@@ -545,7 +608,7 @@ for(m in markers){
 ```{r XN3, fig.height=8, fig.width=10, message=FALSE, cache=FALSE, eval=TRUE}
 
 
-EC_ord  = c('Cardiac Endothelium', 'nonCardiac Endothelium')
+EC_ord  = c('Endocardium', 'other Endothelium')
 EC_cols = c("#F90026", "#8DB5CE")
 names(EC_cols) = EC_ord
 
@@ -561,8 +624,8 @@ EC_false_ind = EC_ind[colSums(d_sub < quantile(d_sub, 0.05)) == 0]
 assays(sce)[['logcounts']] = assays(sce)[[1]]
 fm = scran::findMarkers(sce[, c(EC_true_ind, EC_false_ind)], groups=c(rep('TT', length(EC_true_ind)), rep('FF', length(EC_false_ind)))) %>% .$TT
 fm$gene_id = rownames(fm)
-fm$diff_exp = ifelse(fm$Top > 5, NA, ifelse(fm$logFC.FF > 0, 'Cardiac Endothelium', 'nonCardiac Endothelium'))
-m_dt = meta_dt[cell_id %in% EC_ind, .(n_MC = ifelse(cell_id %in% ..EC_true_ind, 'Cardiac Endothelium', 'nonCardiac Endothelium'), sagenet_1, sagenet_2, x, y, ent_plot)]
+fm$diff_exp = ifelse(fm$Top > 5, NA, ifelse(fm$logFC.FF > 0, 'Endocardium', 'other Endothelium'))
+m_dt = meta_dt[cell_id %in% EC_ind, .(n_MC = ifelse(cell_id %in% ..EC_true_ind, 'Endocardium', 'other Endothelium'), sagenet_1, sagenet_2, x, y, ent_plot)]
 
 
 EC_CMC_2d = plot_2d( 
@@ -604,7 +667,7 @@ EC_volcano = data.frame(fm) %>%
     theme_minimal() +
     theme(legend.position='none') + 
     geom_text() +
-    labs(x = 'logFC (Cardiac End. - nonCardiac End.)') +
+    labs(x = 'logFC (Endocardium - other End.)') +
     xlim(c(-1.5, 1.5))
 
 

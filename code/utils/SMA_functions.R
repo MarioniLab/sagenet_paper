@@ -407,7 +407,7 @@ getRandomConnectivity = function(sce,
                                  option = "observed", 
                                  x_name = "x_global_affine",
                                  y_name = "y_global_affine",
-                                 splitgroups = c("embryo"),
+                                 splitgroups = c("dummy"),
                                  chunksize = 10000) {
     ######## new function with more functionality
     # option either observed or random
@@ -464,7 +464,7 @@ getRandomConnectivity_dep = function(sce,
                                      option = "observed", 
                                      x_name = "x_global_affine",
                                      y_name = "y_global_affine",
-                                     splitgroups = c("embryo")) {
+                                     splitgroups = c("dummy")) {
     ##### deprecated function!!!
     # option either observed or random
     # sce singlecellexperiment
@@ -764,9 +764,9 @@ cellCellContactHeatmapTriangle <- function(
                 width = factor*unit(ncol(mat2), "cm"),
                 height = factor*unit(ncol(mat2), "cm"),
                 
-                column_title = title,
-                column_title_gp = gpar(fontsize = 20, fontface = "bold"),
-                row_title = NULL,
+                row_title = title,
+                row_title_gp = gpar(fontsize = 30, fontface = "bold"),
+                column_title = NULL,
                 
                 na_col = NA,
                 
@@ -790,7 +790,7 @@ cellCellContactHeatmapTriangle <- function(
                 cell_fun = function(j, i, x, y, w, h, col) {
                     if (j == i) {
                         grid.rect(x, y, w, h, gp = gpar(fill = col, col = "grey"))
-                        grid.text(rownames(mat2)[i], x + factor*unit(0.5, "cm"), y + factor*unit(0.5, "cm"), rot = 45, hjust = 0, gp = gpar(size=20))
+                        grid.text(rownames(mat2)[i], x + factor*unit(0.5, "cm"), y + factor*unit(0.5, "cm"), rot = 45, hjust = 0, gp = gpar(fontsize=20))
                     } else if (which(od == i) < which(od == j)) {
                         # grid.rect(x, y, w, h, gp = gpar(fill = NULL, col = NA))
                         grid.rect(x, y, w, h, gp = gpar(fill = col, col = NA))
