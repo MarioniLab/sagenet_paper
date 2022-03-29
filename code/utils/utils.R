@@ -144,7 +144,7 @@ class__cols = c(
     'Trabecular ventricular myocardium (1)' = '#aa8888',
     'Trabecular ventricular myocardium (2)' = '#826366',
     'Trabecular ventricular myocardium (3)' = '#5B3F45',
-    'Outflow tract / large vessels' = '#DA5921',
+    'Outflow tract / large vessels' = '#DC050C',
     'Atrioventricular mesenchyme & valves' = '#cc7818',
     'Mediastinal mesenchyme & vessels' = '#EF4E22',
     'Cavities with blood & immune cells' = '#808000',
@@ -152,18 +152,8 @@ class__cols = c(
 class__ord = names(class__cols)
 
 cell_type_cols = c(
-    'Fibroblast-like' = '#8EC792',
-    'Epicardial cells' = '#0F4A9C',
-    'Epicardium-derived cells' = '#7BAFDE',
-    'Smooth muscle cells' = '#C9EBFB',
-    'Ventricular cardiomyocytes' = '#FB8072',
-    'Myoz2-enriched cardiomyocytes' = '#DC050C',
-    'Atrial cardiomyocytes' = '#A10037',
-    'Capillary endothelium' = '#EF5A9D',
-    'Endothelium / pericytes' = '#F397C0',
-    'Erythrocytes' = '#EF4E22',
-    'Cardiac neural crest cells' = '#E1C239',
-    'Immune cells' = '#808000')
+ )
+
 
 cell_type_ord = names(cell_type_cols)
 # mart = useMart('ensembl', dataset='hsapiens_gene_ensembl', host='www.ensembl.org')
@@ -321,14 +311,14 @@ plot_2d <- function(dim_df, labels, label_cols=c(.palette1, .palette2, .palette3
 }
 
 
-plot_2d_cont <- function(dim_df, labels, label_cols=nice_cols, title='', label_title='label', sz=3, hide_legend=TRUE){
+plot_2d_cont <- function(dim_df, labels, label_cols=nice_cols, title='', label_title='label', sz=3, hide_legend=TRUE, shape=16){
     dim_dt = data.table(label=labels,
                          dim1=unlist(dim_df[,1]), dim2=unlist(dim_df[,2])) 
     dim_plot = dim_dt %>%
         ggplot +
         aes(dim1, dim2, color=label) +
         # geom_hex(bins = 30) + 
-        geom_point(size=sz) +
+        geom_point(size=sz, shape=shape) +
         # coord_fixed() +
         scale_color_viridis(na.value='#e6e6e6') +
         theme_bw() + 
@@ -339,7 +329,7 @@ plot_2d_cont <- function(dim_df, labels, label_cols=nice_cols, title='', label_t
             panel.grid.major = element_blank(), 
             panel.grid.minor = element_blank(),
             plot.title = element_text(hjust = 0.5)) +
-        labs(title=title, x='', y='', color=label_title) +
+        labs(title=title, x='', y='', color=label_title) 
         if(hide_legend)
             dim_plot = dim_plot + theme(legend.position='none')
     dim_plot

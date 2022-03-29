@@ -1,0 +1,315 @@
+---
+title: "Spatial Mouse Atlas - Seqfish - Mouse Embryo, Figure 3A"
+author:
+- name: Elyas Heidari
+  affiliation: 
+  - &IMLS Institute for Molecular Life Sciences, University of Zurich, Switzerland
+  - Swiss Institute of Bioinformatics (SIB), University of Zurich, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+# Setup / definitions
+
+
+```{r setup_knitr, include=FALSE}
+library('BiocStyle')
+set.seed(1996)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(autodep=TRUE, cache=FALSE, dev='pdf', cache.lazy = FALSE)
+# knitr::opts_chunk$set( autodep=TRUE, cache=TRUE, cache.lazy=FALSE, dev='png' )
+knitr::opts_knit$set( root.dir='..' )
+# wflow_build(files='analysis/Fig3A.rmd', view=F, verbose=T, delete_cache=T)
+```
+
+```{r setup_libs, collapse=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+```
+
+## Libraries
+
+```{r libs, message=FALSE, warning=FALSE, cache=FALSE}
+library('tidyverse')
+library('igraph')
+library('data.table')
+library('SingleCellExperiment')
+library('magrittr')
+library('BiocParallel')
+library('patchwork')
+library('limma')
+library('cccd')
+library('philentropy')
+library('cowplot')
+library('zellkonverter')
+library('stringr')
+library('lisi')
+library('ggpubr')
+library('Rtsne')
+```
+
+
+## Helper functions
+```{r setup_helpers, message=FALSE, cache=FALSE}
+source('code/utils/utils.R')
+source('code/utils/SMA_functions.R')
+```
+
+## Directories
+```{r setup_input, message=FALSE, cache=FALSE}
+tag       = 'seqfish_mouse_embryo/sagenet' 
+ref_tags   = c('embryo1_2', 'embryo2_2', 'embryo3_2')
+out_dir   = file.path('output', tag)
+obj_dir   = 'int_data/seqfish_mouse_embryo/multi'
+dir.create(obj_dir)
+obj_list  = list()
+fig_dir   = 'figures/seqfish_mouse_embryo/multi'
+dir.create(fig_dir)
+fig_list = list()
+
+names(ref_tags) = ref_tags
+preds_f = ref_tags %>% map(~file.path(out_dir, sprintf('preds_%s_query_data.h5ad', .x)))
+col_dt_f = file.path('int_data/seqfish_mouse_embryo/', 'embryo1_2', 'col_dt_embryo1_2.txt')
+```
+
+
+
+
+
+## Params
+```{r setup_outputs, message=FALSE, cache=FALSE}
+overwrite = FALSE
+```
+
+# Load inputs
+```{r load_inputs, message=FALSE, cache=FALSE}
+sce        = preds_f[['embryo1_2']] %>% readH5AD 
+cell_idx = which(sce$embryo != 'scRNAseq')
+sce_query  = sce[, cell_idx]
+meta_query = colData(sce_query) %>% as.data.table
+rm(sce)
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  # Gene importanc
+  preds_list = ref_tags %>% purrr::map(~(anndata::read_h5ad(preds_f[[.x]])$obsm$dist_map) %>% as('sparseMatrix') %>% .[cell_idx, cell_idx]) 
+gc()
+}
+```
+
+# Processing / calculations
+## Distance matrices and embeddings
+```{r calc_dists, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  d      = list()
+  d_mtx  = list()
+  map_2d = list()
+
+  map_2d[['true']]          = as.matrix(meta_query[, .(x,y)])
+  rownames(map_2d[['true']]) = meta_query$cell_id
+
+  # sagenet distances
+  for(i in ref_tags){
+    d[[i]] = preds_list[[i]] %>% as.dist
+    d_mtx[[i]] = d[[i]] %>% as.matrix 
+    d_mtx[[i]] = d_mtx[[i]]/norm(d_mtx[[i]])
+    rownames(d_mtx[[i]]) = colnames(d_mtx[[i]]) = colnames(sce_query)
+    map_2d[[i]] = Rtsne(d_mtx[[i]], is_distance=T, perplexity=20)$Y
+    # map_2d[[i]] = uwot::umap(d[[i]])
+    rownames(map_2d[[i]]) = colnames(sce_query)
+    meta_query[[paste0(i, '_1')]] = map_2d[[i]][meta_query$cell_id, 1]
+    meta_query[[paste0(i, '_2')]] = map_2d[[i]][meta_query$cell_id, 2]
+    # meta_query[, `:=`(i = ..map_2d[[i]][cell_id, 1], 
+    #               i = ..map_2d[[i]][cell_id, 2])]   
+    preds_list[[i]] = NULL
+  }
+
+  d_mtx[['all']] = (d_mtx %>% purrr::reduce(`+`))/3
+  rownames(d_mtx[['all']]) = colnames(d_mtx[['all']]) = colnames(sce_query)
+  map_2d[['all']] = Rtsne(d_mtx[['all']], is_distance=T, perplexity=20)$Y
+  # map_2d[['all']] = uwot::umap(as.dist(d[[i]]))
+  rownames(map_2d[['all']]) = colnames(sce_query)
+  meta_query[, `:=`(sagenet_all_1 = ..map_2d[['all']][cell_id, 1], 
+              sagenet_all_2 = ..map_2d[['all']][cell_id, 2])]   
+
+  # true physical distances
+  d_true = dist(meta_query[, .(x,y)])
+  d_mtx_true = d_true %>% as.matrix
+  rownames(d_mtx_true) = colnames(d_mtx_true) = meta_query$cell_id
+
+  # obj_list[['d_mtx']] = append(d_mtx, d_mtx_true)
+  obj_list[['map_2d']] = map_2d
+  obj_list[['meta_dt']] = meta_query
+  gc()
+}else{
+  map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
+  meta_query = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
+}
+
+methods = c('true', 'all', 'embryo3_2', 'embryo2_2', 'embryo1_2')
+method_code = c(
+  'true' = 'True Space',
+  'all'  = 'Ensemble',
+  'embryo3_2' = 'E3_L1',
+  'embryo2_2' = 'E2_L1',
+  'embryo1_2' = 'E1_L1'
+)
+method_cols = c('#E1C239', "#1965B0", '#FF7F00', "#FDB462", "#FB8072")
+method_ord = names(method_cols) = names(methods) = methods
+```
+
+## Correlation between the true distance matrix and the prediction distance matrix
+```{r calc_cor, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'cor_list.Rds'))
+){
+  cor_list    = list()
+  for(meth in setdiff(names(map_2d), 'true')){
+
+  # for(meth in 'sagenet_markers'){
+    cor_list[[meth]]    = c()
+    for(e in levels(factor(meta_query$embryo))){
+      cells = meta_query[embryo == e]$cell_id
+      cor_list[[meth]][e] = cor(c(d_mtx_true[cells, cells]), c(d_mtx[[meth]][cells, cells]), method='spearman')
+    }
+  }
+
+  obj_list[['cor_list']] = cor_list
+  gc()
+}else{
+  cor_list = readRDS(file.path(obj_dir, 'cor_list.Rds'))
+}
+
+cor_dt = names(cor_list) %>%
+  map(~data.table(method=.x, embryo=names(cor_list[[.x]]), corr=round(cor_list[[.x]],digits=2))) %>%
+  purrr::reduce(rbind) %>%
+  .[, rank:=dense_rank(corr), by='embryo']
+
+```
+
+## Cell2Cell afinity scores
+```{r calc_c2c, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_list.Rds'))
+){
+  ccc_list    = list()
+  # True physical space
+  for(e in levels(factor(meta_query$embryo))){
+      cells = meta_query[embryo == e]$cell_id
+      g_out    = map_2d[['true']] %>% 
+        .[cells, ] %>% 
+        get_delaunay(plot=FALSE) %>%
+        .$graph
+      ccc_list[['true']][[e]] = cellCellContact(
+          sce = sce_query[, cells],
+          group = 'cell_type',
+          graph = g_out,
+          nperm = 500,
+          plot = FALSE,
+          cellID='cell_id')
+  }
+
+  # Predicted spaces
+
+  for(meth in setdiff(names(map_2d), 'true')){
+  # for(meth in 'sagenet_markers'){
+    ccc_list[[meth]] = list()
+      for(e in levels(factor(meta_query$embryo))){
+      cells = meta_query[embryo == e]$cell_id
+      g_out    = map_2d[[meth]] %>% 
+        .[cells, ] %>% 
+        get_delaunay(plot=FALSE) %>%
+        .$graph
+      ccc_list[[meth]][[e]] = cellCellContact(
+          sce    = sce_query[, cells],
+          group  = 'cell_type',
+          graph  = g_out,
+          nperm  = 500,
+          plot   = FALSE,
+          cellID ='cell_id')
+    }
+  }
+
+  obj_list[['ccc_list']] = ccc_list
+}else{
+  ccc_list = readRDS(file.path(obj_dir, 'ccc_list.Rds'))
+}
+ccc_dist    = list()
+for(meth in setdiff(names(map_2d), 'true')){
+  ccc_dist[[meth]] = c()
+  for(e in levels(factor(meta_query$embryo))){
+    m1 = ccc_list[[meth]][[e]]$pmat 
+    m2 = ccc_list[['true']][[e]]$pmat
+    ccc_dist[[meth]][e] = norm(m1 - m2 , '2')
+  }
+}
+
+# Scores' data table 
+ccc_dt = names(ccc_dist) %>%
+  map(~names(ccc_dist[[.x]]) %>% map(function(y) 
+      data.table(method=.x, embryo=y, corr=round(ccc_dist[[.x]][y],digits=2))
+    ) %>% purrr::reduce(rbind) 
+  ) %>%
+  purrr::reduce(rbind)  %>%
+  .[, rank:=dense_rank(corr), by='embryo']
+
+
+```
+
+## 3A: Benchmark plots; dist. correlation, cell2cell affinity dist.
+```{r 3A, fig.height=4, fig.width=9, message=FALSE, cache=FALSE}
+colblu <- colorRampPalette(c("white", "#00bfff")) 
+
+fig_list[['3A_left']] = cor_dt %>%
+  ggplot +
+  aes(x = embryo, fill=rank, y=factor(method, ordered=TRUE, levels=method_ord)) +
+  scale_fill_gradientn(colors = colblu(10), breaks = c(1, 4), labels = c("low", "high"))+
+  geom_tile() +
+  geom_text(aes(label=round(corr,digits=2))) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5), 
+    legend.position='bottom', 
+    axis.text.x=element_text(angle = 45, hjust = 1),
+    text = element_text(size = 15)) +
+  labs(title="Spearman's rank correlation", x='query dataset', y= 'reference dataset', fill="") + 
+  scale_x_discrete(labels=embryo_code) +
+  scale_y_discrete(labels=method_code)
+
+colred <- colorRampPalette(c("#A10037", "white")) 
+fig_list[['3A_right']] = ccc_dt %>%
+  ggplot +
+  aes(x = embryo, fill=rank, y=factor(method, ordered=TRUE, levels=method_ord)) +
+  scale_fill_gradientn(colors = colred(10), breaks = c(1, 4), labels = c("low", "high"))+
+  geom_tile() +
+  geom_text(aes(label=round(corr,digits=2))) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5), 
+    legend.position='bottom', 
+    axis.text.x=element_text(angle = 45, hjust = 1), 
+    axis.ticks.y=element_blank(), 
+    axis.text.y=element_blank(),
+    text = element_text(size = 15)) +
+  labs(title="cell-type affinity distance", x='query dataset', y= '', fill="") + 
+  scale_x_discrete(labels=embryo_code)
+
+
+fig_list[['3A']]  = fig_list[['3A_left']] + fig_list[['3A_right']] + 
+  plot_layout(ncol = 2)
+fig_list[['3A']] 
+```
+
+
+
+
+# Save objects & plots
+```{r save, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+names(obj_list) %>% map(~saveRDS(obj_list[[.x]], file.path(obj_dir, paste0(.x, '.Rds'))))
+names(fig_list) %>% map(~saveRDS(fig_list[[.x]], file.path(fig_dir, paste0(.x, '.Rds'))))
+```

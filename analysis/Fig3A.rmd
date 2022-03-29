@@ -131,7 +131,27 @@ if(overwrite |
     preds_list[[i]] = NULL
   }
 
-  d_mtx[['all']] = (d_mtx %>% purrr::reduce(`+`))/3
+  d_mtx[['E1_L1+E2_L1']] = d_mtx[['embryo1_2']] + d_mtx[['embryo2_2']]
+  rownames(d_mtx[['E1_L1+E2_L1']]) = colnames(d_mtx[['E1_L1+E2_L1']]) = colnames(sce_query)
+  map_2d[['E1_L1+E2_L1']] = Rtsne(d_mtx[['E1_L1+E2_L1']], is_distance=T, perplexity=20)$Y
+  # map_2d[['E1_L1+E2_L1']] = uwot::umap(as.dist(d[[i]]))
+  rownames(map_2d[['E1_L1+E2_L1']]) = colnames(sce_query)
+  # meta_query[, `:=`(sagenet_all_1 = ..map_2d[['all']][cell_id, 1], 
+  #             sagenet_all_2 = ..map_2d[['all']][cell_id, 2])] 
+
+  d_mtx[['E1_L1+E3_L1']] = d_mtx[['embryo1_2']] + d_mtx[['embryo3_2']]
+  rownames(d_mtx[['E1_L1+E3_L1']]) = colnames(d_mtx[['E1_L1+E3_L1']]) = colnames(sce_query)
+  map_2d[['E1_L1+E3_L1']] = Rtsne(d_mtx[['E1_L1+E3_L1']], is_distance=T, perplexity=20)$Y
+  # map_2d[['E1_L1+E3_L1']] = uwot::umap(as.dist(d[[i]]))
+  rownames(map_2d[['E1_L1+E3_L1']]) = colnames(sce_query)  
+
+  d_mtx[['E2_L1+E3_L1']] = d_mtx[['embryo2_2']] + d_mtx[['embryo3_2']]
+  rownames(d_mtx[['E2_L1+E3_L1']]) = colnames(d_mtx[['E2_L1+E3_L1']]) = colnames(sce_query)
+  map_2d[['E2_L1+E3_L1']] = Rtsne(d_mtx[['E2_L1+E3_L1']], is_distance=T, perplexity=20)$Y
+  # map_2d[['E2_L1+E3_L1']] = uwot::umap(as.dist(d[[i]]))
+  rownames(map_2d[['E2_L1+E3_L1']]) = colnames(sce_query) 
+
+  d_mtx[['all']] = d_mtx[['embryo1_2']] + d_mtx[['embryo2_2']] + d_mtx[['embryo3_2']]
   rownames(d_mtx[['all']]) = colnames(d_mtx[['all']]) = colnames(sce_query)
   map_2d[['all']] = Rtsne(d_mtx[['all']], is_distance=T, perplexity=20)$Y
   # map_2d[['all']] = uwot::umap(as.dist(d[[i]]))
@@ -149,20 +169,25 @@ if(overwrite |
   obj_list[['meta_dt']] = meta_query
   gc()
 }else{
+  # d_mtx = readRDS(file.path(obj_dir, 'd_mtx.Rds'))
   map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
   meta_query = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
 }
 
-methods = c('true', 'all', 'embryo3_2', 'embryo2_2', 'embryo1_2')
+methods = c('true', 'all', 'E2_L1+E3_L1', 'E1_L1+E3_L1', 'E1_L1+E2_L1', 'embryo3_2', 'embryo2_2', 'embryo1_2')
 method_code = c(
   'true' = 'True Space',
   'all'  = 'Ensemble',
+  'E2_L1+E3_L1' = 'E2_L1+E3_L1',
+  'E1_L1+E3_L1' = 'E1_L1+E3_L1',
+  'E1_L1+E2_L1' = 'E1_L1+E2_L1',
   'embryo3_2' = 'E3_L1',
   'embryo2_2' = 'E2_L1',
   'embryo1_2' = 'E1_L1'
 )
-method_cols = c('#E1C239', "#1965B0", '#FF7F00', "#FDB462", "#FB8072")
-method_ord = names(method_cols) = names(methods) = methods
+# method_cols = c('#E1C239', "#1965B0", '#FF7F00', "#FDB462", "#FB8072")
+# method_ord = names(method_cols) = names(methods) = methods
+method_ord = methods
 ```
 
 ## Correlation between the true distance matrix and the prediction distance matrix
@@ -196,6 +221,7 @@ cor_dt = names(cor_list) %>%
 
 ## Cell2Cell afinity scores
 ```{r calc_c2c, message=FALSE, cache=FALSE}
+sce_query$dummy = 1
 if(overwrite | 
   !file.exists(file.path(obj_dir, 'ccc_list.Rds'))
 ){
@@ -264,44 +290,48 @@ ccc_dt = names(ccc_dist) %>%
 ```
 
 ## 3A: Benchmark plots; dist. correlation, cell2cell affinity dist.
-```{r 3A, fig.height=4, fig.width=9, message=FALSE, cache=FALSE}
+```{r 3A, fig.height=8, fig.width=5, message=FALSE, cache=FALSE}
 colblu <- colorRampPalette(c("white", "#00bfff")) 
 
 fig_list[['3A_left']] = cor_dt %>%
   ggplot +
-  aes(x = embryo, fill=rank, y=factor(method, ordered=TRUE, levels=method_ord)) +
-  scale_fill_gradientn(colors = colblu(10), breaks = c(1, 4), labels = c("low", "high"))+
+  aes(x = embryo, fill=rank, y=factor(method, ordered=TRUE, levels=rev(method_ord))) +
+  scale_fill_gradientn(colors = colblu(10), breaks = c(1, 7), labels = c("low", "high"))+
   geom_tile() +
-  geom_text(aes(label=round(corr,digits=2))) +
+  # geom_text(aes(label=round(corr,digits=2))) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5), 
-    legend.position='bottom', 
-    axis.text.x=element_text(angle = 45, hjust = 1),
-    text = element_text(size = 15)) +
-  labs(title="Spearman's rank correlation", x='query dataset', y= 'reference dataset', fill="") + 
-  scale_x_discrete(labels=embryo_code) +
-  scale_y_discrete(labels=method_code)
+    legend.position='right', 
+    # axis.text.x=element_text(angle = 45, hjust = 1),
+    axis.ticks.x=element_blank(), 
+    axis.text.x=element_blank(), 
+    text = element_text(size = 12)) +
+  labs(title="Spearman's rank correlation", x='query dataset', y= '', fill="") + 
+  scale_x_discrete(labels=rev(embryo_code)) +
+  scale_y_discrete(labels=rev(method_code)) +
+  coord_flip()
 
 colred <- colorRampPalette(c("#A10037", "white")) 
 fig_list[['3A_right']] = ccc_dt %>%
   ggplot +
-  aes(x = embryo, fill=rank, y=factor(method, ordered=TRUE, levels=method_ord)) +
-  scale_fill_gradientn(colors = colred(10), breaks = c(1, 4), labels = c("low", "high"))+
+  aes(x = embryo, fill=rank, y=factor(method, ordered=TRUE, levels=rev(method_ord))) +
+  scale_fill_gradientn(colors = colred(10), breaks = c(1, 7), labels = c("low", "high"))+
   geom_tile() +
-  geom_text(aes(label=round(corr,digits=2))) +
+  # geom_text(aes(label=round(corr,digits=2))) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5), 
-    legend.position='bottom', 
+    legend.position='right', 
     axis.text.x=element_text(angle = 45, hjust = 1), 
-    axis.ticks.y=element_blank(), 
-    axis.text.y=element_blank(),
-    text = element_text(size = 15)) +
-  labs(title="cell-type affinity distance", x='query dataset', y= '', fill="") + 
-  scale_x_discrete(labels=embryo_code)
+
+    text = element_text(size = 12)) +
+  labs(title="cell-type affinity distance", x='query dataset', y= 'reference dataset', fill="") + 
+  scale_x_discrete(labels=rev(embryo_code)) +
+  scale_y_discrete(labels=rev(method_code)) +
+  coord_flip()
 
 
 fig_list[['3A']]  = fig_list[['3A_left']] + fig_list[['3A_right']] + 
-  plot_layout(ncol = 2)
+  plot_layout(ncol = 1)
 fig_list[['3A']] 
 ```
 

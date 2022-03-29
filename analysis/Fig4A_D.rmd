@@ -138,15 +138,15 @@ col_dt  = col_dt_f %>%  fread %>%
   .[, class__ := factor(..class__code[class__], ordered=TRUE, levels=class__ord)]
 
 grid_code = c(
-  "6" = 'top - left',
+  "6" = 'top - right',
   "7" = 'top - middle',
-  "8" = 'top - right',
-  "3" = 'middle - left',
+  "8" = 'top - left',
+  "3" = 'middle - right',
   "4" = 'middle - middle',
-  "5" = 'middle - right',
-  "0" = 'bottom - left',
+  "5" = 'middle - left',
+  "0" = 'bottom - right',
   "1" = 'bottom - middle',
-  "2" = 'bottom - right'
+  "2" = 'bottom - left'
 )
 ```
 
@@ -249,6 +249,7 @@ cor_dt = names(cor_list) %>%
 if(overwrite | 
   !file.exists(file.path(obj_dir, 'ccc_list.Rds'))
 ){
+  s_sce$dummy = 'X'
   ccc_list    = list()
   # True physical space
   ccc_list[['true']] = list()
@@ -357,7 +358,7 @@ lisi_vals = lisi_vals[order(cell_id)] %>%
 ```
 
 ## 4A: True regional labels + grids + reconstruction (ref)
-```{r 4A, fig.height=24, fig.width=10, message=FALSE, cache=FALSE}
+```{r 4A, fig.height=24, fig.width=10, message=FALSE, cache=FALSE, eval=TRUE}
 meta_dt[, class__ := factor(..class__code[class__], ordered=TRUE, levels=class__ord)]
 grid2_cols = .palette1[1:length(unique(col_dt$grid_2))]
 names(grid2_cols) = as.factor(as.character(unique(col_dt$grid_2)))
@@ -416,21 +417,84 @@ fig_list[['4A']]
 legend_region + legend_grid + plot_layout(ncol= 1) 
 ```
 
+
+
+## 4A: True regional labels + grids + reconstruction (ref)
+```{r 4A_new, fig.height=6, fig.width=8, message=FALSE, cache=FALSE}
+meta_dt[, class__ := factor(..class__code[class__], ordered=TRUE, levels=class__ord)]
+grid2_cols = .palette1[1:length(unique(col_dt$grid_2))]
+names(grid2_cols) = as.factor(as.character(unique(col_dt$grid_2)))
+grid3_cols = .palette1[1:length(unique(col_dt$grid_3))]
+names(grid3_cols) = as.factor(as.character(unique(col_dt$grid_3)))
+grid4_cols = .palette1[1:length(unique(col_dt$grid_4))]
+names(grid4_cols) = as.factor(as.character(unique(col_dt$grid_4)))
+for(i in 1:length(setdiff(exp_names, 'query'))){
+  c_dt   = col_dt[sample == exp_names[i]] %>% .[order(as.character(class__))]
+  if(i == 1){
+    p = plot_spatial(c_dt[, .(x, y)], labels=factor(as.character(c_dt$class__)), hide_legend = TRUE, title='region', label_cols=class__cols, sz=1, label_title='region') + coord_fixed()  + labs(y=exp_names[i]) + theme(text = element_text(size = 12))
+
+    legend_region = (plot_spatial(c_dt[, .(x, y)], labels=factor(as.character(c_dt$class__)), hide_legend = FALSE, title='region', label_cols=class__cols, sz=5, label_title='region') + coord_fixed() + labs(y=exp_names[i]) + theme(text = element_text(size = 12))) %>% get_legend() %>% as_ggplot() 
+
+    # p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_2), hide_legend = TRUE, title='2 * 2', sz=1, label_cols=grid2_cols) + coord_fixed() + theme(text = element_text(size = 12))) 
+
+    p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_3), hide_legend = TRUE, title='3 * 3', sz=1, label_cols=grid3_cols) + coord_fixed() + theme(text = element_text(size = 12))) 
+
+    legend_grid = (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_3), hide_legend = FALSE, title='3 * 3', sz=5, label_cols=grid3_cols, label_title = 'partition in 3*3 grid') + coord_fixed() + theme(text = element_text(size = 12)) + scale_color_manual(values=grid3_cols, na.value='#e6e6e6', drop=TRUE, limits=names(grid_code), labels=grid_code[names(grid3_cols)])) %>% get_legend() %>% as_ggplot() 
+
+    # p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_4), hide_legend = TRUE, title='4 * 4', sz=1, label_cols=grid4_cols) + coord_fixed() + theme(text = element_text(size = 12)))
+
+    # p = p + (plot_2d( 
+    #   dim_df = map_2d[['sagenet']][[exp_names[i]]][c_dt$cell_id, ],
+    #   labels = factor(as.character(c_dt$class__)),
+    #   hide_legend = TRUE,
+    #   title = 'SageNet',
+    #   sz = 2, 
+    #   label_cols=class__cols
+    # ) + theme(text = element_text(size = 12)) )
+
+  }
+  else{
+    p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(as.character(c_dt$class__)), hide_legend = TRUE, title='', label_cols=class__cols, sz=1) + coord_fixed() + labs(y=exp_names[i])) + theme(text = element_text(size = 12))
+
+    # p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_2), hide_legend = TRUE, title='', sz=1, label_cols=grid2_cols) + coord_fixed())
+
+    p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_3), hide_legend = TRUE, title='', sz=1, label_cols=grid3_cols) + coord_fixed())
+
+    # p = p + (plot_spatial(c_dt[, .(x, y)], labels=factor(c_dt$grid_4), hide_legend = TRUE, title='', sz=2, label_cols=grid4_cols) + coord_fixed()) 
+
+    # p = p + (plot_2d( 
+    #   dim_df = map_2d[['sagenet']][[exp_names[i]]][c_dt$cell_id, ],
+    #   labels = factor(as.character(c_dt$class__)),
+    #   hide_legend = TRUE,
+    #   title = '',
+    #   sz = 2, 
+    #   label_cols=class__cols
+    # ) ) 
+  }
+}
+
+fig_list[['4A']] = p + plot_layout(ncol= 6, guides = 'collect') 
+fig_list[['4A']]
+
+legend_region + legend_grid + plot_layout(ncol= 3) 
+```
+
 ## 4B-D: Benchmark plots; dist. correlation, lisi scores, and cell2cell affinity dist.
-```{r 4B_D, fig.height=8, fig.width=31, message=FALSE, cache=FALSE}
+```{r 4B_D, fig.height=6, fig.width=6, message=FALSE, cache=FALSE}
 fig_list[['4B']] = cor_dt[method != 'sagenet_markers'] %>% 
   ggplot +
   aes(x = sample, y = corr, group = method, 
     color=factor(method, ordered=TRUE, levels=method_ord)) +
-  geom_line(size=3) +
-  geom_point(size=4) +
+  # geom_line(size=1.5) +
+  geom_point(size=3, alpha=0.7) +
   scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
-    limits=setdiff(method_ord, c('True Space')), 
-    labels=method_code[!names(method_code) %in% c('True Space')]) +
-  labs(color='method', y = "Spearman's rank correlation", x = 'query dataset') +
+    limits=setdiff(method_ord, c('True Space', 'sagenet_markers')), 
+    labels=method_code[!names(method_code) %in% c('True Space', 'sagenet_markers')]) +
+  labs(color='method', y = "Spearman's rank correlation", x = '') +
   theme_bw() +
-  theme(text = element_text(size = 30)) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1)) 
+  theme(text = element_text(size = 12)) + 
+  theme(axis.text.x=element_text(angle = 45, hjust = 1), 
+    legend.position='none') 
 
 
 fig_list[['4C']] = ccc_dt[method != 'True Space' & method != 'sagenet_markers'] %>% 
@@ -438,16 +502,17 @@ fig_list[['4C']] = ccc_dt[method != 'True Space' & method != 'sagenet_markers'] 
   aes(x = sample, y = corr, group = method, 
     color=factor(method, ordered=TRUE, levels=method_ord)) +
   # geom_bar(stat="identity", position=position_dodge()) +
-  geom_line(size=3) +
-  geom_point(size=4) +
+  # geom_line(size=1.5) +
+  geom_point(size=3, alpha=0.7) +
   scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
-    limits=setdiff(method_ord, c('True Space')), 
-    labels=method_code[!names(method_code) %in% c('True Space')]) +
-  labs(color='method', y = "cell-type affinity distance", x = 'query dataset') +
+    limits=setdiff(method_ord, c('True Space', 'sagenet_markers')), 
+    labels=method_code[!names(method_code) %in% c('True Space', 'sagenet_markers')]) +
+  labs(color='method', y = "region affinity distance", x = 'query dataset') +
   theme_bw() +
   theme(legend.position='none',
-    text = element_text(size = 30),
-    axis.text.x=element_text(angle = 45, hjust = 1)) 
+    text = element_text(size = 12),
+    axis.text.x=element_text(angle = 45, hjust = 1))
+
 
 # lisi_dists = round(lisi_dists,digits=2)
 fig_list[['4D']] = lisi_vals[method != 'sagenet_markers'] %>%
@@ -458,58 +523,56 @@ fig_list[['4D']] = lisi_vals[method != 'sagenet_markers'] %>%
   theme_bw() +
   scale_fill_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
     limits=unique(lisi_vals$method)) +
-  labs(y='log-scaled LISI (cell type)', fill = 'method', x= 'method') +
+  labs(y='log-scaled LISI (cell type)', fill = 'method', x= '') +
   scale_color_manual(values=method_cols, na.value='#e6e6e6') + 
-  theme(text = element_text(size = 30), 
+  theme(text = element_text(size = 12), 
     legend.position='none', 
     axis.text.x=element_text(angle = 45, hjust = 1)) + 
-  geom_hline(yintercept=0, linetype="dashed", color = "black", size=2) +
+  geom_hline(yintercept=0, linetype="dashed", color = "black", size=1) +
   scale_x_discrete(labels=method_code)
 
 fig_list[['4B-D']]  = 
   fig_list[['4B']] + 
-  plot_spacer() + 
-  fig_list[['4C']] +
-  plot_spacer() +  
   fig_list[['4D']] + 
-  plot_layout(ncol = 5, widths=c(9, 1, 9, 1, 8), guides='collect')
+  fig_list[['4C']] + 
+  plot_layout(widths=c(2.5, 1.5, 2.5), ncol = 2, guides='collect')
+
 fig_list[['4B-D']]
 ```
 
 ## Supp12: Benchmark plots; dist. correlation, lisi scores, and cell2cell affinity dist.
-```{r Supp12, fig.height=8, fig.width=31, message=FALSE, cache=FALSE}
+```{r Supp12, fig.height=4, fig.width=13, message=FALSE, cache=FALSE}
 fig_list[['Supp12A']] = cor_dt %>% 
   ggplot +
   aes(x = sample, y = corr, group = method, 
     color=factor(method, ordered=TRUE, levels=method_ord)) +
-  geom_line(size=3) +
-  geom_point(size=4) +
+  # geom_line(size=3) +
+  geom_point(size=4, alpha=.7) +
   scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
     limits=setdiff(method_ord, c('True Space')), 
     labels=method_code[!names(method_code) %in% c('True Space')]) +
   labs(color='method', y = "Spearman's rank correlation", x = 'query dataset') +
   theme_bw() +
-  theme(text = element_text(size = 30)) + 
+  theme(text = element_text(size = 12)) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1)) 
-
 
 fig_list[['Supp12B']] = ccc_dt[method != 'True Space'] %>% 
   ggplot +
   aes(x = sample, y = corr, group = method, 
     color=factor(method, ordered=TRUE, levels=method_ord)) +
   # geom_bar(stat="identity", position=position_dodge()) +
-  geom_line(size=3) +
-  geom_point(size=4) +
+  # geom_line(size=3) +
+  geom_point(size=4, alpha=.7) +
   scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
     limits=setdiff(method_ord, c('True Space')), 
     labels=method_code[!names(method_code) %in% c('True Space')]) +
   labs(color='method', y = "cell-type affinity distance", x = 'query dataset') +
   theme_bw() +
   theme(legend.position='none',
-    text = element_text(size = 30),
+    text = element_text(size = 12),
     axis.text.x=element_text(angle = 45, hjust = 1)) 
 
-# lisi_dists = round(lisi_dists,digits=2)
+
 fig_list[['Supp12C']] = lisi_vals %>%
   ggplot +
   aes(x = factor(method, ordered=TRUE, levels=method_ord), y = log2(LISI), 
@@ -520,19 +583,19 @@ fig_list[['Supp12C']] = lisi_vals %>%
     limits=unique(lisi_vals$method)) +
   labs(y='log-scaled LISI (cell type)', fill = 'method', x= 'method') +
   scale_color_manual(values=method_cols, na.value='#e6e6e6') + 
-  theme(text = element_text(size = 30), 
+  theme(text = element_text(size = 12), 
     legend.position='none', 
     axis.text.x=element_text(angle = 45, hjust = 1)) + 
-  geom_hline(yintercept=0, linetype="dashed", color = "black", size=2) +
+  geom_hline(yintercept=0, linetype="dashed", color = "black", size=1) +
   scale_x_discrete(labels=method_code)
 
 fig_list[['Supp12']]  = 
   fig_list[['Supp12A']] + 
-  plot_spacer() + 
-  fig_list[['Supp12B']] +
-  plot_spacer() +  
+  plot_spacer()    +
+  fig_list[['Supp12B']] + 
+  plot_spacer()    +
   fig_list[['Supp12C']] + 
-  plot_layout(ncol = 5, widths=c(9, 1, 9, 1, 8), guides='collect')
+  plot_layout(width=c(9, 1, 9, 1, 9), ncol = 5, guides='collect')
 fig_list[['Supp12']]
 ```
 

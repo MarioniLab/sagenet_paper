@@ -44,27 +44,22 @@ else:
 device = torch.device(dev)
 print(device)
 
-# sg_obj = sg.sage.sage(device=device)
-# sg_obj.add_ref(adata_r, comm_columns=['grid_4'], tag='ST_all', epochs=20, verbose = False)
-# adata_r.var.to_csv('int_data/ST_human_heart/ST_gene_dt.txt', sep='\t')
-# adata_r.obs.to_csv('int_data/ST_human_heart/col_dt_ST.txt', sep='\t')
-# sg_obj.save_model_as_folder('models/ST_human_heart')
-# bsub -o .logs/sagenet/ST_human_heart  -q gpu -gpu "num=1:gmem=10000" -M 8000 -R 'rusage[mem=8000]' "python3 code/sagenet/pretrain_DHH.py"
-
-# for i in ['CN73_C2', 'CN73_D2', 'CN73_E1', 'CN73_E2', 'CN74_C1', 'CN74_D1', 'CN74_D2', 'CN74_E1', 'CN74_E2']:
-# 	print(i)
-# 	sg_obj = sg.sage.sage(device=device)
-# 	sg_obj.add_ref(adata_r[adata_r.obs['sample'] != i], comm_columns = ['grid_2', 'grid_3', 'grid_4'], tag = i, epochs=10, verbose = False)
-# 	adata_q = adata_r[adata_r.obs['sample'] == i].copy()
-# 	sg_obj.map_query(adata_q)
-# 	preds_f = "_".join(['preds', str(i + '_lo'), i]) + ".h5ad"
-# 	preds_f = os.path.join('output/ST_human_heart/sagenet', preds_f)
-# 	adata_q.write(filename=preds_f)
+sg_obj = sg.sage.sage(device=device)
+sg_obj.add_ref(adata_r, comm_columns=['grid2', 'grid_3', 'grid_4'], tag='ST_all', epochs=20, verbose = False)
+adata_r.var.to_csv('int_data/ST_human_heart/ST_gene_dt.txt', sep='\t')
+adata_r.obs.to_csv('int_data/ST_human_heart/col_dt_ST.txt', sep='\t')
+sg_obj.save_model_as_folder('models/ST_human_heart')
 
 
-# sg_obj = sg.sage.sage(device=device)
-# sg_obj.add_ref(adata_r, comm_columns=['grid_4'], tag='ST_all', epochs=20, verbose = False)
-# adata_r.var.to_csv('int_data/ST_human_heart/ST_gene_dt.txt', sep='\t')
-# adata_r.obs.to_csv('int_data/ST_human_heart/col_dt_ST.txt', sep='\t')
-# sg_obj.save_model_as_folder('models/ST_human_heart')
-# bsub -o .logs/sagenet/ST_human_heart  -q gpu -gpu "num=1:gmem=10000" -M 4000 -R 'rusage[mem=4000]' "python3 code/sagenet/pretrain_DHH.py"
+for i in ['CN73_C2', 'CN73_D2', 'CN73_E1', 'CN73_E2', 'CN74_C1', 'CN74_D1', 'CN74_D2', 'CN74_E1', 'CN74_E2']:
+	print(i)
+	adata_rx = adata_r[adata_r.obs['sample'] != i]
+	sg.utils.glasso(adata_rx, [0.5, 0.75])
+	print(i)
+	sg_obj = sg.sage.sage(device=device)
+	sg_obj.add_ref(adata_rx, comm_columns = ['grid_2', 'grid_3', 'grid_4'], tag = i, epochs=10, verbose = False)
+	adata_q = adata_r[adata_r.obs['sample'] == i].copy()
+	sg_obj.map_query(adata_q)
+	preds_f = "_".join(['preds', str(i + '_lo'), i]) + ".h5ad"
+	preds_f = os.path.join('output/ST_human_heart/sagenet', preds_f)
+	adata_q.write(filename=preds_f)

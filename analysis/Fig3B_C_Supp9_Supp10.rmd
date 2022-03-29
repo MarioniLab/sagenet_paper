@@ -169,7 +169,7 @@ if(overwrite |
 
 
 ## 3B: The reconstructed spaces
-```{r 3B, fig.height=10, fig.width=12, message=FALSE, cache=FALSE, eval=TRUE}
+```{r 3B, fig.height=8, fig.width=8, message=FALSE, cache=FALSE, eval=TRUE}
 meta_query %<>% .[, .SD[sample(.N)]]
 meta_query$ent = 1 - meta_query$ent/(max(meta_query$ent))
 meta_query$ent_plot = meta_query$ent ^ 2
@@ -180,8 +180,8 @@ exprs_p = plot_2d(
     label_cols = celltype_colours,
     hide_legend = TRUE,
     title = 'Expression',
-    sz = 2.5
-) + labs(x = '', y = '') + theme(text = element_text(size = 15))
+    sz = 2
+) + labs(x = '', y = '') + theme(text = element_text(size = 12))
 
 sagenet_p = plot_2d( 
     dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
@@ -189,10 +189,21 @@ sagenet_p = plot_2d(
     label_cols = celltype_colours,
     hide_legend = TRUE,
     title = 'SageNet (Ensemble)',
-    sz = 2.5,
+    sz = 2,
     alpha = meta_query$ent_plot,
     label_title = 'cell type'
-) + labs(x = '', y = '') + theme(text = element_text(size = 15))
+) + labs(x = '', y = '') + theme(text = element_text(size = 12))
+
+legend1 = (plot_2d( 
+    dim_df = meta_query[order(cell_type), .(sagenet_all_1, sagenet_all_1)],
+    labels = meta_query[order(cell_type)]$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = FALSE,
+    title = 'SageNet',
+    sz = 4,
+    # alpha = meta_dt$ent_plot,
+) + labs(x = '', y = '', color = 'cell type')+ theme(text = element_text(size = 12))   ) %>% get_legend() %>%
+  as_ggplot() 
 
 exprs_batch_p = plot_2d( 
     dim_df = meta_query[, .(expr_tsne_1, expr_tsne_2)],
@@ -200,7 +211,7 @@ exprs_batch_p = plot_2d(
     label_cols = embryo_cols,
     hide_legend = TRUE,
     title = '',
-    sz = 2.5
+    sz = 2
 ) + labs(x = '', y = '')
 
 sagenet_batch_p = plot_2d( 
@@ -209,7 +220,7 @@ sagenet_batch_p = plot_2d(
     label_cols = embryo_cols,
     hide_legend = TRUE,
     label_title = 'query dataset',
-    sz = 2.5,
+    sz = 2,
     alpha = meta_query$ent_plot
 ) + labs(x = '', y = '') +
   scale_color_manual(values=embryo_cols, na.value='#e6e6e6', drop=TRUE, 
@@ -224,7 +235,7 @@ batch_legend = (plot_2d(
     label_title = 'query dataset',
     sz = 4,
     alpha = meta_query$ent_plot
-) + labs(x = '', y = '') + theme(text = element_text(size = 15)) +
+) + labs(x = '', y = '') + theme(text = element_text(size = 12)) +
   scale_color_manual(values=embryo_cols, na.value='#e6e6e6', drop=TRUE, 
     limits=embryo_ord[embryo_ord %in% unique(meta_query$embryo)], 
     labels=embryo_code)) %>% get_legend() %>%
@@ -234,57 +245,21 @@ batch_legend = (plot_2d(
 fig_list[['3B']] = 
   sagenet_p +
   exprs_p +  
-  plot_spacer() +
   sagenet_batch_p  + 
   exprs_batch_p + 
-  batch_legend +
-  plot_layout(ncol = 3, guides = 'collect', widths=c(5, 5, 2, 5, 5, 2))
+  plot_layout(ncol = 2, guides = 'collect')
 fig_list[['3B']]
 
+fig_list[['3B_legend1']] = batch_legend 
+fig_list[['3B_legend1']]
+
+fig_list[['3B_legend2']] = legend1
+fig_list[['3B_legend2']]
+
 ```
 
-## LISI scores
-```{r 3C, fig.height=5, fig.width=5, message=FALSE, cache=FALSE}
-
-methods = c('exprs', 'SageNet (Ensemble)')
-method_cols = c('#666666', "#33A02C")
-method_ord = names(method_cols) = names(methods) = methods
-
-lisi_sagenet = compute_lisi(map_2d[['all']][meta_query$cell_id,], meta_query[, .(cell_type, embryo = ifelse(embryo != 
- 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
-      as.data.table %>%
-      .[, .(method ='SageNet (Ensemble)', embryo, cell_type)] %>%
-      melt(id='method')
-lisi_exprs = compute_lisi(map_2d[['exprs']][meta_query$cell_id,], meta_query[, .(cell_type, embryo = ifelse(embryo != 
- 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
-      as.data.table %>%
-      .[, .(method ='exprs', embryo, cell_type)] %>%
-      melt(id='method')
-lisi = rbind(lisi_sagenet, lisi_exprs) %>%
-  setnames('variable', 'var') 
-
-saganet_embryo = median(lisi[method == 'SageNet (Ensemble)' & var == 'embryo']$value)
-print(saganet_embryo)
-exprs_embryo = median(lisi[method == 'exprs' & var == 'embryo']$value)
-print(exprs_embryo)
-
-fig_list[['3C']] = lisi %>%
-  ggplot +
-  aes(x = factor(method, ordered=TRUE, levels=method_ord), 
-    y = log2(value), fill=factor(method, ordered=TRUE, levels=method_ord)) +
-  facet_wrap(. ~ var, scales="free_y", labeller = labeller(var = c('embryo' = 'query dataset', 'cell_type' = 'cell type'))) +
-  scale_fill_manual(values=method_cols) +
-  geom_boxplot() +
-  theme_bw() +
-  labs(x='method', y='log2(LISI)') +
-  theme(legend.position='none')
-fig_list[['3C']]
-```
-
-
-
-## Supp9: Separation of brain sub-types
-```{r Supp9, fig.height=5, fig.width=16, message=FALSE, cache=FALSE, eval=TRUE}
+## 3C: Separation of brain sub-types
+```{r 3C, fig.height=4, fig.width=8, message=FALSE, cache=FALSE, eval=TRUE}
 meta_query %>% setkey(cell_id)
 brain_cells = meta_query[cell_type=='Forebrain/Midbrain/Hindbrain']$cell_id
 
@@ -307,11 +282,10 @@ sagenet_p = plot_2d(
     label_cols = subtype_cols,
     hide_legend = TRUE,
     title = 'SageNet (Ensemble)',
-    sz = 2.5,
+    sz = 2,
     alpha = meta_query[meta_query$cell_id]$ent_plot,
     label_title = 'sub-type'
-) + labs(x = '', y = '') + theme(text = element_text(size = 15))
-
+) + labs(x = '', y = '') + theme(text = element_text(size = 12))
 
 legend_brain = (plot_2d( 
     dim_df = meta_query[, .(sagenet_all_1, sagenet_all_2)],
@@ -320,9 +294,9 @@ legend_brain = (plot_2d(
     hide_legend = FALSE,
     title = 'SageNet (Ensemble)',
     sz = 4,
-    alpha = meta_query[meta_query$cell_id]$ent_plot,
+    # alpha = meta_query[meta_query$cell_id]$ent_plot,
     label_title = 'sub-type'
-) + labs(x = '', y = '') + theme(text = element_text(size = 15)) +
+) + labs(x = '', y = '') + theme(text = element_text(size = 12)) +
   scale_color_manual(values=subtype_cols, na.value='#e6e6e6', drop=TRUE, 
     limits=subtype_ord, 
     labels=c('NA' = 'other', subtype_ord))) %>% get_legend() %>%
@@ -334,13 +308,13 @@ exprs_p = plot_2d(
     label_cols = subtype_cols,
     hide_legend = TRUE,
     title = 'Expression',
-    sz = 2.5,
+    sz = 2,
     label_title = 'sub-type'
-) + labs(x = '', y = '') + theme(text = element_text(size = 15))
+) + labs(x = '', y = '') + theme(text = element_text(size = 12))
 
 
 seqfish_cells = meta_query[embryo=='embryo1_5']$cell_id
-seqfish_p = plot_2d( 
+seqfish1_p = plot_2d( 
     dim_df = meta_query[seqfish_cells, .(x, -y)],
     labels = factor(subtype_code[memb[seqfish_cells]], ordered=TRUE, levels=subtype_ord),
     label_cols = subtype_cols,
@@ -348,15 +322,42 @@ seqfish_p = plot_2d(
     title = 'E1_L2',
     sz = 2.5,
     label_title = 'sub-type'
-) + labs(x = '', y = '') + coord_fixed() + theme(text = element_text(size = 15))
+) + labs(x = '', y = '') + coord_fixed() + theme(text = element_text(size = 12))
 
-fig_list[['Supp9']] = 
+seqfish_cells = meta_query[embryo=='embryo2_5']$cell_id
+seqfish2_p = plot_2d( 
+    dim_df = meta_query[seqfish_cells, .(x, -y)],
+    labels = factor(subtype_code[memb[seqfish_cells]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = TRUE,
+    title = 'E2_L2',
+    sz = 2.5,
+    label_title = 'sub-type'
+) + labs(x = '', y = '') + coord_fixed() + theme(text = element_text(size = 12))
+
+seqfish_cells = meta_query[embryo=='embryo3_5']$cell_id
+seqfish3_p = plot_2d( 
+    dim_df = meta_query[seqfish_cells, .(x, -y)],
+    labels = factor(subtype_code[memb[seqfish_cells]], ordered=TRUE, levels=subtype_ord),
+    label_cols = subtype_cols,
+    hide_legend = TRUE,
+    title = 'E3_L2',
+    sz = 2.5,
+    label_title = 'sub-type'
+) + labs(x = '', y = '') + coord_fixed() + theme(text = element_text(size = 12))
+
+fig_list[['3C1']] = 
   sagenet_p + 
-  exprs_p + 
-  seqfish_p + 
-  legend_brain + 
-  plot_layout(ncol=4, widths=c(5, 5, 4, 2))
-fig_list[['Supp9']]
+  exprs_p +
+  plot_layout(ncol=2)
+fig_list[['3C1']]
+
+fig_list[['3C2']] = seqfish1_p + seqfish2_p + seqfish3_p + 
+  plot_layout(nrow=1)
+fig_list[['3C2']]
+
+fig_list[['3C_legend']] = legend_brain
+fig_list[['3C_legend']]
 ```
 
 ## Supp10A: confidence scores
@@ -425,6 +426,45 @@ if(overwrite |
 ccc_map = cellCellContactHeatmapTriangle(ccc_map$pmat, c(celltype_colours, subtype_cols, 'other' = '#e6e6e6'), title='')
 
 ccc_map
+```
+
+## LISI scores
+```{r Supp10C, fig.height=5, fig.width=5, message=FALSE, cache=FALSE}
+
+methods = c('exprs', 'SageNet (Ensemble)')
+method_cols = c('#666666', "#33A02C")
+method_ord = names(method_cols) = names(methods) = methods
+
+lisi_sagenet = compute_lisi(map_2d[['all']][meta_query$cell_id,], meta_query[, .(cell_type, embryo = ifelse(embryo != 
+ 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
+      as.data.table %>%
+      .[, .(method ='SageNet (Ensemble)', embryo, cell_type)] %>%
+      melt(id='method')
+lisi_exprs = compute_lisi(map_2d[['exprs']][meta_query$cell_id,], meta_query[, .(cell_type, embryo = ifelse(embryo != 
+ 'scRNAseq', 'seqFISH', 'scRNAseq'))], c('embryo', 'cell_type')) %>%
+      as.data.table %>%
+      .[, .(method ='exprs', embryo, cell_type)] %>%
+      melt(id='method')
+lisi = rbind(lisi_sagenet, lisi_exprs) %>%
+  setnames('variable', 'var') 
+
+saganet_embryo = median(lisi[method == 'SageNet (Ensemble)' & var == 'embryo']$value)
+print(saganet_embryo)
+exprs_embryo = median(lisi[method == 'exprs' & var == 'embryo']$value)
+print(exprs_embryo)
+
+fig_list[['Supp10C']] = lisi %>%
+  ggplot +
+  aes(x = factor(method, ordered=TRUE, levels=method_ord), 
+    y = log2(value), fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  facet_wrap(. ~ var, scales="free_y", labeller = labeller(var = c('embryo' = 'query dataset', 'cell_type' = 'cell type'))) +
+  scale_fill_manual(values=method_cols) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x='method', y='log2(LISI)') +
+  theme(legend.position='none') +
+  scale_x_discrete(labels=c('Expression', 'SageNet (Ensemble)'))
+fig_list[['Supp10C']]
 ```
 
 

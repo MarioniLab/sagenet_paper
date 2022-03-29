@@ -1,0 +1,946 @@
+---
+title: "Spatial Mouse Atlas - Seqfish - Mouse Embryo, Figure 2, Supp. Fig. 1-5"
+author:
+- name: Elyas Heidari
+  affiliation: 
+  - &IMLS Institute for Molecular Life Sciences, University of Zurich, Switzerland
+  - Swiss Institute of Bioinformatics (SIB), University of Zurich, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+# Setup / definitions
+
+
+```{r setup_knitr, include=FALSE}
+library('BiocStyle')
+set.seed(1996)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(autodep=TRUE, cache=FALSE, dev='pdf', cache.lazy = FALSE)
+# knitr::opts_chunk$set( autodep=TRUE, cache=TRUE, cache.lazy=FALSE, dev='png' )
+knitr::opts_knit$set( root.dir='..' )
+# wflow_build(files='analysis/Fig2_Supp1_Supp5.rmd', view=F, verbose=T, delete_cache=T)
+```
+
+```{r setup_libs, collapse=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+```
+
+## Libraries
+
+```{r libs, message=FALSE, warning=FALSE, cache=FALSE}
+library('tidyverse')
+library('igraph')
+library('data.table')
+library('SingleCellExperiment')
+library('magrittr')
+library('BiocParallel')
+library('patchwork')
+library('limma')
+library('cccd')
+library('philentropy')
+library('cowplot')
+library('zellkonverter')
+library('stringr')
+library('lisi')
+library('ggpubr')
+library('Rtsne')
+```
+
+
+## Helper functions
+```{r setup_helpers, message=FALSE, cache=FALSE}
+source('code/utils/utils.R')
+source('code/utils/SMA_functions.R')
+```
+
+## Directories
+```{r setup_input, message=FALSE, cache=FALSE}
+tag       = 'seqfish_mouse_embryo' 
+ref_tag   = 'embryo1_2'
+out_dir   = file.path('output', tag)
+obj_dir   = 'int_data/seqfish_mouse_embryo/embryo1_2'
+dir.create(obj_dir)
+obj_list  = list()
+fig_dir   = 'figures/seqfish_mouse_embryo/embryo1_2'
+dir.create(fig_dir)
+fig_list = list()
+
+methods     = list.files(out_dir)
+names(methods) = methods
+preds_f   = methods %>%
+  map(~file.path(out_dir, .x, paste0(paste('preds', ref_tag, 'query_data', sep='_'), '.h5ad')))
+genes_f = file.path(obj_dir, 'gene_dt_embryo1_2.txt')
+imp_f = file.path(obj_dir, 'imp_embryo1_2.txt')
+col_dt_f = file.path(obj_dir, 'col_dt_embryo1_2.txt')
+adj_f = 'models/seqfish_mouse_embryo/embryo1_2/embryo1_2_leiden_0.1.h5ad'
+```
+
+
+
+
+
+## Params
+```{r setup_outputs, message=FALSE, cache=FALSE}
+n_markers = 3
+overwrite = FALSE
+n_PCs = 30
+n_PCs_markers = 10
+```
+
+# Load inputs
+```{r load_inputs, message=FALSE, cache=FALSE}
+sce = preds_f[['sagenet']] %>% readH5AD 
+cell_idx = which(sce$embryo != 'scRNAseq')
+sce %<>% .[, cell_idx]
+meta_dt = colData(sce) %>% as.data.table
+gene_names = rownames(sce) 
+adj         = assays(readH5AD(adj_f))[[1]]
+rownames(adj) = colnames(adj) = gene_names
+adj         = adj[rowSums(adj) != 0, rowSums(adj) != 0]
+
+
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  preds_list = list()
+  preds_list[['sagenet']] = anndata::read_h5ad(preds_f[['sagenet']])$obsm$dist_map 
+  adj = anndata::read_h5ad(preds_f[['sagenet']])$varm$adj
+  preds_list[['sagenet']]  %<>% as('sparseMatrix') %>% .[cell_idx, cell_idx]
+  ## Novosparc predictions
+  preds_list[['novosparc']] = preds_f[['novosparc']] %>% read_preds_novosparc %>% .[cell_idx, ]
+  gc()
+  # Tangram predictions
+  preds_list[['tangram_cells']] = preds_f[['tangram_cells']] %>% read_preds_tangram %>% .[cell_idx, ]
+  gc()
+
+
+gc()
+}
+
+imp = imp_f %>% fread %>% setnames('V1', 'GENE')
+genes = imp$GENE
+imp %<>% .[,-1] %>% as.matrix
+rownames(imp) = genes
+imp_abs = abs(imp)
+# imp = apply(imp, 2, function(x) (x)/(max(x)))
+imp_dt = apply(imp, 2, function(x) rownames(imp)[order(-x)[1:n_markers]]) %>%
+    as.data.table
+markers = imp_dt %>% unlist %>% setdiff(c())
+print(markers)
+col_dt  = col_dt_f %>%  fread 
+```
+
+# Processing / calculations
+## Distance matrices and embeddings
+```{r calc_dists, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  d      = list()
+  d_mtx  = list()
+  map_2d = list()
+
+  map_2d[['tangram_cells']] = preds_list[['tangram_cells']]
+  map_2d[['True Space']]          = as.matrix(meta_dt[, .(x,y)])
+  rownames(map_2d[['True Space']]) = meta_dt$cell_id
+  map_2d[['novosparc']]     = preds_list[['novosparc']]
+
+  # sagenet distances
+  d[['sagenet']] = preds_list[['sagenet']] %>% as.dist
+  d_mtx[['sagenet']] = d[['sagenet']] %>% as.matrix 
+  rownames(d_mtx[['sagenet']]) = colnames(d_mtx[['sagenet']]) = colnames(sce)
+  map_2d[['sagenet']] = Rtsne(d_mtx[['sagenet']], is_distance=T, perplexity=50)$Y
+  rownames(map_2d[['sagenet']]) = colnames(sce)
+  meta_dt[, `:=`(sagenet_1 = ..map_2d[['sagenet']][cell_id, 1], 
+                sagenet_2 = ..map_2d[['sagenet']][cell_id, 2])]
+
+  # distances based on expression values
+  expr_pcs = prcomp(assays(sce)[[1]])$rotation[,1:10]
+  d[['exprs']] = dist(expr_pcs) %>% as.dist
+  d_mtx[['exprs']] = d[['exprs']] %>% as.matrix 
+  rownames(d_mtx[['exprs']]) = colnames(d_mtx[['exprs']]) = colnames(sce)
+  # map_2d[['exprs']] = uwot::umap(d[['exprs']], n_neighbors=50)
+  map_2d[['exprs']] = Rtsne(d_mtx[['exprs']], is_distance=T, perplexity=50)$Y
+  rownames(map_2d[['exprs']]) = colnames(sce)
+  meta_dt[, `:=`(expr_tsne_1 = ..map_2d[['exprs']][cell_id, 1], 
+                expr_tsne_2 = ..map_2d[['exprs']][cell_id, 2])]
+
+  # distances in the marker-subset space
+  markers_pcs = prcomp(assays(sce[markers,])[[1]])$rotation[,1:5]
+  d[['sagenet_markers']] = dist(markers_pcs) %>% as.dist
+  d_mtx[['sagenet_markers']] = d[['sagenet_markers']] %>% as.matrix 
+  rownames(d_mtx[['sagenet_markers']]) = colnames(d_mtx[['sagenet_markers']]) = colnames(sce)
+  # map_2d[['sagenet_markers']] = uwot::umap(d[['sagenet_markers']], n_neighbors=50)
+  map_2d[['sagenet_markers']] = Rtsne(d_mtx[['sagenet_markers']], is_distance=T, perplexity=50)$Y
+  rownames(map_2d[['sagenet_markers']]) = colnames(sce)
+  meta_dt[, `:=`(markers_tsne_1 = ..map_2d[['sagenet_markers']][cell_id, 1], 
+                markers_tsne_2 = ..map_2d[['sagenet_markers']][cell_id, 2])]
+
+  # tangram
+  d[['tangram_cells']] = dist(preds_list[['tangram_cells']])
+  d_mtx[['tangram_cells']] = d[['tangram_cells']] %>% as.matrix
+  rownames(d_mtx[['tangram_cells']]) = colnames(d_mtx[['tangram_cells']]) = meta_dt$cell_id
+  rownames(map_2d[['tangram_cells']]) = colnames(sce)
+  meta_dt[, `:=`(tangram_1 = ..map_2d[['tangram_cells']][cell_id, 1], 
+                tangram_2 = ..map_2d[['tangram_cells']][cell_id, 2])]
+
+  d[['novosparc']] = dist(preds_list[['novosparc']])
+  d_mtx[['novosparc']] = d[['novosparc']] %>% as.matrix
+  rownames(d_mtx[['novosparc']]) = colnames(d_mtx[['novosparc']]) = meta_dt$cell_id
+  rownames(map_2d[['novosparc']]) = colnames(sce)
+  meta_dt[, `:=`(novosparc_1 = ..map_2d[['novosparc']][cell_id, 1], 
+                novosparc_2 = ..map_2d[['novosparc']][cell_id, 2])]
+
+  # true physical distances
+  d_true = dist(meta_dt[, .(x,y)])
+  d_mtx_true = d_true %>% as.matrix
+  rownames(d_mtx_true) = colnames(d_mtx_true) = meta_dt$cell_id
+
+  # obj_list[['d_mtx']] = append(d_mtx, d_mtx_true)
+  obj_list[['map_2d']] = map_2d
+  obj_list[['meta_dt']] = meta_dt
+  obj_list[['d']] = d
+  gc()
+}else{
+  map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
+  meta_dt = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
+  # d = readRDS(file.path(obj_dir, 'd.Rds'))
+}
+```
+
+## Cell-Cell affinity scores
+```{r calc_c2c, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_list.Rds'))
+){
+  ccc_list    = list()
+  # True physical space
+  for(e in levels(factor(meta_dt$embryo))){
+      cells = meta_dt[embryo == e]$cell_id
+      g_out    = map_2d[['True Space']] %>% 
+        .[cells, ] %>% 
+        get_delaunay(plot=FALSE) %>%
+        .$graph
+      ccc_list[['True Space']][[e]] = cellCellContact(
+          sce = sce[, cells],
+          group = 'cell_type',
+          graph = g_out,
+          nperm = 500,
+          plot = FALSE,
+          cellID='cell_id')
+  }
+
+  # Predicted spaces
+
+  for(meth in setdiff(names(map_2d), 'True Space')){
+  # for(meth in 'sagenet_markers'){
+    ccc_list[[meth]] = list()
+      for(e in levels(factor(meta_dt$embryo))){
+      cells = meta_dt[embryo == e]$cell_id
+      g_out    = map_2d[[meth]] %>% 
+        .[cells, ] %>% 
+        get_delaunay(plot=FALSE) %>%
+        .$graph
+      ccc_list[[meth]][[e]] = cellCellContact(
+          sce    = sce[, cells],
+          group  = 'cell_type',
+          graph  = g_out,
+          nperm  = 500,
+          plot   = FALSE,
+          cellID ='cell_id')
+    }
+  }
+
+  obj_list[['ccc_list']] = ccc_list
+}else{
+  ccc_list = readRDS(file.path(obj_dir, 'ccc_list.Rds'))
+}
+ccc_dist    = list()
+for(meth in setdiff(method_ord, 'True Space')){
+  ccc_dist[[meth]] = c()
+  for(e in levels(factor(meta_dt$embryo))){
+    m1 = ccc_list[[meth]][[e]]$pmat 
+    m2 = ccc_list[['True Space']][[e]]$pmat
+    ccc_dist[[meth]][e] = norm(m1 - m2 , '2')
+  }
+}
+
+ccc_plot_list = names(ccc_list) %>%
+  map(~ccc_list[[.x]][[5]]$pmat  %>% cellCellContactHeatmapTriangle(celltype_colours, title=method_code[.x]))
+
+# Scores' data table 
+ccc_dt = names(ccc_dist) %>%
+  map(~names(ccc_dist[[.x]]) %>% map(function(y) 
+      data.table(method=.x, embryo=y, corr=ccc_dist[[.x]][y])
+    ) %>% purrr::reduce(rbind) 
+  ) %>%
+  purrr::reduce(rbind) 
+
+
+```
+
+
+## Correlation between the true distance matrix and the prediction distance matrix
+```{r calc_cor, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'cor_list.Rds'))
+){
+  cor_list    = list()
+  for(meth in setdiff(names(map_2d), 'True Space')){
+
+  # for(meth in 'sagenet_markers'){
+    cor_list[[meth]]    = c()
+    for(e in levels(factor(meta_dt$embryo))){
+      cells = meta_dt[embryo == e]$cell_id
+      cor_list[[meth]][e] = cor(c(d_mtx_true[cells, cells]), c(d_mtx[[meth]][cells, cells]), method='spearman')
+    }
+  }
+
+  obj_list[['cor_list']] = cor_list
+  gc()
+}else{
+  cor_list = readRDS(file.path(obj_dir, 'cor_list.Rds'))
+}
+
+cor_dt = names(cor_list) %>%
+  map(~data.table(method=.x, embryo=names(cor_list[[.x]]), corr=cor_list[[.x]])) %>%
+  purrr::reduce(rbind)
+```
+
+## Distribution of the lisi scores
+```{r calc_lisi, message=FALSE, cache=FALSE}
+preds_list = list()
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'lisi_vals.Rds'))
+){
+  preds_list[['sagenet']] = map_2d[['sagenet']]
+  preds_list[['exprs']] = map_2d[['exprs']]
+  preds_list[['sagenet_markers']] = map_2d[['sagenet_markers']]
+  preds_list[['True Space']] = meta_dt[, .(x,y)]
+  preds_list[['novosparc']] = map_2d[['novosparc']]
+  preds_list[['tangram_cells']] = map_2d[['tangram_cells']]
+  # lisi_list   = list()
+  lisi_vals = names(preds_list) %>%
+    map(~compute_lisi(preds_list[[.x]], meta_dt, c("class_", "cell_type")) %>%
+      as.data.table %>% 
+      .[, `:=`(cell_id = ..meta_dt$cell_id, method = .x)]) %>%
+      purrr::reduce(rbind)
+  obj_list[['lisi_vals']] = lisi_vals
+}else{
+  lisi_vals = readRDS(file.path(obj_dir, 'lisi_vals.Rds'))
+}
+lisi_vals = dcast(lisi_vals, cell_id ~ method, value.var='cell_type' ) %>%
+  .[, (setdiff(names(.), 'cell_id')) := lapply(.SD, function(x) x/.SD$`True Space`), .SDcols = setdiff(names(.), 'cell_id')] %>%
+  melt(variable.name='method', value.name='LISI') %>%
+  .[method != 'True Space']
+methods = setdiff(unique(lisi_vals$method), 'True Space')
+names(methods) = methods
+lisi_vals %<>% setkey(cell_id)
+lisi_vals = lisi_vals[order(cell_id)] %>%
+  .[meta_dt[, .(cell_id, cell_type, embryo)]]
+```
+
+
+
+## 2A: E1L1 (ref): cell types + partitionings
+```{r 2A, fig.height=6, fig.width=6, message=FALSE, cache=FALSE}
+p_list = list()
+for(e in c('embryo1_2', 'embryo2_2', 'embryo3_2',
+            'embryo1_5', 'embryo2_5', 'embryo3_5')){
+  p_list[[e]] = plot_spatial(meta_dt[embryo==e, .(x, -y)], labels=factor(as.character(meta_dt[embryo==e]$cell_type), ordered=TRUE), label_cols=celltype_colours, hide_legend = TRUE, title = embryo_code[e]) + coord_fixed() +
+  theme(text = element_text(size = 10))
+}
+
+
+fig_list[['A']] = (p_list %>% purrr::reduce(`+`)) + plot_layout(nrow=2) 
+fig_list[['A']]
+# plist
+```
+
+## 2B-D: Benchmark plots; dist. correlation, lisi scores, and cell-cell affinity dist.
+```{r 2B_D, fig.height=6, fig.width=7, message=FALSE, cache=FALSE}
+fig_list[['2B']] = cor_dt[method != 'sagenet_markers'] %>% 
+  ggplot +
+  aes(x = embryo, y = corr, group = method, 
+    color=factor(method, ordered=TRUE, levels=method_ord)) +
+  # geom_line(size=1.5) +
+  geom_point(size=4, alpha=0.7) +
+  scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=setdiff(method_ord, c('True Space', 'sagenet_markers')), 
+    labels=method_code[!names(method_code) %in% c('True Space', 'sagenet_markers')]) +
+  labs(color='method', y = "Spearman's rank correlation", x = '') +
+  theme_bw() +
+  theme(text = element_text(size = 10)) + 
+  theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  scale_x_discrete(labels=embryo_code)
+
+fig_list[['2C']] = ccc_dt[method != 'True Space' & method != 'sagenet_markers'] %>% 
+  ggplot +
+  aes(x = embryo, y = corr, group = method, 
+    color=factor(method, ordered=TRUE, levels=method_ord)) +
+  # geom_bar(stat="identity", position=position_dodge()) +
+  # geom_line(size=1.5) +
+  geom_point(size=4, alpha=0.7) +
+  scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=setdiff(method_ord, c('True Space', 'sagenet_markers')), 
+    labels=method_code[!names(method_code) %in% c('True Space', 'sagenet_markers')]) +
+  labs(color='method', y = "cell-type affinity distance", x = 'query dataset') +
+  theme_bw() +
+  theme(legend.position='none',
+    text = element_text(size = 10),
+    axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  scale_x_discrete(labels=embryo_code)
+
+
+fig_list[['2D']] = lisi_vals[method != 'sagenet_markers'] %>%
+  ggplot +
+  aes(x = factor(method, ordered=TRUE, levels=method_ord), y = log2(LISI), 
+    fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  geom_boxplot(color='#959595') +
+  theme_bw() +
+  scale_fill_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=unique(lisi_vals[method != 'sagenet_markers']$method)) +
+  labs(y='log-scaled LISI (cell type)', fill = 'method', x= '') +
+  scale_color_manual(values=method_cols, na.value='#e6e6e6') + 
+  theme(text = element_text(size = 10), 
+    legend.position='none', 
+    axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  geom_hline(yintercept=0, linetype="dashed", color = "black", size=1) +
+  scale_x_discrete(labels=method_code)
+
+fig_list[['2B-D']]  = 
+  fig_list[['2B']] + 
+  fig_list[['2D']] + 
+  fig_list[['2C']] + 
+  
+  plot_layout(widths=c(3, 3, 3), ncol = 2, guides='collect')
+fig_list[['2B-D']]
+```
+
+## 2E: UMAP plosts of expression space and the reconstructed space
+```{r 2E, fig.height=4, fig.width=16, message=FALSE, cache=FALSE, eval=TRUE}
+meta_dt %<>% .[, .SD[sample(.N)]]
+meta_dt[, ent :=  (ent_embryo1_2_leiden_1 + ent_embryo1_2_leiden_0.1 + ent_embryo1_2_leiden_0.01 + ent_embryo1_2_leiden_0.5 + ent_embryo1_2_leiden_0.05)/5 ]
+meta_dt$ent = meta_dt$ent_plot = (1 - meta_dt$ent/(max(meta_dt$ent)))^2
+exprs_p = plot_2d( 
+    dim_df = meta_dt[, .(expr_tsne_1, expr_tsne_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'Expression',
+    sz = 2,
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12)) 
+
+
+markers_p = plot_2d( 
+    dim_df = meta_dt[, .(markers_tsne_1, markers_tsne_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'SageNet-SIG',
+    sz = 2
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12)) 
+
+sagenet_p = plot_2d( 
+    dim_df = meta_dt[, .(sagenet_1, sagenet_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'SageNet',
+    sz = 2,
+    alpha = meta_dt$ent_plot,
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12)) 
+
+
+novosparc_p = plot_2d( 
+    dim_df = meta_dt[, .(novosparc_1, novosparc_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'novoSpaRc',
+    sz = 2
+) + labs(x = '', y = '')  +
+  theme(text = element_text(size = 12))
+
+tangram_p = plot_2d( 
+    dim_df = meta_dt[, .(tangram_1, tangram_2)],
+    labels = meta_dt$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'Tangram',
+    sz = 2
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12))
+
+
+legend1 = (plot_2d( 
+    dim_df = meta_dt[order(cell_type), .(sagenet_1, sagenet_2)],
+    labels = meta_dt[order(cell_type)]$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = FALSE,
+    title = 'SageNet',
+    sz = 4,
+    alpha = meta_dt$ent_plot,
+) + labs(x = '', y = '', color = 'cell type')+ theme(text = element_text(size = 12))   ) %>% get_legend() %>%
+  as_ggplot() 
+
+legend2 = (
+  ggplot(meta_dt) +
+  aes(x = 1, y = 1, alpha=ent_plot)+
+  geom_point(size=4) +
+  labs(alpha='confidence score') + theme(text = element_text(size = 12))   ) %>% get_legend() %>%
+  as_ggplot() 
+
+fig_list[['2E']] = 
+  sagenet_p + 
+  tangram_p  +
+  novosparc_p + 
+  exprs_p  + 
+  plot_layout(ncol = 4, widths=c(4, 4, 4, 4), guides='collect')
+fig_list[['2E']]
+
+fig_list[['2E']] = 
+  sagenet_p + 
+  tangram_p  +
+  novosparc_p + 
+  exprs_p  + 
+  plot_layout(ncol = 4, widths=c(4, 4, 4, 4), guides='collect')
+fig_list[['2E']]
+
+fig_list[['2E_legend']] = legend1 + legend2 + plot_layout(ncol=2)
+fig_list[['2E_legend']]
+```
+
+## Supp2D: UMAP plosts of expression space and the reconstructed space
+```{r Supp2D, fig.height=10, fig.width=15, message=FALSE, cache=FALSE, eval=TRUE, eval=TRUE}
+fig_list[['Supp2D']] = 
+  sagenet_p + 
+  tangram_p  +
+  novosparc_p + 
+  markers_p +
+  exprs_p  +  
+  legend1 +
+  plot_layout(ncol = 3, widths=c(5, 5, 5, 5, 5, 5))
+fig_list[['Supp2D']]
+```
+
+
+## 2F: Co-location of gut tube with Splanchnic and Lateral plate mesoderms
+```{r 2F, fig.height=4, fig.width=12, message=FALSE, cache=FALSE, eval=TRUE}
+
+types = copy(meta_dt)[!(cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm')), cell_type := 'other']$cell_type
+ord = order(-as.numeric(types))
+types %<>% .[ord]
+
+sagenet_p = plot_2d( 
+    dim_df = meta_dt[ord, .(sagenet_1, sagenet_2)],
+    labels = types,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'SageNet',
+    sz = 2,
+    alpha = meta_dt$ent_plot,
+) + labs(x = '', y = '')  +
+  theme(text = element_text(size = 12))
+
+exprs_p = plot_2d( 
+    dim_df = meta_dt[ord, .(expr_tsne_1, expr_tsne_2)],
+    labels = types,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = 'Expression',
+    sz = 2
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12))
+
+
+lgened = (plot_2d( 
+    dim_df = meta_dt[ord, .(sagenet_1, sagenet_2)],
+    labels = types,
+    label_cols = celltype_colours,
+    hide_legend = FALSE,
+    title = 'SageNet',
+    sz = 4,
+    alpha = meta_dt$ent_plot,
+) + labs(x = '', y = '', color='cell type')+ theme(text = element_text(size = 12))   ) %>% get_legend() %>%
+  as_ggplot() 
+
+embryo1_types = as.character(meta_dt[embryo=='embryo1_2']$cell_type)
+p_1 = plot_spatial(meta_dt[embryo=='embryo1_2', .(x, -y)], 
+  labels=factor(ifelse(meta_dt[embryo=='embryo1_2']$cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm'), embryo1_types, 'other'), ordered=TRUE, levels=c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm', 'order')), 
+  label_cols=celltype_colours, 
+  hide_legend = TRUE, 
+  title = 'E1_L1', 
+  sz=1.5) +coord_fixed() +
+  theme(text = element_text(size = 12))
+
+embryo2_types = as.character(meta_dt[embryo=='embryo2_2']$cell_type)
+p_2 = plot_spatial(meta_dt[embryo=='embryo2_2', .(x, -y)], 
+  labels=factor(ifelse(meta_dt[embryo=='embryo2_2']$cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm'), embryo2_types, 'other'), ordered=TRUE, levels=c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm', 'order')), 
+  label_cols=celltype_colours, 
+  hide_legend = TRUE, 
+  title = 'E2_L1', 
+  sz=1.5) +coord_fixed() +
+  theme(text = element_text(size = 12))
+
+embryo3_types = as.character(meta_dt[embryo=='embryo3_2']$cell_type)
+p_3 = plot_spatial(meta_dt[embryo=='embryo3_2', .(x, -y)], 
+  labels=factor(ifelse(meta_dt[embryo=='embryo3_2']$cell_type %in% c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm'), embryo3_types, 'other'), ordered=TRUE, levels=c('Gut tube', 'Splanchnic mesoderm', 'Lateral plate mesoderm', 'order')), 
+  label_cols=celltype_colours, 
+  hide_legend = TRUE, 
+  title = 'E3_L1', 
+  sz=1.5) +coord_fixed() +
+  theme(text = element_text(size = 12))
+
+fig_list[['2F1']] = 
+  sagenet_p +
+  exprs_p +
+  lgened + 
+  plot_layout(ncol = 3, widths=c(4, 4, 4))
+fig_list[['2F1']]
+
+fig_list[['2F2']] = 
+  p_1  + 
+  p_2  +
+  p_3  +
+  plot_layout(ncol = 3)
+fig_list[['2F2']]
+
+```
+
+## 2G-J: discriminating endothelial cells
+```{r 2G_J, fig.height=4.5, fig.width=17, message=FALSE, cache=FALSE}
+EC_ord  = c('Endocardium', 'other Endothelium', 'other')
+EC_cols = c("#F90026", "#8DB5CE", '#e6e6e6')
+names(EC_cols) = EC_ord
+
+d = anndata::read_h5ad(preds_f[['sagenet']])$obsm$dist_map %>% 
+  as('sparseMatrix') %>% 
+  .[cell_idx, cell_idx]
+colnames(d) = rownames(d) = colnames(sce)
+CMC_ind = meta_dt[cell_type == 'Cardiomyocytes']$cell_id
+EC_ind  = meta_dt[cell_type == 'Endothelium']$cell_id
+d_sub = d[CMC_ind, EC_ind]
+EC_true_ind = EC_ind[colSums(d_sub < quantile(d_sub, 0.05)) > 0]
+EC_false_ind = EC_ind[colSums(d_sub < quantile(d_sub, 0.05)) == 0]
+assays(sce)[['logcounts']] = assays(sce)[[1]]
+fm = scran::findMarkers(sce[, c(EC_true_ind, EC_false_ind)], groups=c(rep('TT', length(EC_true_ind)), rep('FF', length(EC_false_ind)))) %>% .$TT
+fm$gene_id = rownames(fm)
+fm$diff_exp = ifelse(fm$Top > 5, NA, ifelse(fm$logFC.FF > 0, 'Endocardium', 'other Endothelium'))
+m_dt = meta_dt[, 
+  .(n_MC = ifelse(cell_id %in% ..EC_true_ind, 'Endocardium', 
+      ifelse(cell_id %in% ..EC_false_ind, 'other Endothelium', 'other')), 
+      sagenet_1, sagenet_2, x, y, ent_plot, cell_id)]
+
+types = copy(meta_dt)[!(cell_type %in% c('Cardiomyocytes', 'Endothelium')), cell_type := 'other']$cell_type
+ord = order(-as.numeric(factor(types, ordered=TRUE, levels=c('Endothelium', 'Cardiomyocytes', 'other'))))
+types %<>% .[ord]
+
+types_MC = copy(m_dt)[!(n_MC %in% c('Endocardium', 'other Endothelium')), n_MC := 'other']$n_MC
+ord_MC = order(-as.numeric(factor(types_MC, ordered=TRUE, levels=EC_ord)))
+types_MC %<>% .[ord_MC]
+
+fig_list[['2G']] = plot_2d( 
+    dim_df = meta_dt[ord, .(sagenet_1, sagenet_2)],
+    labels = types,
+    label_cols = celltype_colours,
+    hide_legend = FALSE,
+    title = '',
+    sz = 2,
+    alpha = meta_dt[ord]$ent_plot,
+) + labs(x = '', y = '', alpha = 'confidence', color = 'cell type') +
+  theme(text = element_text(size = 12))
+
+fig_list[['2H']]  = plot_2d( 
+    dim_df = m_dt[ord_MC, .(sagenet_1, sagenet_2)],
+    labels = types_MC,
+    label_cols = EC_cols,
+    hide_legend = FALSE,
+    title = '',
+    sz = 2,
+    alpha = m_dt[ord_MC]$ent_plot,
+) + labs(x = '', y = '', alpha='confidence', color= 'sub-type') +
+  theme(text = element_text(size = 12)) 
+
+# EC_CMC_2d + EC_2d + plot_layout(guides='collect')
+
+fig_list[['2I']] = m_dt[cell_id %in% EC_ind] %>%
+  ggplot +
+  aes(x = n_MC, y = ent_plot, fill=n_MC) +
+  geom_boxplot(color='#959595') +
+  theme_bw() +
+  scale_fill_manual(values=EC_cols, na.value='#e6e6e6') +
+  labs(y='confidence score', fill = '', x= '') +
+  theme(legend.position='none') +
+  theme(text = element_text(size = 12)) +
+  scale_x_discrete(labels=c('Endocardium', 'other End.'))
+
+fig_list[['2J']]  = data.frame(fm) %>%
+  ggplot +
+  aes(x= logFC.FF, y=-log10(p.value), color=diff_exp , label=ifelse(!is.na(diff_exp), gene_id, NA)) + 
+    scale_color_manual(values=EC_cols, na.value='#e6e6e6') +
+    geom_point() + 
+    theme_bw() +
+    theme(legend.position='none') + 
+    geom_text() +
+    labs(x = 'logFC (Endocardium - other End.)') +
+    xlim(c(-1.5, 1.5)) +
+  theme(text = element_text(size = 12))
+
+fig_list[['2G_J']] = 
+  fig_list[['2G']] +
+  plot_spacer() +
+  fig_list[['2H']] +
+  plot_spacer() +
+  fig_list[['2I']] +
+  plot_spacer() +
+  fig_list[['2J']] +
+  plot_layout(guides='collect', nrow=1, widths=c(4, .3, 4, .3 , 2.5, .3, 3))
+
+fig_list[['2G_J']]
+```
+
+
+
+## Supp2A-C: Benchmark plots; dist. correlation, lisi scores, and cell-cell affinity dist.
+```{r Supp2A_C, fig.height=4, fig.width=13, message=FALSE, cache=FALSE, eval=TRUE}
+fig_list[['Supp2A']] = cor_dt %>% 
+  ggplot +
+  aes(x = embryo, y = corr, group = method, 
+    color=factor(method, ordered=TRUE, levels=method_ord)) +
+  # geom_line(size=3) +
+  geom_point(size=4, alpha=.7) +
+  scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=setdiff(method_ord, c('True Space')), 
+    labels=method_code[!names(method_code) %in% c('True Space')]) +
+  labs(color='method', y = "Spearman's rank correlation", x = 'query dataset') +
+  theme_bw() +
+  theme(text = element_text(size = 12)) + 
+  theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  scale_x_discrete(labels=embryo_code)
+
+fig_list[['Supp2B']] = ccc_dt[method != 'True Space'] %>% 
+  ggplot +
+  aes(x = embryo, y = corr, group = method, 
+    color=factor(method, ordered=TRUE, levels=method_ord)) +
+  # geom_bar(stat="identity", position=position_dodge()) +
+  # geom_line(size=3) +
+  geom_point(size=4, alpha=.7) +
+  scale_color_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=setdiff(method_ord, c('True Space')), 
+    labels=method_code[!names(method_code) %in% c('True Space')]) +
+  labs(color='method', y = "cell-type affinity distance", x = 'query dataset') +
+  theme_bw() +
+  theme(legend.position='none',
+    text = element_text(size = 12),
+    axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  scale_x_discrete(labels=embryo_code)
+
+
+fig_list[['Supp2C']] = lisi_vals %>%
+  ggplot +
+  aes(x = factor(method, ordered=TRUE, levels=method_ord), y = log2(LISI), 
+    fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  geom_boxplot(color='#959595') +
+  theme_bw() +
+  scale_fill_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=unique(lisi_vals$method)) +
+  labs(y='log-scaled LISI (cell type)', fill = 'method', x= 'method') +
+  scale_color_manual(values=method_cols, na.value='#e6e6e6') + 
+  theme(text = element_text(size = 12), 
+    legend.position='none', 
+    axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  geom_hline(yintercept=0, linetype="dashed", color = "black", size=1) +
+  scale_x_discrete(labels=method_code)
+
+fig_list[['Supp2']]  = 
+  fig_list[['Supp2A']] + 
+  plot_spacer()    +
+  fig_list[['Supp2B']] + 
+  plot_spacer()    +
+  fig_list[['Supp2C']] + 
+  plot_layout(width=c(9, 1, 9, 1, 9), ncol = 5, guides='collect')
+fig_list[['Supp2']]
+```
+
+
+## Supp1: GIN on Embryo1 layer 1
+```{r Supp1, fig.height=7.5, fig.width=7.5, message=FALSE, cache=FALSE, eval=FALSE}
+g_obj       = graph_from_adjacency_matrix(adj, mode='undirected') 
+d           = cluster_louvain(g_obj)
+grp         =  .palette2[membership(d)]
+lay         = layout_nicely(g_obj)
+graph_col_comm(graph=g_obj, lay=lay, grp=grp, title='Gene interaction network on embryo 1 layer 1 (E1_L1)', labels=rownames(adj))
+graph_col_comm(graph=g_obj, lay=lay, grp=ifelse(rownames(adj) %in% markers, grp, '#e6e6e6'), title='Spatially informative genes (SIG)', labels=ifelse(rownames(adj) %in% markers, rownames(adj), ''))
+```
+
+## Supp3: Cell-type contact maps
+```{r Supp3, fig.height=17, fig.width=17, message=FALSE, cache=FALSE, eval=FALSE}
+fig_list[['Supp3']] = ccc_plot_list 
+fig_list[['Supp3']]
+```
+
+
+## Supp4: LISI scores by cell type and embryo
+```{r Supp4, fig.height=30, fig.width=50, message=FALSE, cache=FALSE, eval=FALSE}
+fig_list[['Supp4A']] = lisi_vals %>%
+  ggplot +
+  aes(x = factor(embryo, ordered=TRUE, levels=embryo_ord), y = log2(LISI), 
+    fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  geom_boxplot(color='#959595') +
+  theme_bw() +
+  scale_fill_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=setdiff(method_ord, c('True Space')), 
+    labels=method_code[!names(method_code) %in% c('True Space')]) +
+  labs(y='log-scaled LISI (cell type)', fill = 'method', x = 'query dataset') +
+  theme(text = element_text(size = 50), 
+    axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  geom_hline(yintercept=0, linetype="dashed", color = "black", size=2) +
+  scale_x_discrete(labels=embryo_code)
+
+fig_list[['Supp4B']] = lisi_vals %>%
+  ggplot +
+  aes(x = factor(cell_type, ordered=TRUE), y = log2(LISI), color=factor(cell_type, ordered=TRUE), fill=factor(method, ordered=TRUE, levels=method_ord)) +
+  geom_boxplot(color='#959595') +
+   theme_bw() +
+  scale_fill_manual(values=method_cols, na.value='#e6e6e6', drop=TRUE, 
+    limits=setdiff(method_ord, c('True Space')), 
+    labels=method_code[!names(method_code) %in% c('True Space')]) +
+  labs(y='log-scaled LISI (cell type)', fill = 'method', x = 'cell type') +
+  theme(text = element_text(size = 50), 
+    legend.position='none',
+    axis.text.x=element_text(angle = 45, hjust = 1)) + 
+  geom_hline(yintercept=0, linetype="dashed", color = "black", size=2)
+
+fig_list[['Supp4']] = 
+  fig_list[['Supp4A']] + 
+  plot_spacer() + 
+  fig_list[['Supp4B']] + 
+  plot_layout(ncol=1, heights=c(14, 2, 14), guides='collect')
+fig_list[['Supp4']]
+```
+
+
+## Supp5: Spatially informative genes (SIGs)
+```{r Supp5, fig.height=4, fig.width=5, message=FALSE, cache=FALSE, eval=FALSE}
+
+for(m in markers){
+
+  p1 = plot_2d_cont( 
+    dim_df = meta_dt[embryo == 'embryo1_2', .(x, -y)],
+    labels = assays(sce)[[1]][m, meta_dt[embryo == 'embryo1_2']$cell_id],
+    # label_cols = celltype_colours,
+    hide_legend = FALSE,
+    title = '',
+    sz = 1.5
+    # alpha = meta_dt$ent,
+  ) + labs(x = '', y = '', color='') + 
+    coord_fixed() + 
+    theme_void() + 
+    theme(legend.position='none')
+
+  p2 = plot_2d_cont( 
+    dim_df = meta_dt[, .(sagenet_1, sagenet_2)],
+    labels = assays(sce)[[1]][m, meta_dt$cell_id],
+    # label_cols = celltype_colours,
+    hide_legend = FALSE,
+    title = '',
+    sz = 1.5
+    # alpha = meta_dt$ent,
+  ) + labs(x = '', y = '', color='') + 
+    theme_void() + 
+    theme(legend.position='none') 
+
+  print(p1 + p2 + plot_annotation(title = m, theme = theme(plot.title = element_text(size = 30, hjust = 0.5, face='italic'))))
+
+}
+```
+
+
+
+
+## Supp6: Confidence scores
+```{r Supp6, fig.height=8, fig.width=8, message=FALSE, cache=FALSE, eval=FALSE}
+meta_dt[, ent :=  (ent_embryo1_2_leiden_1 + ent_embryo1_2_leiden_0.1 + ent_embryo1_2_leiden_0.01 + ent_embryo1_2_leiden_0.5 + ent_embryo1_2_leiden_0.05)/5 ]
+meta_dt$ent = (1 - meta_dt$ent/(max(meta_dt$ent)))
+# tab_dt = col_dt[, .N, by = 'cell_type'] %>% .[order(N), ]
+tab_dt_query = copy(meta_dt[, .(ent=median(ent), .N, dataset='query'), by = 'cell_type']) %>% .[order(ent), ]
+celltype_ord = unique(tab_dt_query$cell_type)
+tab_dt_ref = col_dt[, .(.N, dataset='reference'), by = 'cell_type'] 
+tab_dt = rbind(tab_dt_ref, tab_dt_query[, .(N, dataset, cell_type)])
+
+data_summary <- function(x) {
+   m <- median(x)
+   ymin <- m-sd(x)
+   ymax <- m+sd(x)
+   return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
+p1 = meta_dt %>%
+  ggplot +
+  aes(x = factor(cell_type, ordered=TRUE, levels= celltype_ord), y = ent, color=cell_type) +
+  # geom_violin() +
+  # + geom_jitter(height = 0, width = 0.1) +
+  theme_bw() +
+  scale_color_manual(values=celltype_colours, na.value='#e6e6e6', drop=TRUE, limits=unique(tab_dt$cell_type)) +
+  labs(y='confidence score', x= '') +
+  stat_summary(fun.data=data_summary, size=1.5) +
+  coord_flip() + 
+  # theme(legend.position='none') +
+  theme(legend.position='none', axis.ticks.y=element_blank(), axis.text.y=element_blank())
+  
+
+p2 = tab_dt %>%
+  ggplot +
+  aes(x = factor(cell_type, ordered=TRUE, levels= celltype_ord), y = N, color=dataset) +
+  # geom_bar(position="dodge", stat="identity") +
+  geom_point(size = 3) +
+  theme_bw() +
+  # scale_fill_manual(values=celltype_colours, na.value='#e6e6e6', drop=TRUE, limits=unique(tab_dt$cell_type)) +
+  scale_color_manual(values=c('#FB8072', '#1e90ff'), na.value='#e6e6e6') +
+  labs(y='#cells', x= 'cell type', fill='cell type') +
+  theme(axis.text.x=element_text(angle = 90, hjust = 1)) +
+  coord_flip()
+
+
+
+p_list = list()
+for(emb in c('embryo2_2', 'embryo2_5', 'embryo3_2', 'embryo3_5')){
+  p_list[[emb]] = plot_2d( 
+    dim_df = meta_dt[embryo==emb, .(x, -y)],
+    labels = meta_dt[embryo==emb]$cell_type,
+    label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = embryo_code[emb],
+    sz = 3,
+    alpha = meta_dt[embryo==emb]$ent_plot,
+  ) + labs(x = '', y = '') + coord_fixed()
+}
+
+fig_list[['Supp7A']] = p2 + p1 + plot_layout(ncol = 2, guides='collect')
+fig_list[['Supp7A']]
+
+fig_list[['Supp7B']] = (p_list %>% purrr::reduce(`+`)) + 
+  plot_layout(ncol = 2, guides='collect', widths=c(4, 4, 4, 4))
+fig_list[['Supp7B']]
+```
+
+
+
+
+
+# Save objects & plots
+```{r save, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+names(obj_list) %>% map(~saveRDS(obj_list[[.x]], file.path(obj_dir, paste0(.x, '.Rds'))))
+names(fig_list) %>% map(~saveRDS(fig_list[[.x]], file.path(fig_dir, paste0(.x, '.Rds'))))
+```

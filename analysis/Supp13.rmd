@@ -1,0 +1,469 @@
+---
+title: "Developing human heart - Spatial Transcriptomics, Supp. Fig. 13"
+author:
+- name: Elyas Heidari
+  affiliation: 
+  - &IMLS Institute for Molecular Life Sciences, University of Zurich, Switzerland
+  - Swiss Institute of Bioinformatics (SIB), University of Zurich, Switzerland
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+# Setup / definitions
+
+
+```{r setup_knitr, include=FALSE}
+library('BiocStyle')
+set.seed(1996)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(autodep=TRUE, cache=FALSE, dev='pdf', cache.lazy = FALSE)
+# knitr::opts_chunk$set( autodep=TRUE, cache=TRUE, cache.lazy=FALSE, dev='png' )
+knitr::opts_knit$set( root.dir='..' )
+# wflow_build(files='analysis/Supp13.rmd', view=F, verbose=T, delete_cache=T)
+```
+
+```{r setup_libs, collapse=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+```
+
+## Libraries
+
+```{r libs, message=FALSE, warning=FALSE, cache=FALSE}
+library('tidyverse')
+library('igraph')
+library('data.table')
+library('SingleCellExperiment')
+library('magrittr')
+library('BiocParallel')
+library('patchwork')
+library('limma')
+library('cccd')
+library('philentropy')
+library('cowplot')
+library('zellkonverter')
+library('stringr')
+library('lisi')
+library('ggpubr')
+library('Rtsne')
+```
+
+
+## Helper functions
+```{r setup_helpers, message=FALSE, cache=FALSE}
+source('code/utils/utils.R')
+source('code/utils/SMA_functions.R')
+```
+
+## Directories
+```{r setup_input, message=FALSE, cache=FALSE}
+tag       = 'ST_human_heart' 
+ref_tag   = 'ST_all'
+data_dir  = file.path('data_tidy', tag)
+out_dir   = file.path('output', tag)
+obj_dir   = 'int_data/ST_human_heart/query'
+dir.create(obj_dir)
+obj_list  = list()
+fig_dir   = 'figures/ST_human_heart/query'
+dir.create(fig_dir)
+fig_list = list()
+data_f    = list.files(data_dir)
+exp_names = 'query'
+names(exp_names) = exp_names
+sce_f     = exp_names %>% 
+  map(~file.path(data_dir, paste0(.x, '.h5ad')))
+methods     = 'sagenet'
+names(methods) = methods
+preds_f   = methods %>% 
+  map(function(y) exp_names %>% 
+    map(~file.path(out_dir, y, paste0(paste('preds', 'ST_all', .x, sep='_'), '.h5ad')))
+  )
+
+col_dt_f = file.path('int_data/ST_human_heart', 'col_dt_ST.txt')
+imp_f = 'int_data/ST_human_heart/imp_ST.txt'
+adj_f = 'models/ST_human_heart/ST_all/ST_all_grid_2.h5ad'
+```
+
+
+
+
+
+## Params
+```{r setup_outputs, message=FALSE, cache=FALSE}
+overwrite = FALSE
+n_markers = 5
+```
+
+# Load inputs
+```{r load_inputs, message=FALSE, cache=FALSE}
+sce_ST = readH5AD('output/ST_human_heart/sagenet/preds_ST_all_ST.h5ad')
+s_sce = readH5AD('output/ST_human_heart/sagenet/preds_ST_all_query.h5ad') 
+meta_dt = colData(s_sce) %>% as.data.table %>%
+  .[, class__ := gsub(' $', '', class__)]
+meta_dt[dataset=='ST']$class__ = class__code[sce_ST$class__] 
+rm(sce_ST)
+colData(s_sce) = DataFrame(meta_dt)
+colnames(s_sce) = meta_dt$cell_id
+rm(sce_list)
+meta_dt$ent = get_confidence(s_sce) / 3
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  # Gene importanc
+
+  preds_list = list()
+  preds_list[['sagenet']] = anndata::read_h5ad('output/ST_human_heart/sagenet/preds_ST_all_query.h5ad')$obsm$dist_map 
+
+
+gc()
+}
+
+col_dt  = col_dt_f %>%  fread 
+
+imp = imp_f %>% fread %>% setnames('V1', 'GENE')
+genes = imp$GENE
+imp %<>% .[,-1] %>% as.matrix
+rownames(imp) = genes
+imp_abs = abs(imp)
+# imp = apply(imp, 2, function(x) (x)/(max(x)))
+imp_dt = apply(imp, 2, function(x) rownames(imp)[order(-x)[1:n_markers]]) %>%
+    as.data.table
+markers = imp_dt %>% unlist %>% setdiff(c())
+print(markers)
+
+```
+
+# Processing / calculations
+## Distance matrices and embeddings
+```{r calc_dists, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'map_2d.Rds')) | 
+  !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
+){
+  d      = list()
+  d_mtx  = list()
+  map_2d = list()
+
+
+  # sagenet distances
+  # d[['sagenet']] = preds_list[['sagenet']] %>% map(as.dist)
+  d_mtx[['sagenet']] = preds_list[['sagenet']]
+
+  rownames(d_mtx[['sagenet']]) = colnames(d_mtx[['sagenet']]) = colnames(s_sce)
+  map_2d[['sagenet']] = Rtsne(d_mtx[['sagenet']], is_distance=T)$Y
+  rownames(map_2d[['sagenet']]) = colnames(s_sce)
+  meta_dt[, `:=`(sagenet_all_1 = ..map_2d[['sagenet']][, 1], 
+            sagenet_all_2 = ..map_2d[['sagenet']][, 2])]   
+
+
+  expr_pcs = prcomp(assays(s_sce)[[1]])$rotation[,1:10]
+  d[['exprs']] = dist(expr_pcs) %>% as.dist
+  d_mtx[['exprs']] = d[['exprs']] %>% as.matrix 
+  rownames(d_mtx[['exprs']]) = colnames(d_mtx[['exprs']]) = colnames(s_sce)
+  # map_2d[['exprs']] = uwot::umap(d[['exprs']], n_neighbors=50)
+  map_2d[['exprs']] = Rtsne(d_mtx[['exprs']], is_distance=T, perplexity=50)$Y
+  rownames(map_2d[['exprs']]) = colnames(s_sce)
+  meta_dt[, `:=`(expr_tsne_1 = ..map_2d[['exprs']][, 1], 
+                expr_tsne_2 = ..map_2d[['exprs']][, 2])]
+
+
+  # obj_list[['d_mtx']] = append(d_mtx, d_mtx_true)
+  obj_list[['map_2d']] = map_2d
+  obj_list[['meta_dt']] = meta_dt
+  gc()
+}else{
+  map_2d = readRDS(file.path(obj_dir, 'map_2d.Rds'))
+  meta_dt = readRDS(file.path(obj_dir, 'meta_dt.Rds'))
+}
+```
+
+
+
+
+
+
+
+## Supp13A:  reconstructed spaces
+```{r Supp13A, fig.height=10, fig.width=10, message=FALSE, cache=FALSE, eval=TRUE}
+meta_dt %<>% .[, .SD[sample(.N)]]
+# meta_dt %<>% 
+#   # .[, class__ := factor(class__, ordered=TRUE, levels=c(class__ord, cell_type_ord))] %>%
+#   .[order(class__)]
+meta_dt$ent = (meta_dt$ent/max(meta_dt$ent))^2
+
+sagenet_ST_p = plot_2d( 
+    dim_df = map_2d[['sagenet']][meta_dt[dataset=='ST']$cell_id,],
+    labels = meta_dt[dataset=='ST']$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = 'Spatial Transcriptomics',
+    sz = 2.5,
+    alpha = meta_dt[dataset=='ST']$ent,
+    label_title = 'region',
+    shape=17
+) + labs(x = '', y = 'SageNet') + 
+  xlim(c(min(map_2d[['sagenet']][,1]), max(map_2d[['sagenet']][,1]))) +
+  ylim(c(min(map_2d[['sagenet']][,2]), max(map_2d[['sagenet']][,2]))) + theme(text = element_text(size = 20))
+
+legend_region = (plot_2d( 
+    dim_df = map_2d[['sagenet']][meta_dt[dataset=='ST']$cell_id,],
+    labels = meta_dt[dataset=='ST']$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = FALSE,
+    title = 'Spatial Transcriptomics',
+    sz = 5,
+    alpha = meta_dt[dataset=='ST']$ent,
+    label_title = 'region',
+    shape=17
+) + labs(x = '', y = 'SageNet') + 
+  xlim(c(min(map_2d[['sagenet']][,1]), max(map_2d[['sagenet']][,1]))) +
+  ylim(c(min(map_2d[['sagenet']][,2]), max(map_2d[['sagenet']][,2])))+ theme(text = element_text(size = 12))) %>% get_legend() %>%
+  as_ggplot() 
+
+
+sagenet_scRNAseq_p = plot_2d( 
+    dim_df = map_2d[['sagenet']][meta_dt[dataset=='scRNAseq']$cell_id,],
+    labels = meta_dt[dataset=='scRNAseq']$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = 'scRNAseq',
+    sz = 2.5,
+    alpha = meta_dt[dataset=='scRNAseq']$ent,
+    label_title = 'cell type',
+    shape=16
+) + labs(x = '', y = '')  + 
+  xlim(c(min(map_2d[['sagenet']][,1]), max(map_2d[['sagenet']][,1]))) +
+  ylim(c(min(map_2d[['sagenet']][,2]), max(map_2d[['sagenet']][,2]))) + theme(text = element_text(size = 20))
+
+
+sagenet_p = plot_2d( 
+    dim_df = map_2d[['sagenet']][meta_dt$cell_id,],
+    labels = meta_dt$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = 'ST + scRNAseq',
+    sz = 2.5,
+    alpha = meta_dt$ent,
+    label_title = 'cell type',
+    shape = ifelse(meta_dt$dataset=='scRNAseq', 16, 17)
+) + labs(x = '', y = 'SageNet')  + 
+  xlim(c(min(map_2d[['sagenet']][,1]), max(map_2d[['sagenet']][,1]))) +
+  ylim(c(min(map_2d[['sagenet']][,2]), max(map_2d[['sagenet']][,2]))) + theme(text = element_text(size = 20))
+
+
+legend_celltype = (plot_2d( 
+    dim_df = map_2d[['sagenet']][meta_dt[dataset=='scRNAseq']$cell_id,],
+    labels = meta_dt[dataset=='scRNAseq']$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = FALSE,
+    title = 'scRNAseq',
+    sz = 5,
+    alpha = meta_dt[dataset=='scRNAseq']$ent,
+    label_title = 'cell type',
+    shape=16
+) + labs(x = '', y = '')  + 
+  xlim(c(min(map_2d[['sagenet']][,1]), max(map_2d[['sagenet']][,1]))) +
+  ylim(c(min(map_2d[['sagenet']][,2]), max(map_2d[['sagenet']][,2])))+ theme(text = element_text(size = 12))) %>% get_legend() %>%
+  as_ggplot() 
+
+m_dt = data.table(cell_id = meta_dt$cell_id, map_2d[['sagenet']][meta_dt$cell_id,], class__ = meta_dt$class__, dataset=meta_dt$dataset, ent=meta_dt$ent)
+
+cell_type_mean = unique(m_dt[, .(mean_x = median(V1), mean_y=median(V2), dataset, ent=median(ent)), by='class__'])
+
+sagenet_mean_p = plot_2d( 
+    dim_df = cell_type_mean[, .(mean_x, mean_y)],
+    labels = cell_type_mean$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = 'medians',
+    sz = 4,
+    # alpha = cell_type_mean$ent,
+    label_title = 'cell type',
+    shape=ifelse(cell_type_mean$dataset=='ST', 17, 16)
+) + labs(x = '', y = '')  + 
+  xlim(c(min(map_2d[['sagenet']][,1]), max(map_2d[['sagenet']][,1]))) +
+  ylim(c(min(map_2d[['sagenet']][,2]), max(map_2d[['sagenet']][,2]))) + theme(text = element_text(size = 20))
+
+
+exprs_ST_p = plot_2d( 
+    dim_df = map_2d[['exprs']][meta_dt[dataset=='ST']$cell_id,],
+    labels = meta_dt[dataset=='ST']$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = '',
+    sz = 2.5,
+    # alpha = meta_dt[dataset=='ST']$ent,
+    label_title = 'region',
+    shape=17
+) + labs(x = '', y = 'Expression')  + 
+  xlim(c(min(map_2d[['exprs']][,1]), max(map_2d[['exprs']][,1]))) +
+  ylim(c(min(map_2d[['exprs']][,2]), max(map_2d[['exprs']][,2]))) + theme(text = element_text(size = 20))
+
+exprs_scRNAseq_p = plot_2d( 
+    dim_df = map_2d[['exprs']][meta_dt[dataset=='scRNAseq']$cell_id,],
+    labels = meta_dt[dataset=='scRNAseq']$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = '',
+    sz = 2.5,
+    # alpha = meta_dt[dataset=='scRNAseq']$ent,
+    label_title = 'cell type',
+    shape=16
+) + labs(x = '', y = '')  + 
+  xlim(c(min(map_2d[['exprs']][,1]), max(map_2d[['exprs']][,1]))) +
+  ylim(c(min(map_2d[['exprs']][,2]), max(map_2d[['exprs']][,2]))) +
+   theme(text = element_text(size = 20))
+
+exprs_p = plot_2d( 
+    dim_df = map_2d[['exprs']][meta_dt$cell_id,],
+    labels = meta_dt$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = '',
+    sz = 2.5,
+    # alpha = meta_dt$ent,
+    label_title = 'cell type',
+    shape=ifelse(meta_dt$dataset=='scRNAseq', 16, 17)
+) + labs(x = '', y = 'Expression')  + 
+  xlim(c(min(map_2d[['sagenet']][,1]), max(map_2d[['sagenet']][,1]))) +
+  ylim(c(min(map_2d[['sagenet']][,2]), max(map_2d[['sagenet']][,2]))) + theme(text = element_text(size = 20))
+
+m_dt = data.table(cell_id = meta_dt$cell_id, map_2d[['exprs']][meta_dt$cell_id,], class__ = meta_dt$class__, dataset=meta_dt$dataset)
+
+cell_type_mean = unique(m_dt[, .(mean_x = median(V1), mean_y=median(V2), dataset), by='class__'])
+
+exprs_mean_p = plot_2d( 
+    dim_df = cell_type_mean[, .(mean_x, mean_y)],
+    labels = cell_type_mean$class__,
+    label_cols = c(cell_type_cols, class__cols),
+    hide_legend = TRUE,
+    title = '',
+    sz = 4,
+    # alpha = cell_type_mean$ent,
+    label_title = 'cell type',
+    shape=ifelse(cell_type_mean$dataset=='ST', 17, 16)
+) + labs(x = '', y = '')  + 
+  xlim(c(min(map_2d[['exprs']][,1]), max(map_2d[['exprs']][,1]))) +
+  ylim(c(min(map_2d[['exprs']][,2]), max(map_2d[['exprs']][,2]))) +
+   theme(text = element_text(size = 20))
+
+
+fig_list[['Supp13A']] = 
+  sagenet_p + 
+  sagenet_mean_p + 
+  exprs_p + 
+  exprs_mean_p + 
+  plot_layout(ncol=2, guides = 'collect')
+fig_list[['Supp13A']]
+
+fig_list[['Supp13A_legend']] = 
+  legend_region +
+  legend_celltype +
+  plot_layout(ncol=1, guides = 'collect')
+fig_list[['Supp13A_legend']]
+
+```
+
+## Supp13B: Cell-type/region affinity scores
+```{r Supp13B, fig.height=20, fig.width=20, message=FALSE, cache=FALSE}
+if(overwrite | 
+  !file.exists(file.path(obj_dir, 'ccc_map.Rds'))
+){
+
+  g_out    = map_2d[['sagenet']] %>%
+    get_delaunay(plot=FALSE) %>%
+    .$graph
+
+  m_dt = copy(meta_dt)[, class__:=paste(class__, dataset, sep=' - ')]
+  colData(s_sce) = DataFrame(m_dt)
+  colnames(s_sce) = m_dt$cell_id
+  s_sce$dummy = 'dummy'
+
+  ccc_map = cellCellContact(
+            sce    = s_sce,
+            group  = 'class__',
+            graph  = g_out,
+            nperm  = 1000,
+            plot   = FALSE,
+            cellID ='cell_id')
+
+  obj_list[['ccc_map']] = ccc_map
+}else{
+  ccc_map = readRDS(file.path(obj_dir, 'ccc_map.Rds'))
+}
+pmat = ccc_map$pmat
+# rownames(pmat) = colnames(pmat) = gsub(' $', '', colnames(pmat))
+dataset_class_ord = c(paste(names(cell_type_cols), 'scRNAseq', sep=' - '), paste(names(class__cols), 'ST', sep=' - '))
+dataset_class_cols = c(cell_type_cols, class__cols)
+names(dataset_class_cols) = dataset_class_ord
+fig_list[['Supp13B']] = cellCellContactHeatmapTriangle(pmat, dataset_class_cols, title='')
+
+fig_list[['Supp13B']]
+```
+
+## Supp8: discriminating endothelial cells
+```{r Supp8, fig.height=8, fig.width=11, message=FALSE, cache=FALSE, eval=TRUE}
+
+V_splots = meta_dt[grepl('Epicardium-derived', class__)]$cell_id
+SMC_spots = meta_dt %>% 
+  .[grepl('Smooth muscle cells|vessels|Fibroblast|Epicardium-derived', class__)] %>%
+  .$cell_id
+k_means = kmeans(map_2d[['sagenet']][SMC_spots, ], 20)
+A_idx = SMC_spots[which(k_means$cluster %in% c(10, 7, 17))] 
+B_idx = SMC_spots[which(k_means$cluster %in% c(19, 3, 4, 8, 15, 16, 18, 9, 6, 2, 5, 20, 1))]
+# C_idx = SMC_spots[which(k_means$cluster %in% c(15, 16, 18, 9, 6, 2, 5, 20, 1))]
+
+A_idx = intersect(V_splots, A_idx)
+B_idx = intersect(V_splots, B_idx)
+C_idx = intersect(V_splots, C_idx)
+markers = c('ID2', 'PDLIM3', 'TGFBI', 'DCN', 'LUM', 'MFAP4', 'PRSS35', 'SFRP1', 'OGN', 'ELN', 'DCN', 'SOX4', 'RBP1', 'COL1A2')
+
+for(m in markers){
+
+  p1 = plot_2d_cont( 
+    dim_df = map_2d[['sagenet']][meta_dt$cell_id,],
+    labels = assays(s_sce)[[1]][m, meta_dt$cell_id],
+    # label_cols = celltype_colours,
+    hide_legend = TRUE,
+    title = m,
+    sz = 2.5,
+    shape=ifelse(meta_dt$dataset=='ST', 17, 16)
+  ) + labs(x = '', y = '', color='') 
+  print(p1)
+}
+
+
+assays(s_sce)[['logcounts']] = assays(s_sce)[[1]]
+fm = scran::findMarkers(s_sce[, c(A_idx, B_idx, C_idx)], groups=c(rep('A', length(A_idx)), rep('B', length(B_idx)), rep('C', length(C_idx))), pval.type = 'all') 
+fm$gene_id = rownames(fm)
+fm$diff_exp = ifelse(fm$Top > 5, NA, ifelse(fm$logFC.FF > 0, 'right atrial', 'left atrial'))
+
+assays(s_sce)[['logcounts']] = assays(s_sce)[[1]]
+fm = scran::findMarkers(s_sce[, c(A_idx, B_idx)], groups=c(rep('A', length(A_idx)), rep('B', length(B_idx))), pval.type = 'all') 
+fm$gene_id = rownames(fm)
+
+sagenet_p = plot_2d( 
+    dim_df = map_2d[['sagenet']][SMC_spots,],
+    labels = factor(k_means$cluster),
+    # label_cols = class__cols,
+    hide_legend = FALSE,
+    sz = 2.5,
+    # alpha = meta_dt$ent,
+    title = 'region'
+) + labs(x = '', y = '') 
+
+
+```
+
+
+
+
+# Save objects & plots
+```{r save, fig.height=12, fig.width=12, message=FALSE, cache=FALSE}
+names(obj_list) %>% map(~saveRDS(obj_list[[.x]], file.path(obj_dir, paste0(.x, '.Rds'))))
+names(fig_list) %>% map(~saveRDS(fig_list[[.x]], file.path(fig_dir, paste0(.x, '.Rds'))))
+```

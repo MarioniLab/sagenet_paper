@@ -208,6 +208,11 @@ meta_dt %<>%
   .[, class__ := factor(class__, ordered=TRUE, levels=class__ord)] %>%
   .[order(class__)]
 meta_dt$ent = 1 - meta_dt$ent/(max(meta_dt$ent))
+col_dt$type = 'none'
+col_dt[class__ == 'Atrial myocardium' , type := ifelse(grid_3 %in% c(3, 6, 7), 'right AM', 'left AM')]
+col_dt[grepl('ventricular myocardium', class__), type := ifelse(grid_3 %in% c(0, 3, 6), 'right VM', 'left VM')]
+col_dt %>% setkey(cell_id)
+meta_dt[, type := ..col_dt[meta_dt$cell_id]$type]
 
 sagenet_p = plot_2d( 
     dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
@@ -217,18 +222,34 @@ sagenet_p = plot_2d(
     sz = 2.5,
     alpha = meta_dt$ent,
     title = 'region'
-) + labs(x = '', y = '')
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12))
+
+fig_list[['4E_legend']] = (plot_2d( 
+    dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
+    labels = meta_dt$sample,
+    label_cols = .palette3,
+    hide_legend = FALSE,
+    sz = 4,
+    alpha = meta_dt$ent,
+    title = 'sample (query dataset)',
+    label_title = 'sample'
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12))) %>% get_legend() %>%
+  as_ggplot() 
+fig_list[['4E_legend']]
 
 sagenet_batch_p = plot_2d( 
     dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
     labels = meta_dt$sample,
     label_cols = .palette3,
-    hide_legend = FALSE,
+    hide_legend = TRUE,
     sz = 2.5,
     alpha = meta_dt$ent,
     title = 'sample (query dataset)',
     label_title = 'sample'
-) + labs(x = '', y = '')
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12))
 
 sagenet_grid_p = plot_2d( 
     dim_df = -map_2d[['sagenet']][meta_dt$cell_id,],
@@ -238,13 +259,15 @@ sagenet_grid_p = plot_2d(
     sz = 2.5,
     alpha = meta_dt$ent,
     title = '3 * 3 grid'
-) + labs(x = '', y = '')
+) + labs(x = '', y = '') +
+  theme(text = element_text(size = 12))
 
 fig_list[['4E']] = 
 	sagenet_p  + 
+  plot_spacer() +
 	sagenet_grid_p + 
 	sagenet_batch_p + 
-	plot_layout(ncol=3, guides='collect')
+	plot_layout(ncol=4, guides='collect', widths=c(4, 1, 4, 4))
 fig_list[['4E']]
 
 exprs_p = plot_2d( 
@@ -349,6 +372,7 @@ fig_list[['Supp13B']] = cellCellContactHeatmapTriangle(pmat, class__cols, title=
 
 fig_list[['Supp13B']]
 ```
+
 
 
 
