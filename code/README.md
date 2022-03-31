@@ -1,3 +1,7 @@
 # Code
+Benchmark scripts and utility functions. 
 
-Save command-line scripts and shared R code here.
+## Content
+* experiments: benchmark scripts.
+* sagenet: sagenet scripts.
+* utils: utility functions in R.
