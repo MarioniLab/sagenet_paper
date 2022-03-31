@@ -2,6 +2,6 @@
 Benchmark scripts and utility functions. 
 
 ## Content
-* experiments: benchmark scripts.
-* sagenet: sagenet scripts.
-* utils: utility functions in R.
+* `experiments`: benchmark scripts.
+* `sagenet`: sagenet scripts.
+* `utils`: utility functions in R.
