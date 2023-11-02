@@ -45,6 +45,8 @@ sc.tl.leiden(visium, resolution=1, random_state=0, key_added='leiden_1', adjacen
 sc.tl.leiden(visium, resolution=2, random_state=0, key_added='leiden_2', adjacency=visium.obsp["spatial_connectivities"])
 sc.tl.leiden(visium, resolution=5, random_state=0, key_added='leiden_5', adjacency=visium.obsp["spatial_connectivities"])
 sc.tl.leiden(visium, resolution=10, random_state=0, key_added='leiden_10', adjacency=visium.obsp["spatial_connectivities"])
+sc.tl.leiden(visium, resolution=10, random_state=0, key_added='leiden_20', adjacency=visium.obsp["spatial_connectivities"])
+sc.tl.leiden(visium, resolution=10, random_state=0, key_added='leiden_15', adjacency=visium.obsp["spatial_connectivities"])
 sc.pp.filter_cells(visium, np.quantile(visium.X.sum(1), .25))
 sc.pp.normalize_total(visium, target_sum=1)
 glasso(visium)
@@ -101,6 +103,7 @@ print(device)
 
 sg_obj = sg.sage.sage(device=device)
 sg_obj.add_ref(visium, comm_columns=['leiden_1', 'leiden_2', 'leiden_5'], tag='visium', epochs=1000, verbose = True, classifier='GraphSAGE')
+sg_obj.add_ref(visium, comm_columns=['leiden_10', 'leiden_15', 'leiden_20'], tag='visium2', epochs=1000, verbose = True, classifier='GraphSAGE')
 sg_obj.add_ref(xe1, comm_columns=['leiden_0.1', 'leiden_1', 'leiden_1'], tag='xe1', epochs=30, verbose = True, classifier='GraphSAGE')
 sg_obj.add_ref(xe2, comm_columns=['leiden_0.1', 'leiden_1', 'leiden_1'], tag='visium', epochs=30, verbose = True, classifier='GraphSAGE')
 os.makedirs('models/bc_ens_all_model')
@@ -146,7 +149,7 @@ reference_embeddings = visium.obsm['prob_concatenated']
 kdtree_r1 = cKDTree(reference_embeddings)
 target_embeddings = atlas.obsm['prob_concatenated']
 # target_embeddings= target_embeddings/target_embeddings.sum(axis=1)[:,None]
-k_neighbors = 100  # You can adjust this as needed
+k_neighbors = 10  # You can adjust this as needed
 distances, indices = kdtree_r1.query(target_embeddings, k=k_neighbors)
 
 
@@ -187,8 +190,8 @@ sc.pl.spatial(
     palette=major_colors, # Color cells based on 'cell_type'
     # color_map=cell_type_color_map,  # Use the custom color map
     # library_id='r1_mapping',  # Use 'r1_mapping' coordinates
-    title='atlas -> visium',
-    save='_atlas_visium4.pdf',
+    title='xe1 -> visium',
+    save='_xe1_visium5.pdf',
     alpha=0.5,
     spot_size=100
 )

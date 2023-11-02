@@ -12,8 +12,6 @@ from scipy import sparse
 from sagenet.utils import save_adata
 
 
-----
-
 embryo1_2.obsm['spatial'] = embryo1_2.obs[['x', 'y']]
 sq.gr.spatial_neighbors(embryo1_2)
 
