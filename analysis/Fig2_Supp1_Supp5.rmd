@@ -73,7 +73,7 @@ fig_list = list()
 methods     = list.files(out_dir)
 names(methods) = methods
 preds_f   = methods %>%
-  map(~file.path(out_dir, .x, paste0(paste('preds', ref_tag, 'query_data', sep='_'), '.h5ad')))
+  purrr::map(~file.path(out_dir, .x, paste0(paste('preds', ref_tag, 'query_data', sep='_'), '.h5ad')))
 genes_f = file.path(obj_dir, 'gene_dt_embryo1_2.txt')
 imp_f = file.path(obj_dir, 'imp_embryo1_2.txt')
 col_dt_f = file.path(obj_dir, 'col_dt_embryo1_2.txt')
@@ -87,19 +87,19 @@ adj_f = 'models/seqfish_mouse_embryo/embryo1_2/embryo1_2_leiden_0.1.h5ad'
 ## Params
 ```{r setup_outputs, message=FALSE, cache=FALSE}
 n_markers = 3
-overwrite = FALSE
+overwrite = TRUE
 n_PCs = 30
 n_PCs_markers = 10
 ```
 
 # Load inputs
 ```{r load_inputs, message=FALSE, cache=FALSE}
-sce = preds_f[['sagenet']] %>% readH5AD 
-cell_idx = which(sce$embryo != 'scRNAseq')
-sce %<>% .[, cell_idx]
-meta_dt = colData(sce) %>% as.data.table
-gene_names = rownames(sce) 
-adj         = assays(readH5AD(adj_f))[[1]]
+sce = anndata::read_h5ad(preds_f[['sagenet']]) # %>% zellkonverter::readH5AD 
+cell_idx = which(sce$obs$embryo != 'scRNAseq')
+sce %<>% .[cell_idx,] 
+meta_dt = sce$obs %>% as.data.table
+gene_names = colnames(sce) 
+adj         = anndata::read_h5ad(adj_f)$X
 rownames(adj) = colnames(adj) = gene_names
 adj         = adj[rowSums(adj) != 0, rowSums(adj) != 0]
 
@@ -109,8 +109,8 @@ if(overwrite |
   !file.exists(file.path(obj_dir, 'meta_dt.Rds'))
 ){
   preds_list = list()
-  preds_list[['sagenet']] = anndata::read_h5ad(preds_f[['sagenet']])$obsm$dist_map 
-  adj = anndata::read_h5ad(preds_f[['sagenet']])$varm$adj
+  preds_list[['sagenet']] = anndata::read_h5ad(preds_f[['sagenet']])$obsp$sagenet_dist
+  adj = adj
   preds_list[['sagenet']]  %<>% as('sparseMatrix') %>% .[cell_idx, cell_idx]
   ## Novosparc predictions
   preds_list[['novosparc']] = preds_f[['novosparc']] %>% read_preds_novosparc %>% .[cell_idx, ]
@@ -155,7 +155,7 @@ if(overwrite |
   # sagenet distances
   d[['sagenet']] = preds_list[['sagenet']] %>% as.dist
   d_mtx[['sagenet']] = d[['sagenet']] %>% as.matrix 
-  rownames(d_mtx[['sagenet']]) = colnames(d_mtx[['sagenet']]) = colnames(sce)
+  rownames(d_mtx[['sagenet']]) = colnames(d_mtx[['sagenet']]) = rownames(sce)
   map_2d[['sagenet']] = Rtsne(d_mtx[['sagenet']], is_distance=T, perplexity=50)$Y
   rownames(map_2d[['sagenet']]) = colnames(sce)
   meta_dt[, `:=`(sagenet_1 = ..map_2d[['sagenet']][cell_id, 1], 

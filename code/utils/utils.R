@@ -1,4 +1,4 @@
-library('leiden')
+# library('leiden')
 # library('biomaRt')
 library('spatstat')
 library('igraph')
@@ -359,9 +359,9 @@ read_preds_novosparc <- function(preds_f, func='mean'){
 }
 
 read_preds_tangram <- function(preds_f, func='mean'){
-    preds     = zellkonverter::readH5AD(preds_f)
-    ref_locs  = colData(preds)[,c('x', 'y')] %>% as.matrix
-    preds_p   = assays(preds)[['X']]
+    preds     = anndata::read_h5ad(preds_f)
+    ref_locs  = preds$obs[,c('x', 'y')] %>% as.matrix
+    preds_p   = t(preds$X)
     if(func == 'max')
         preds_p %<>% 
             apply(1, function(x) ifelse(x == max(x), 1, 0)) %>%

@@ -50,20 +50,35 @@ if torch.cuda.is_available():
   dev = "cuda:0"  
 else:  
   dev = "cpu"  
+
+
 device = torch.device(dev)
 print(device)
 
 sg_obj = sg.sage.sage(device=device)
-sg_obj.add_ref(adata_r1, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo1_2', epochs=20, verbose = True)
+sg_obj.add_ref(adata_r1, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo1_2', epochs=20, verbose = True, classifier='GraphSAGE')
 
 adata_r1.var.to_csv('int_data/seqfish_mouse_embryo/gene_dt_embryo1_2.txt', sep='\t')
 sg_obj.save_model_as_folder('models/seqfish_mouse_embryo/embryo1_2')
 sg_obj = sg.sage.sage(device=device)
-sg_obj.add_ref(adata_r2, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo2_2', epochs=20, verbose = False)
+sg_obj.add_ref(adata_r2, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo2_2', epochs=20, verbose = False, classifier='GraphSAGE')
 sg_obj.save_model_as_folder('models/seqfish_mouse_embryo/embryo2_2')
 adata_r2.var.to_csv('int_data/seqfish_mouse_embryo/gene_dt_embryo2_2.txt', sep='\t')
 sg_obj = sg.sage.sage(device=device)
-sg_obj.add_ref(adata_r3, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo3_2', epochs=20, verbose = False)
+sg_obj.add_ref(adata_r3, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo3_2', epochs=20, verbose = False, classifier='GraphSAGE')
 sg_obj.save_model_as_folder('models/seqfish_mouse_embryo/embryo3_2')
 adata_r3.var.to_csv('int_data/seqfish_mouse_embryo/gene_dt_embryo3_2.txt', sep='\t')
+
+sg_obj.map_query(adata_r2)
+
+
+
+
+sg_obj = sg.sage.sage(device=device)
+sg_obj.add_ref(adata_r3, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo3_2', epochs=20, verbose = False, classifier='GraphSAGE')
+sg_obj.add_ref(adata_r3, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo3_2', epochs=20, verbose = False, classifier='GraphSAGE')
+sg_obj.add_ref(adata_r3, comm_columns=['leiden_0.01', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], tag='embryo3_2', epochs=20, verbose = False, classifier='GraphSAGE')
+os.makedirs('models/seqfish_mouse_embryo/embryo_all')
+sg_obj.save_model_as_folder('models/seqfish_mouse_embryo/embryo_all')
+# adata_r3.var.to_csv('int_data/seqfish_mouse_embryo/gene_dt_embryo3_2.txt', sep='\t')
 # bsub -o .logs/sagenet/seqfish_mouse_embryo  -q gpu -gpu "num=1:gmem=20000" "python3 code/experiments/run_sagenet.py"

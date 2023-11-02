@@ -75,28 +75,35 @@ adata_q.obs['class_'] = 0
 print('3')
 sg_obj.map_query(adata_q_1, save_prob=True)
 sg_obj.map_query(adata_q_2, save_prob=True)
-print('4')
-preds_f = "_".join(['preds', args.tag_ref, args.tag_query]) + ".h5ad"
-preds_f = os.path.join(args.oo, preds_f)
-print('5')
-adata_q.write(filename=preds_f)
 
 
+adata_q_1.write('data_tidy/seqfish_mouse_embryo/embryo1_2.h5ad')
+adata_q_2.write('data_tidy/seqfish_mouse_embryo/query_data.h5ad')
 
-sg_obj.add_ref(embryo1_2, tag='embryo1_2', comm_columns=['leiden_1', 'leiden_0.05', 'leiden_0.1', 'leiden_0.5', 'leiden_1'], classifier='GraphSAGE')
-
-
-sg_obj.save_model_as_folder('models/seqfish_mouse_embryo/embryo1_2')
-
-
-adata_q.obsm['prob_combined'] = np.column_stack((
-    np.nan_to_num(adata_q.obsm['prob_embryo1_2_leiden_1'],0), 
-    np.nan_to_num(adata_q.obsm['prob_embryo1_2_leiden_0.1'],0),
-    np.nan_to_num(adata_q.obsm['prob_embryo1_2_leiden_0.01'],0),
-    np.nan_to_num(adata_q.obsm['prob_embryo1_2_leiden_0.05'], 0),
-    np.nan_to_num(adata_q.obsm['prob_embryo1_2_leiden_0.5'], 0)
+adata_q_1.obsm['prob_combined'] = np.column_stack((
+    np.nan_to_num(adata_q_1.obsm['prob_embryo1_2_leiden_1'],0), 
+    np.nan_to_num(adata_q_1.obsm['prob_embryo1_2_leiden_0.1'],0),
+    np.nan_to_num(adata_q_1.obsm['prob_embryo1_2_leiden_0.01'],0),
+    np.nan_to_num(adata_q_1.obsm['prob_embryo1_2_leiden_0.05'], 0),
+    np.nan_to_num(adata_q_1.obsm['prob_embryo1_2_leiden_0.5'], 0)
 
   )) 
+
+
+adata_q_2.obsm['prob_combined'] = np.column_stack((
+    np.nan_to_num(adata_q_2.obsm['prob_embryo1_2_leiden_1'],0), 
+    np.nan_to_num(adata_q_2.obsm['prob_embryo1_2_leiden_0.1'],0),
+    np.nan_to_num(adata_q_2.obsm['prob_embryo1_2_leiden_0.01'],0),
+    np.nan_to_num(adata_q_2.obsm['prob_embryo1_2_leiden_0.05'], 0),
+    np.nan_to_num(adata_q_2.obsm['prob_embryo1_2_leiden_0.5'], 0)
+
+  )) 
+
+
+from scipy.spatial import KDTree
+
+kdtree_1 = KDTree(adata_q_1.obsm['prob_combined'])
+kdtree_2 = KDTree(adata_q_2.obsm['prob_combined'])
 
 
 base_dists = np.zeros((adata_q.obsm['prob_combined'].shape[0], adata_q.obsm['prob_combined'].shape[0]))
