@@ -28,9 +28,9 @@ embryo1_2.write('data_tidy/seqfish_mouse_embryo/embryo1_2.h5ad')
 
 
 def glasso(adata):
-    N = visium.shape[1]
+    N = adata.shape[1]
     scaler = StandardScaler()
-    data = scaler.fit_transform(visium.X)
+    data = scaler.fit_transform(adata.X)
     S    = empirical_covariance(data)
     P    = glasso_problem(S, N, latent = False, do_scaling = True)
     # lambda1_range = np.logspace(-0.1, -1, 10)

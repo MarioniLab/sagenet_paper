@@ -73,9 +73,9 @@ sc.tl.leiden(xe2, resolution=1, random_state=0, key_added='leiden_1', adjacency=
 sc.tl.leiden(xe2, resolution=1, random_state=0, key_added='leiden_2', adjacency=xe2.obsp["spatial_connectivities"])
 
 
-sc.pp.subsample(xe1, 0.2)
-sc.pp.subsample(xe2, 0.2)
-sc.pp.subsample(atlas, 0.2)
+# sc.pp.subsample(xe1, 0.2)
+# sc.pp.subsample(xe2, 0.2)
+# sc.pp.subsample(atlas, 0.2)
 
 sc.pl.spatial(
     visium,
